@@ -4,33 +4,32 @@ import java.util.BitSet;
 import java.util.LinkedHashMap;
 import java.util.Random;
 public class Node {
-
 	/**
 	 * BitSet representing the attributes the node contains.
 	 * The node has attribute i if index i in attributes is set to 1.
 	 */
-	BitSet attributes;
+	private BitSet attributes;
 	
 	/**
 	 * BitSet representing the edges that exist from the node.
 	 * The node has an edge leading to node i if index i in edges is set to 1.
 	 */
-	BitSet edges;
+	private BitSet edges;
 	
 	/**
 	 * LinkedHashMap mapping the index of attributes in the BitSet with the attributes' weights.
 	 */
-	LinkedHashMap<Integer, Double> attrWeight;
+	private LinkedHashMap<Integer, Double> attrWeight;
 	
 	/**
 	 * LinkedHashMap mapping the index of edges in the BitSet with the edges' weights.
 	 */
-	LinkedHashMap<Integer, Double> edgeWeight;
+	private LinkedHashMap<Integer, Double> edgeWeight;
 	
 	/**
 	 * The weight of the node.
 	 */
-	int weight;
+	private int weight;
 	
 	public Node(int weight, int attrNumber, int nodeNumber){
 		this.weight = weight;
@@ -43,20 +42,104 @@ public class Node {
 	
 	/**
 	 * Adds an attribute to the attributes BitSet by setting the specified index to 1
+	 * using a uniform distribution
 	 * @param attrIndex
 	 */
-	public void addAttribute (int attrIndex){
+	public void addAttribute (int attrIndex, int min, int max){
+		double weightAttr = getUniform(min, max);
 		attributes.set(attrIndex);
-		//TODO: Weights
+		attrWeight.put(attrIndex, weightAttr);
 	}
 	
 	/**
-	 * Adds an edge to the edges Bitset by setting the specified index to 1
-	 * @param edgeIndex
+	 * Adds an attribute to the attributes BitSet by setting the specified index to 1
+	 * using an exponential distribution
+	 * @param attrIndex
+	 * @param distribution
+	 * @param rate
 	 */
-	public void addEdge (int edgeIndex){
-		edges.set(edgeIndex);
+	public void addAttribute (int attrIndex, double rate){
+		double weightAttr = getExponential(rate);
+		attributes.set(attrIndex);
+		attrWeight.put(attrIndex, weightAttr);
 	}
+	
+	/**
+	 * Adds an attribute to the attributes BitSet by setting the specified index to 1
+	 * using a gaussian distribution
+	 * @param attrIndex
+	 * @param distribution
+	 * @param height
+	 * @param center
+	 * @param width
+	 */
+	public void addAttribute (int attrIndex, double height, int center, int width){
+		double weightAttr = getGaussian(height, center, width);
+		attributes.set(attrIndex);
+		attrWeight.put(attrIndex, weightAttr);
+	}
+	
+	/**
+	 * Adds an attribute to the attributes BitSet by setting the specified index to 1
+	 * using a poisson distribution
+	 * @param attrIndex
+	 * @param distribution
+	 * @param mean
+	 */
+	public void addAttribute (int attrIndex, int mean){
+		double weightAttr = getPoisson(mean);
+		attributes.set(attrIndex);
+		attrWeight.put(attrIndex, weightAttr);
+	}
+	
+	/**
+	 * Adds an edge to the edges BitSet by setting the specified index to 1
+	 * using a uniform distribution. The index will correspond to the destination
+	 * node's index
+	 * @param attrIndex
+	 */
+	public void addEdge (int edgeIndex, int min, int max){
+		double weightEdge = getUniform(min, max);
+		attributes.set(edgeIndex);
+		attrWeight.put(edgeIndex, weightEdge);
+	}
+	
+	/**
+	 * Adds an edge to the edges BitSet by setting the specified index to 1
+	 * using an exponential distribution. The index will correspond to the destination
+	 * node's index
+	 * @param attrIndex
+	 */
+	public void addEdge (int edgeIndex, double rate){
+		double weightEdge = getExponential(rate);
+		attributes.set(edgeIndex);
+		attrWeight.put(edgeIndex, weightEdge);
+	}
+	
+	/**
+	 * Adds an edge to the edges BitSet by setting the specified index to 1
+	 * using a gaussian distribution. The index will correspond to the destination
+	 * node's index
+	 * @param attrIndex
+	 */
+	public void addEdge (int edgeIndex, double height, int center, int width){
+		double weightEdge = getGaussian(height, center, width);
+		attributes.set(edgeIndex);
+		attrWeight.put(edgeIndex, weightEdge);
+	}
+	
+	/**
+	 * Adds an edge to the edges BitSet by setting the specified index to 1
+	 * using a poisson distribution. The index will correspond to the destination
+	 * node's index
+	 * @param attrIndex
+	 */
+	public void addEdge (int edgeIndex, int mean){
+		double weightEdge = getPoisson(mean);
+		attributes.set(edgeIndex);
+		attrWeight.put(edgeIndex, weightEdge);
+	}
+	
 	
 	/**
 	 * Gets a random number on a Poisson distribution
@@ -74,7 +157,7 @@ public class Node {
 	 * @param rate
 	 * @return
 	 */
-	public double getExponential (int rate){
+	public double getExponential (double rate){
 		Random rnd = new Random();
 		int number = rnd.nextInt();
 		return rate*Math.pow(Math.E, rate*-1*number);
@@ -113,6 +196,46 @@ public class Node {
 		if (number==1)
 			return number;
 		return number*(number-1);
+	}
+
+	public BitSet getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(BitSet attributes) {
+		this.attributes = attributes;
+	}
+
+	public BitSet getEdges() {
+		return edges;
+	}
+
+	public void setEdges(BitSet edges) {
+		this.edges = edges;
+	}
+
+	public LinkedHashMap<Integer, Double> getAttrWeight() {
+		return attrWeight;
+	}
+
+	public void setAttrWeight(LinkedHashMap<Integer, Double> attrWeight) {
+		this.attrWeight = attrWeight;
+	}
+
+	public LinkedHashMap<Integer, Double> getEdgeWeight() {
+		return edgeWeight;
+	}
+
+	public void setEdgeWeight(LinkedHashMap<Integer, Double> edgeWeight) {
+		this.edgeWeight = edgeWeight;
+	}
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
 	}
 	
 	

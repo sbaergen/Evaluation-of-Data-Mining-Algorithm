@@ -1,5 +1,6 @@
 package controller;
 
+import parser.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,7 +9,8 @@ import java.util.BitSet;
 import java.util.LinkedHashMap;
 import java.util.Vector;
 
-import com.sun.istack.internal.NotNull;
+import org.antlr.v4.runtime.misc.NotNull;
+
 import data.EFG;
 import data.Node;
 
@@ -41,7 +43,7 @@ public class Main {
         InputParserParser.ParseContext tree = parser.parse();
 
         ExtendedVisitor visitor = new ExtendedVisitor();
-        vistor.visit(tree);
+        visitor.visit(tree);
     }
 
 

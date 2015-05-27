@@ -55,7 +55,6 @@ public class Node {
 	 * Adds an attribute to the attributes BitSet by setting the specified index to 1
 	 * using an exponential distribution
 	 * @param attrIndex
-	 * @param distribution
 	 * @param rate
 	 */
 	public void addAttribute (int attrIndex, double rate){
@@ -68,7 +67,6 @@ public class Node {
 	 * Adds an attribute to the attributes BitSet by setting the specified index to 1
 	 * using a gaussian distribution
 	 * @param attrIndex
-	 * @param distribution
 	 * @param height
 	 * @param center
 	 * @param width
@@ -83,7 +81,6 @@ public class Node {
 	 * Adds an attribute to the attributes BitSet by setting the specified index to 1
 	 * using a poisson distribution
 	 * @param attrIndex
-	 * @param distribution
 	 * @param mean
 	 */
 	public void addAttribute (int attrIndex, int mean){
@@ -96,8 +93,10 @@ public class Node {
 	 * Adds an edge to the edges BitSet by setting the specified index to 1
 	 * using a uniform distribution. The index will correspond to the destination
 	 * node's index
-	 * @param attrIndex
-	 */
+     * @param edgeIndex
+     * @param min
+     * @param max
+     */
 	public void addEdge (int edgeIndex, int min, int max){
 		double weightEdge = getUniform(min, max);
 		attributes.set(edgeIndex);
@@ -108,8 +107,9 @@ public class Node {
 	 * Adds an edge to the edges BitSet by setting the specified index to 1
 	 * using an exponential distribution. The index will correspond to the destination
 	 * node's index
-	 * @param attrIndex
-	 */
+     * @param edgeIndex
+     * @param rate
+     */
 	public void addEdge (int edgeIndex, double rate){
 		double weightEdge = getExponential(rate);
 		attributes.set(edgeIndex);
@@ -120,8 +120,11 @@ public class Node {
 	 * Adds an edge to the edges BitSet by setting the specified index to 1
 	 * using a gaussian distribution. The index will correspond to the destination
 	 * node's index
-	 * @param attrIndex
-	 */
+     * @param edgeIndex
+     * @param height
+     * @param center
+     * @param width
+     */
 	public void addEdge (int edgeIndex, double height, int center, int width){
 		double weightEdge = getGaussian(height, center, width);
 		attributes.set(edgeIndex);
@@ -132,50 +135,88 @@ public class Node {
 	 * Adds an edge to the edges BitSet by setting the specified index to 1
 	 * using a poisson distribution. The index will correspond to the destination
 	 * node's index
-	 * @param attrIndex
-	 */
+     * @param edgeIndex
+     * @param mean
+     */
 	public void addEdge (int edgeIndex, int mean){
 		double weightEdge = getPoisson(mean);
 		attributes.set(edgeIndex);
 		attrWeight.put(edgeIndex, weightEdge);
 	}
 	
-	
+	/*
 	/**
 	 * Gets a random number on a Poisson distribution
 	 * @param mean
 	 * @return
-	 */
+	 *
 	public double getPoisson (double mean){
 		Random rnd = new Random();
 		int number = rnd.nextInt();
 		return Math.pow(Math.E, mean)*Math.pow(mean, number)/factorial(number);
-	}
-	
+	}*/
+
+    /**
+     * Uses D. Knuth's algorithm for generating Poisson-distributed random variables
+     * http://en.wikipedia.org/wiki/Poisson_distribution#Generating_Poisson-distributed_random_variables 27/05/2015
+     * @param mean
+     * @return
+     */
+    public int getPoisson (double mean) {
+        Random rnd = new Random();
+        double L = Math.exp(-mean);
+        int k = 0;
+        int p = 1;
+        do {
+            k++;
+            p*=rnd.nextDouble();
+        } while (p > L);
+        return k-1;
+
+    }
+	/*
 	/**
 	 * Gets a random number on an exponential distribution
 	 * @param rate
 	 * @return
-	 */
+	 *
 	public double getExponential (double rate){
 		Random rnd = new Random();
 		int number = rnd.nextInt();
-		return rate*Math.pow(Math.E, rate*-1*number);
+		return -Math.log(number/rate)/rate;
 	}
-	
+    */
+
+    /**
+     * Gets a random number on an exponential distribution based on
+     * the inversion method.
+     * @param rate
+     * @return
+     */
+    public double getExponential (double rate){
+        Random rnd = new Random();
+        int number = rnd.nextInt();
+        return Math.log(1-number)/-rate;
+    }
 	/**
-	 * Gets a random number on a Gaussian distribution
+	 * Gets a random number on a Gaussian distribution. Two random numbers are used:
+	 * number is used to plug into the inverse Gaussian function, where negative is
+	 * used to determine to use the negative or positive square root via a Bernoulli
+	 * test.
 	 * @param height
 	 * @param center
 	 * @param width
-	 * @return
+	 * @return random Gaussian number
 	 */
 	public double getGaussian (double height, int center, int width){
 		Random rnd = new Random();
-		int number = rnd.nextInt();
-		return Math.pow(Math.E, -1*Math.pow(number-center, 2)/(2*Math.pow(width, 2)));
+		double number = rnd.nextDouble();
+		double negative = rnd.nextDouble();
+		if (negative < 0.5)
+			return -Math.sqrt(-2*Math.pow(width, 2)*Math.log(number/height))+center;
+		return Math.sqrt(-2*Math.pow(width, 2)*Math.log(number/height))+center;
 	}
-	
+
 	/**
 	 * Gets a random number on a Uniform distribution
 	 * @param min

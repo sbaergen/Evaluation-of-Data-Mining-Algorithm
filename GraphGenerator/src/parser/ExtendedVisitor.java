@@ -1,6 +1,6 @@
 package parser;
+import org.antlr.v4.runtime.misc.NotNull;
 
-import com.sun.istack.internal.NotNull;
 
 /**
  * Created by seanbaergen on 15-05-25.
@@ -8,20 +8,32 @@ import com.sun.istack.internal.NotNull;
 public class ExtendedVisitor extends InputParserBaseVisitor {
 
     @Override
-    public Object visitINTASS(@NotNull InputParserParser.INTASSContext ctx) {
-        String option = ctx.getChild(0).getText();
-        int option_new_value = Integer.parseInt(ctx.getChild(2).getText());
-        System.out.println("Setting < " +option + " > to int: " + option_new_value);
-        return null;
+    public Object visitUniform(@NotNull InputParserParser.UniformContext ctx) {
+        double params[] = new double[2];
+        params[0] = Double.parseDouble(ctx.getChild(0).getText());
+        params[1] = Double.parseDouble(ctx.getChild(1).getText());
+        return params;
     }
 
     @Override
-    public Object visitSTRASS(@NotNull InputParserParser.STRASSContext ctx) {
-        String option = ctx.getChild(0).getText();
-        String option_new_value = ctx.getChild(2).getText();
-        System.out.println("Setting < " +option+ " > to string: " + option_new_value);
-        return null;
+    public Object visitExponential(@NotNull InputParserParser.ExponentialContext ctx) {
+        return ctx.getChild(0);
     }
+
+    @Override
+    public Object visitGaussian(@NotNull InputParserParser.GaussianContext ctx) {
+        double params[] = new double[3];
+        params[0] = Double.parseDouble(ctx.getChild(0).getText());
+        params[1] = Double.parseDouble(ctx.getChild(1).getText());
+        params[2] = Double.parseDouble(ctx.getChild(2).getText());
+        return params;
+    }
+
+    @Override
+    public Object visitPoisson(@NotNull InputParserParser.PoissonContext ctx) {
+        return ctx.getChild(0);
+    }
+
 
 
 }

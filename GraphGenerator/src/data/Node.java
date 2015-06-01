@@ -29,9 +29,9 @@ public class Node {
 	/**
 	 * The weight of the node.
 	 */
-	private int weight;
+	private double weight;
 	
-	public Node(int weight, int attrNumber, int nodeNumber){
+	public Node(double weight, int attrNumber, int nodeNumber){
 		this.weight = weight;
 		this.attributes = new BitSet(attrNumber);
 		this.edges = new BitSet(nodeNumber);
@@ -40,121 +40,18 @@ public class Node {
 
 	}
 	
-	/**
-	 * Adds an attribute to the attributes BitSet by setting the specified index to 1
-	 * using a uniform distribution
-	 * @param attrIndex
-	 */
-	public void addAttribute (int attrIndex, int min, int max){
-		double weightAttr = getUniform(min, max);
+
+	public void addAttribute (int attrIndex, double weightAttr){
 		attributes.set(attrIndex);
 		attrWeight.put(attrIndex, weightAttr);
 	}
 	
-	/**
-	 * Adds an attribute to the attributes BitSet by setting the specified index to 1
-	 * using an exponential distribution
-	 * @param attrIndex
-	 * @param rate
-	 */
-	public void addAttribute (int attrIndex, double rate){
-		double weightAttr = getExponential(rate);
-		attributes.set(attrIndex);
-		attrWeight.put(attrIndex, weightAttr);
-	}
-	
-	/**
-	 * Adds an attribute to the attributes BitSet by setting the specified index to 1
-	 * using a gaussian distribution
-	 * @param attrIndex
-	 * @param height
-	 * @param center
-	 * @param width
-	 */
-	public void addAttribute (int attrIndex, double height, int center, int width){
-		double weightAttr = getGaussian(height, center, width);
-		attributes.set(attrIndex);
-		attrWeight.put(attrIndex, weightAttr);
-	}
-	
-	/**
-	 * Adds an attribute to the attributes BitSet by setting the specified index to 1
-	 * using a poisson distribution
-	 * @param attrIndex
-	 * @param mean
-	 */
-	public void addAttribute (int attrIndex, int mean){
-		double weightAttr = getPoisson(mean);
-		attributes.set(attrIndex);
-		attrWeight.put(attrIndex, weightAttr);
-	}
-	
-	/**
-	 * Adds an edge to the edges BitSet by setting the specified index to 1
-	 * using a uniform distribution. The index will correspond to the destination
-	 * node's index
-     * @param edgeIndex
-     * @param min
-     * @param max
-     */
-	public void addEdge (int edgeIndex, int min, int max){
-		double weightEdge = getUniform(min, max);
+
+	public void addEdge (int edgeIndex, double weightEdge){
 		attributes.set(edgeIndex);
 		attrWeight.put(edgeIndex, weightEdge);
 	}
-	
-	/**
-	 * Adds an edge to the edges BitSet by setting the specified index to 1
-	 * using an exponential distribution. The index will correspond to the destination
-	 * node's index
-     * @param edgeIndex
-     * @param rate
-     */
-	public void addEdge (int edgeIndex, double rate){
-		double weightEdge = getExponential(rate);
-		attributes.set(edgeIndex);
-		attrWeight.put(edgeIndex, weightEdge);
-	}
-	
-	/**
-	 * Adds an edge to the edges BitSet by setting the specified index to 1
-	 * using a gaussian distribution. The index will correspond to the destination
-	 * node's index
-     * @param edgeIndex
-     * @param height
-     * @param center
-     * @param width
-     */
-	public void addEdge (int edgeIndex, double height, int center, int width){
-		double weightEdge = getGaussian(height, center, width);
-		attributes.set(edgeIndex);
-		attrWeight.put(edgeIndex, weightEdge);
-	}
-	
-	/**
-	 * Adds an edge to the edges BitSet by setting the specified index to 1
-	 * using a poisson distribution. The index will correspond to the destination
-	 * node's index
-     * @param edgeIndex
-     * @param mean
-     */
-	public void addEdge (int edgeIndex, int mean){
-		double weightEdge = getPoisson(mean);
-		attributes.set(edgeIndex);
-		attrWeight.put(edgeIndex, weightEdge);
-	}
-	
-	/*
-	/**
-	 * Gets a random number on a Poisson distribution
-	 * @param mean
-	 * @return
-	 *
-	public double getPoisson (double mean){
-		Random rnd = new Random();
-		int number = rnd.nextInt();
-		return Math.pow(Math.E, mean)*Math.pow(mean, number)/factorial(number);
-	}*/
+
 
     /**
      * Uses D. Knuth's algorithm for generating Poisson-distributed random variables
@@ -174,19 +71,6 @@ public class Node {
         return k-1;
 
     }
-	/*
-	/**
-	 * Gets a random number on an exponential distribution
-	 * @param rate
-	 * @return
-	 *
-	public double getExponential (double rate){
-		Random rnd = new Random();
-		int number = rnd.nextInt();
-		return -Math.log(number/rate)/rate;
-	}
-    */
-
     /**
      * Gets a random number on an exponential distribution based on
      * the inversion method.
@@ -227,17 +111,6 @@ public class Node {
 		Random rnd = new Random();
 		return rnd.nextInt(max-min+1) + min;
 	}
-	
-	/**
-	 * Returns the factorial of a given number
-	 * @param number
-	 * @return
-	 */
-	public int factorial (int number){
-		if (number==1)
-			return number;
-		return number*(number-1);
-	}
 
 	public BitSet getAttributes() {
 		return attributes;
@@ -271,11 +144,11 @@ public class Node {
 		this.edgeWeight = edgeWeight;
 	}
 
-	public int getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 
-	public void setWeight(int weight) {
+	public void setWeight(double weight) {
 		this.weight = weight;
 	}
 	

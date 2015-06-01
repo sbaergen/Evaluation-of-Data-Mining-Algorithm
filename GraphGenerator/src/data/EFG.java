@@ -4,13 +4,17 @@ import java.util.LinkedHashMap;
 
 public class EFG {
 
+
+
 	/**
 	 * LinkedHashMap mapping an integer node ID and the node it corresponds to.
 	 */
 	private LinkedHashMap<Integer, Node> nodes;
+	private int size;
 	
-	public EFG(){
+	public EFG(int size){
 		this.nodes = new LinkedHashMap<Integer, Node>();
+		this.size = size;
 	}
 	
 	/**
@@ -28,5 +32,13 @@ public class EFG {
 
 	public void setNodes(LinkedHashMap<Integer, Node> nodes) {
 		this.nodes = nodes;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
 	}
 }

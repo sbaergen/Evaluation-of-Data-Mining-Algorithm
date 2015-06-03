@@ -14,45 +14,38 @@ public class Main {
     final String FILENAME = "input.txt";
     static Vector<EFG> graphs;
     static Vector<String> values;
-    static int position = 5;
+    static int position = 6;
 
     public static void main(String args[]) {
-
+        graphs = new Vector<>();
         Main m = new Main();
         values = m.manualParse(args[0]);
-        //m.createGraph();
-
-        int numEFG = 3;
-        int numNode = 10;
-        double rate = 1;
-        double max = m.getInverseExponentialCDF(rate, .99);
-        double div = max/(double)numEFG;
-        for (int i = 0; i < numEFG; i++){
-            double out = div*(i+1);
-            double full = m.getExponentialNode(rate, out);
-            double bottom = div*i;
-            full-=m.getExponentialNode(rate, bottom);
-            System.out.println((int)(full*numNode));
-        }
-
+        m.createGraph();
     }
 
 
 
     public void createGraph() {
+        int nodePosition;
         int numEFG = Integer.parseInt(values.get(0));
         int numAttr = Integer.parseInt(values.get(2));
         double attrProb = Double.parseDouble(values.get(3));
         double edgeProb = Double.parseDouble(values.get(4));
         addEFG(numEFG); // Create EFGs with number of nodes,
+        nodePosition = position;
         for (EFG e: graphs){
+            position = nodePosition;
+            System.out.println(position + "E");
             int size = e.getSize();
             for (int i = 0; i < size; i++){
                 double weight = getDistributedWeight();
                 Node node = new Node(weight, numAttr, size);
                 addAttributes(node, attrProb, numAttr);
                 e.addNode(i, node);
+                if (i < size-1)
+                    position = nodePosition;
             }
+            System.out.println(position);
             addEdges(e, edgeProb);
         }
         createFile();
@@ -68,39 +61,47 @@ public class Main {
 
     //TODO: Generate EFG size
     public int getEFGSize(int index, int numEFG){
-        int numNodes = Integer.parseInt(values.get(2));
+        int numNodes = Integer.parseInt(values.get(1));
         String dist = values.get(5);
+        if (index + 1 == numEFG)
+            position++;
         switch(dist){
+            case ("G"):
+            case ("P"):
+            case ("E"):
             case ("U"):
+                if (index + 1 == numEFG)
+                    position++;
                 if (numNodes%numEFG < (index+1))
                     return numNodes/numEFG;
                 return numNodes/numEFG + 1;
-            case ("E"):
+            /*case ("E"):
                 double rate = Double.parseDouble(values.get(6));
                 double num = getInverseExponentialCDF(rate, 0.99);
                 num/=(double)numEFG;
                 num*=(double)(index+1);
-                return (int)(numNodes*getExponentialNode(rate, num));
-            case ("G"):
-            case ("P"):
-
-
+                return (int)(numNodes*getExponentialNode(rate, num));*/
         }
         return 0;
     }
 
     public void addAttributes(Node node, double attrProb, int numAttr){
+        int tempPosition;
         boolean insertAttr;
         for (int i = 0; i < numAttr; i++){
             insertAttr = getBernoulli(attrProb);
+            tempPosition = position;
+            double weight = getDistributedWeight();
             if (insertAttr){
-                double weight = getDistributedWeight();
                 node.addAttribute(i, weight);
             }
+            if (i < numAttr-1)
+                position = tempPosition;
         }
     }
 
     public void addEdges(EFG efg, double edgeProb){
+        int edgePosition = position;
         boolean insertEdge;
         double weight = 0;
         int numNodes = efg.getSize();
@@ -112,6 +113,8 @@ public class Main {
                     Node node = efg.getNodes().get(i);
                     node.addEdge(j, weight);
                 }
+                if (i < numNodes-1)
+                    position = edgePosition;
                 if (i!=j) {
                     insertEdge = getBernoulli(edgeProb);
                     if (insertEdge) {
@@ -119,7 +122,10 @@ public class Main {
                         Node node = efg.getNodes().get(i);
                         node.addEdge(i, weight);
                     }
+                    if (i < numNodes -1)
+                        position = edgePosition;
                 }
+
             }
         }
     }
@@ -132,20 +138,24 @@ public class Main {
                 int min = Integer.parseInt(values.get(position + 1));
                 int max = Integer.parseInt(values.get(position + 2));
                 weight = getUniformWeight(min, max);
+                position+=3;
                 break;
             case ("E"):
                 double rate = Double.parseDouble(values.get(position + 1));
                 weight = getExponentialWeight(rate);
+                position+=2;
                 break;
             case ("G"):
                 double height = Double.parseDouble(values.get(position + 1));
                 int center = Integer.parseInt(values.get(position + 2));
                 int width = Integer.parseInt(values.get(position + 3));
                 weight = getGaussianWeight(height, center, width);
+                position+=4;
                 break;
             case ("P"):
                 double mean = Double.parseDouble(values.get(position + 1));
                 weight = getPoissonWeight(mean);
+                position+=2;
                 break;
         }
         return weight;
@@ -162,12 +172,16 @@ public class Main {
             Vector<String> values = new Vector<String>();
             try {
                 BufferedReader stream = new BufferedReader(new FileReader(filename));
+                String arguments = "";
                 String input;
                 while ((input = stream.readLine()) != null) {
-                    String[] params = input.split(" ");
-                    for (String c : params) {
-                        values.add(c);
-                    }
+                    input = input.replaceAll("//.*", " ");
+                    arguments += input.replaceAll("\\s+", " ");
+                    System.out.println(arguments);
+                }
+                String[] params = arguments.split(" ");
+                for (String c : params) {
+                    values.add(c);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -189,6 +203,10 @@ public class Main {
      */
     public double getExponentialNode (double rate, double x){
         return 1-Math.exp(-rate*x);
+    }
+
+    public double getExponentialPDF (double rate, double x){
+        return rate*Math.exp(-rate*x);
     }
 
     public double getInverseExponentialCDF (double rate, double x){
@@ -225,6 +243,7 @@ public class Main {
         } while (p > L);
         return k - 1;
     }
+
 
     public int factorial (int number) {
         if (number <= 1)
@@ -316,7 +335,7 @@ public class Main {
 					int edgeIndex = edges.nextSetBit(0);
 					while (edgeIndex != -1){
 						double edgeWeight = currentEdges.get(edgeIndex);
-						edgeString += edgeIndex + " " + edgeWeight + "/n";
+						edgeString += j + " " + edgeIndex + " " + edgeWeight + '\n';
 						edgeIndex = edges.nextSetBit(edgeIndex+1);
 					}
 					

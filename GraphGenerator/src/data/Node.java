@@ -48,8 +48,8 @@ public class Node {
 	
 
 	public void addEdge (int edgeIndex, double weightEdge){
-		attributes.set(edgeIndex);
-		attrWeight.put(edgeIndex, weightEdge);
+		edges.set(edgeIndex);
+		edgeWeight.put(edgeIndex, weightEdge);
 	}
 
 

@@ -26,7 +26,6 @@ public class Main {
     }
 
 
-
     public void createGraph() {
         int nodePosition;
         int numEFG = Integer.parseInt(values.get(6));
@@ -75,8 +74,8 @@ public class Main {
                 if (index + 1 == numEFG)
                     position++;
                 if (numNodes%numEFG < (index+1))
-                    return numNodes/numEFG;
-                return numNodes/numEFG + 1;
+                    return numNodes/numEFG + 2;
+                return numNodes/numEFG + 3;
             /*case ("E"):
                 double rate = Double.parseDouble(values.get(6));
                 double num = getInverseExponentialCDF(rate, 0.99);
@@ -86,6 +85,7 @@ public class Main {
         }
         return 0;
     }
+
 
     public void addAttributes(Node node, double attrProb, int numAttr){
         int tempPosition;
@@ -107,29 +107,56 @@ public class Main {
         boolean insertEdge;
         double weight = 0;
         int numNodes = efg.getSize();
-        for (int i = 0; i < numNodes; i++){
-            for (int j = i; j < numNodes; j++){
+        BitSet sourceCheck = new BitSet(numNodes);
+        Node node;
+        Node source = efg.getNodes().get(0);
+        for (int i = 1; i < numNodes-1; i++) {
+            node = efg.getNodes().get(i);
+            for (int j = i; j < numNodes - 1; j++) {
                 insertEdge = getBernoulli(edgeProb);
-                if (insertEdge){
+                if (insertEdge) {
                     weight = getDistributedWeight();
-                    Node node = efg.getNodes().get(i);
                     node.addEdge(j, weight);
+                    if (i!=j)
+                        sourceCheck.set(j);
                 }
-                if (i < numNodes-1)
-                    position = edgePosition;
-                if (i!=j) {
+                position = edgePosition;
+                if (i != j) {
                     insertEdge = getBernoulli(edgeProb);
                     if (insertEdge) {
                         weight = getDistributedWeight();
-                        Node node = efg.getNodes().get(i);
+                        node = efg.getNodes().get(j);
                         node.addEdge(i, weight);
+                        sourceCheck.set(i);
                     }
-                    if (i < numNodes -1)
-                        position = edgePosition;
+                    position = edgePosition;
                 }
+            }
 
+            // Sink Node
+            node = efg.getNodes().get(i);
+            int card = node.getEdges().cardinality();
+            if (card == 0) {
+                weight = getDistributedWeight();
+                node.addEdge(numNodes - 1, weight);
+            } else if (card == 1) {
+                if (node.getEdges().nextSetBit(0) == i) {
+                    weight = getDistributedWeight();
+                    node.addEdge(numNodes - 1, weight);
+                }
+            }
+            if (i != numNodes - 2)
+                position = edgePosition;
+        }
+        // Source Node
+        for (int k = 1; k < numNodes-1; k++){
+            if (!sourceCheck.get(k)) {
+                position = edgePosition;
+                weight = getDistributedWeight();
+                source.addEdge(k, weight);
             }
         }
+
     }
 
     public double getDistributedWeight(){

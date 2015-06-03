@@ -11,26 +11,28 @@ import data.EFG;
 import data.Node;
 
 public class Main {
-    final String FILENAME = "input.txt";
+    final String INPUT = "input.txt";
+    final String CONFIG = "config.txt";
     static Vector<EFG> graphs;
     static Vector<String> values;
-    static int position = 6;
+    static int position = 12;
 
     public static void main(String args[]) {
         graphs = new Vector<>();
         Main m = new Main();
         values = m.manualParse(args[0]);
         m.createGraph();
+        m.createConfigFile();
     }
 
 
 
     public void createGraph() {
         int nodePosition;
-        int numEFG = Integer.parseInt(values.get(0));
-        int numAttr = Integer.parseInt(values.get(2));
-        double attrProb = Double.parseDouble(values.get(3));
-        double edgeProb = Double.parseDouble(values.get(4));
+        int numEFG = Integer.parseInt(values.get(6));
+        int numAttr = Integer.parseInt(values.get(8));
+        double attrProb = Double.parseDouble(values.get(9));
+        double edgeProb = Double.parseDouble(values.get(10));
         addEFG(numEFG); // Create EFGs with number of nodes,
         nodePosition = position;
         for (EFG e: graphs){
@@ -48,7 +50,7 @@ public class Main {
             System.out.println(position);
             addEdges(e, edgeProb);
         }
-        createFile();
+        createGraphFile();
     }
 
     public void addEFG(int numEFG){
@@ -61,8 +63,8 @@ public class Main {
 
     //TODO: Generate EFG size
     public int getEFGSize(int index, int numEFG){
-        int numNodes = Integer.parseInt(values.get(1));
-        String dist = values.get(5);
+        int numNodes = Integer.parseInt(values.get(7));
+        String dist = values.get(11);
         if (index + 1 == numEFG)
             position++;
         switch(dist){
@@ -296,17 +298,17 @@ public class Main {
     }
 
 
-	public void createFile (){
-		String edgeString = "";
-		int numEdges = 0;
+	public void createGraphFile(){
 		int size = graphs.size();
 		//http://stackoverflow.com/questions/2885173/java-how-to-create-a-file-and-write-to-a-file 25/05/2015 for PrintWriter lines
 		try {
-			PrintWriter writer = new PrintWriter(FILENAME, "UTF-8");
+			PrintWriter writer = new PrintWriter(INPUT, "UTF-8");
 			writer.println(size);
 			// For each EFG
 			for (EFG currentEFG: graphs){
-				LinkedHashMap<Integer, Node> currentNodes = currentEFG.getNodes();
+                int numEdges = 0;
+                String edgeString = "";
+                LinkedHashMap<Integer, Node> currentNodes = currentEFG.getNodes();
 				int numNodes = currentNodes.size();
 				writer.println(numNodes);
 				
@@ -333,10 +335,14 @@ public class Main {
 					numEdges += edges.cardinality();
 					LinkedHashMap<Integer, Double> currentEdges = currentNode.getEdgeWeight();
 					int edgeIndex = edges.nextSetBit(0);
+                    if (edgeIndex != -1 && edgeString != "")
+                        edgeString += '\n';
 					while (edgeIndex != -1){
 						double edgeWeight = currentEdges.get(edgeIndex);
-						edgeString += j + " " + edgeIndex + " " + edgeWeight + '\n';
+						edgeString += j + " " + edgeIndex + " " + edgeWeight;
 						edgeIndex = edges.nextSetBit(edgeIndex+1);
+                        if (edgeIndex != -1)
+                            edgeString += '\n';
 					}
 					
 				}
@@ -351,6 +357,22 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
+
+    public void createConfigFile(){
+        try {
+            System.out.println(position);
+            PrintWriter writer = new PrintWriter(CONFIG, "UTF-8");
+            String header = "localhost" + '\n' + "EFG_ZSys" + '\n' + 50000 + '\n' + "username" + '\n' + "password" +
+                    '\n' + "DT120524" + '\n' + 0 + '\n' + values.get(0) + '\n' + 0 + '\n' + values.get(1) + '\n' +
+                    values.get(2) + '\n' + values.get(3) + '\n' + 0 + '\n' + 0 + '\n' + 0 + '\n' + values.get(4) +
+                    '\n' + values.get(5);
+            writer.println(header);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
 }

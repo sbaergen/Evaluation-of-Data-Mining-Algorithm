@@ -74,11 +74,10 @@
         <entry file="file://$PROJECT_DIR$/src/data/EFG.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="16" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
+              <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding>
                 <element signature="e#440#441#0" expanded="true" />
                 <element signature="e#466#467#0" expanded="true" />
-                <element signature="e#517#518#0" expanded="true" />
                 <element signature="e#536#537#0" expanded="true" />
                 <element signature="e#647#648#0" expanded="true" />
                 <element signature="e#665#666#0" expanded="true" />
@@ -91,9 +90,8 @@
         <entry file="file://$PROJECT_DIR$/src/data/Node.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="49" column="16" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
+              <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
               <folding>
-                <element signature="e#3297#3298#0" expanded="true" />
                 <element signature="e#3316#3317#0" expanded="true" />
                 <element signature="e#3628#3629#0" expanded="true" />
                 <element signature="e#3652#3653#0" expanded="true" />
@@ -105,11 +103,11 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.93877554">
-              <caret line="50" column="5" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.7346939">
+              <caret line="24" column="29" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#6782#6790#0" expanded="true" />
+                <element signature="e#10084#10092#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -472,7 +470,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="41" />
+      <option name="time" value="42" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1002,9 +1000,8 @@
     <entry file="file://$PROJECT_DIR$/src/data/Node.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="16" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
+          <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
           <folding>
-            <element signature="e#3297#3298#0" expanded="true" />
             <element signature="e#3316#3317#0" expanded="true" />
             <element signature="e#3628#3629#0" expanded="true" />
             <element signature="e#3652#3653#0" expanded="true" />
@@ -1015,11 +1012,10 @@
     <entry file="file://$PROJECT_DIR$/src/data/EFG.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="16" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding>
             <element signature="e#440#441#0" expanded="true" />
             <element signature="e#466#467#0" expanded="true" />
-            <element signature="e#517#518#0" expanded="true" />
             <element signature="e#536#537#0" expanded="true" />
             <element signature="e#647#648#0" expanded="true" />
             <element signature="e#665#666#0" expanded="true" />
@@ -1029,11 +1025,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.93877554">
-          <caret line="50" column="5" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.7346939">
+          <caret line="24" column="29" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6782#6790#0" expanded="true" />
+            <element signature="e#10084#10092#0" expanded="true" />
           </folding>
         </state>
       </provider>

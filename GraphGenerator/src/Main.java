@@ -36,7 +36,6 @@ public class Main {
         nodePosition = position;
         for (EFG e: graphs){
             position = nodePosition;
-            System.out.println(position + "E");
             int size = e.getSize();
             for (int i = 0; i < size; i++){
                 double weight = getDistributedWeight();
@@ -46,44 +45,119 @@ public class Main {
                 if (i < size-1)
                     position = nodePosition;
             }
-            System.out.println(position);
             addEdges(e, edgeProb);
         }
         createGraphFile();
     }
 
     public void addEFG(int numEFG){
+        int[] sizes = getEFGSizes(numEFG);
         for (int i = 0; i < numEFG; i++){
-            int efgSize = getEFGSize(i, numEFG);
+            int efgSize = sizes[i];
+            if (efgSize != 1)
+                efgSize+=2;
             EFG efg = new EFG(efgSize);
             graphs.add(efg);
         }
     }
-
-    //TODO: Generate EFG size
-    public int getEFGSize(int index, int numEFG){
+//TODO:
+    public int[] getEFGSizes(int numEFG){
         int numNodes = Integer.parseInt(values.get(7));
         String dist = values.get(11);
-        if (index + 1 == numEFG)
-            position++;
-        switch(dist){
+        int sum = 0;
+        int index;
+        int[] sizes = new int[numEFG];
+        switch (dist) {
             case ("G"):
+                for (int i = 0; i < numEFG; i++){
+                    sizes[i] = (int) getGaussianWeight(Double.parseDouble(values.get(12)), numNodes/numEFG, Integer.parseInt(values.get(14)));
+                    if (sizes[i] <= 0)
+                        sizes[i] = 1;
+                    sum += sizes[i];
+                }
+                index = 0;
+                while (sum != numNodes){
+                    if (sum < numNodes){
+                        sizes[numEFG-index-1]++;
+                        sum++;
+                    } else {
+                        if (sizes[index] != 1) {
+                            sizes[index]--;
+                            sum--;
+                        }
+                    }
+                    if (index == numEFG-1)
+                        index = 0;
+                    else
+                        index++;
+                }
+                position+=3;
+                break;
             case ("P"):
+                for (int i = 0; i < numEFG; i++) {
+                    sizes[i] = (int) getPoissonNumber(numNodes / numEFG);
+                    if (sizes[i] == 0)
+                        sizes[i] = 1;
+                    sum += sizes[i];
+                }
+                index = 0;
+                while (sum != numNodes){
+                    if (sum < numNodes){
+                        sizes[numEFG-index-1]++;
+                        sum++;
+                    } else {
+                        if (sizes[index] != 1) {
+                            sizes[index]--;
+                            sum--;
+                        }
+                    }
+                    if (index == numEFG-1)
+                        index = 0;
+                    else
+                        index++;
+                }
+                position++;
+                break;
             case ("E"):
+                for (int i = 0; i < numEFG; i++) {
+                    double rate = Double.parseDouble(values.get(6));
+                    double num = getInverseExponentialCDF(rate, 0.99);
+                    num /= (double) numEFG;
+                    num *= (double) (i + 1);
+                    sizes[i] = (int) (numNodes * getExponentialNode(rate, num));
+                    if (sizes[i] == 0)
+                        sizes[i] = 1;
+                    sum+=sizes[i];
+                }
+                index = 0;
+                while (sum != numNodes){
+                    if (sum < numNodes){
+                        sizes[numEFG-index-1]++;
+                        sum++;
+                    } else {
+                        if (sizes[index] != 1) {
+                            sizes[index]--;
+                            sum--;
+                        }
+                    }
+                    if (index == numEFG-1)
+                        index = 0;
+                    else
+                        index++;
+                }
+                position++;
+                break;
             case ("U"):
-                if (index + 1 == numEFG)
-                    position++;
-                if (numNodes%numEFG < (index+1))
-                    return numNodes/numEFG + 2;
-                return numNodes/numEFG + 3;
-            /*case ("E"):
-                double rate = Double.parseDouble(values.get(6));
-                double num = getInverseExponentialCDF(rate, 0.99);
-                num/=(double)numEFG;
-                num*=(double)(index+1);
-                return (int)(numNodes*getExponentialNode(rate, num));*/
+                for (int i = 0; i < numEFG; i++) {
+                    if (numNodes % numEFG < (i + 1))
+                        sizes[i] = numNodes / numEFG;
+                    else
+                        sizes[i] = numNodes / numEFG + 1;
+                }
+                position+=2;
+                break;
         }
-        return 0;
+        return sizes;
     }
 
 
@@ -105,7 +179,8 @@ public class Main {
     public void addEdges(EFG efg, double edgeProb){
         int edgePosition = position;
         boolean insertEdge;
-        double weight = 0;
+        boolean validSink = false;
+        double weight;
         int numNodes = efg.getSize();
         BitSet sourceCheck = new BitSet(numNodes);
         Node node;
@@ -132,22 +207,26 @@ public class Main {
                     position = edgePosition;
                 }
             }
-
             // Sink Node
             node = efg.getNodes().get(i);
             int card = node.getEdges().cardinality();
             if (card == 0) {
                 weight = getDistributedWeight();
                 node.addEdge(numNodes - 1, weight);
+                validSink = true;
             } else if (card == 1) {
                 if (node.getEdges().nextSetBit(0) == i) {
                     weight = getDistributedWeight();
                     node.addEdge(numNodes - 1, weight);
+                    validSink = true;
                 }
             }
-            if (i != numNodes - 2)
+
+            if (i != numNodes - 2) {
                 position = edgePosition;
+            }
         }
+
         // Source Node
         for (int k = 1; k < numNodes-1; k++){
             if (!sourceCheck.get(k)) {
@@ -155,6 +234,19 @@ public class Main {
                 weight = getDistributedWeight();
                 source.addEdge(k, weight);
             }
+        }
+        // If source has no outgoing edges add one to first node
+        if (source.getEdges().nextSetBit(0) == -1 && numNodes != 1){
+            position = edgePosition;
+            weight = getDistributedWeight();
+            source.addEdge(1, weight);
+        }
+
+        // If no edge to sink add one from last node
+        if (!validSink && numNodes != 1) {
+            position = edgePosition;
+            weight = getDistributedWeight();
+            efg.getNodes().get(numNodes-1).addEdge(numNodes-2, weight);
         }
 
     }
@@ -183,7 +275,7 @@ public class Main {
                 break;
             case ("P"):
                 double mean = Double.parseDouble(values.get(position + 1));
-                weight = getPoissonWeight(mean);
+                weight = getPoissonNumber(mean);
                 position+=2;
                 break;
         }
@@ -206,7 +298,6 @@ public class Main {
                 while ((input = stream.readLine()) != null) {
                     input = input.replaceAll("//.*", " ");
                     arguments += input.replaceAll("\\s+", " ");
-                    System.out.println(arguments);
                 }
                 String[] params = arguments.split(" ");
                 for (String c : params) {
@@ -261,7 +352,7 @@ public class Main {
      * @param mean
      * @return
      */
-    public double getPoissonWeight (double mean) {
+    public double getPoissonNumber(double mean) {
         Random rnd = new Random();
         double L = Math.exp(-mean);
         int k = 0;
@@ -319,9 +410,7 @@ public class Main {
         InputParserParser.ParseContext tree = parser.parse();
 
         ExtendedVisitor visitor = new ExtendedVisitor();
-        System.out.println(tree.toStringTree());
         visitor.visit(tree);
-        System.out.println(tree.toString());
     }
 
 
@@ -374,8 +463,9 @@ public class Main {
 					
 				}
 				writer.println(numEdges);
-				writer.println(edgeString);
-			}
+                if (numEdges > 0)
+				    writer.println(edgeString);
+            }
 			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -388,7 +478,6 @@ public class Main {
 
     public void createConfigFile(){
         try {
-            System.out.println(position);
             PrintWriter writer = new PrintWriter(CONFIG, "UTF-8");
             String header = "localhost" + '\n' + "EFG_ZSys" + '\n' + 50000 + '\n' + "username" + '\n' + "password" +
                     '\n' + "DT120524" + '\n' + 0 + '\n' + values.get(0) + '\n' + 0 + '\n' + values.get(1) + '\n' +

@@ -1,2 +1,22 @@
-1 2 3 4 5 6 5 10 3 .3 .3 P 1 U 3 4 U 4 //jjjj
-5               u 5 6
+3 //Max attributes per pattern
+0 //Max forward edges
+0 //Max backward edges
+0 //gap
+.1 //minSupport
+2 //Max nodes
+100 //# Nodes
+10000 //# EFGs
+3 //Size of union of all attributes
+.3 //Attribute Bernoulli
+.3 //Edge Bernoulli
+P // Nodes/EFG
+1 
+U // Edge
+3
+4
+U //Node
+4 
+5
+u //Attribute
+5
+6

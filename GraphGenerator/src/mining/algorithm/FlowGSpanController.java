@@ -1,0 +1,617 @@
+/****************************
+ * IBM Confidential
+ * Licensed Materials - Property of IBM
+ *
+ * IBM Rational Developer for Power Systems Software
+ * IBM Rational Team Concert for Power Systems Software
+ *
+ * (C) Copyright IBM Corporation 2010.
+ *
+ * The source code for this program is not published or otherwise divested of its trade secrets, 
+ * irrespective of what has been deposited with the U.S. Copyright Office.
+ */package mining.algorithm;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Vector;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import mining.manager.MinerManager;
+import mining.data.DataSet;
+import mining.data.ExecutionFlowGraph;
+import mining.data.InstanceNumberComparator;
+import mining.data.PatternEdge;
+import mining.data.PatternGraph;
+import mining.data.PatternSupportComparator;
+
+public class FlowGSpanController {
+	/**
+	 * Maximum number of attributes in a single pattern.
+	 */
+	public static int MAX_ATTRIBUTES_TOTAL = 5;
+	/**
+	 * Minimum hotness (relative to total hotness of dataset) for a method to 
+	 * be evaluated by FlowGSpan.
+	 */
+	public static double MIN_METHOD_HOTNESS = 0.001;
+	/**
+	 * Flag to indicate if there is a bound on the number of forward edges added 
+	 * to a certain parent pattern, in order to generate its different possible child patterns.
+	 * If flag is true, then there is a bound, determined by MAX_NEW_FWD_EDGE_ADDITIONS. Otherwise,
+	 * there is no bound and all possible forward edges are added (one at a time).
+	 */
+	public static boolean LIMIT_FWD_EDGE_ADDITIONS = false;
+	/**
+	 * Maximum number of forward edges to be added to a pattern, in order to
+	 * generate child patterns.
+	 */
+	public static int MAX_NEW_FWD_EDGE_ADDITIONS = 100;
+	/**
+	 * Flag to indicate if there is a bound on the number of backward edges added
+	 * to a certain parent pattern, in order to generate its different possible
+	 * child patterns. If flag is true, then there is a bound, determined by MAX_NEW_BACK_EDGE_ADDITIONS.
+	 * Otherwise, there is no bound and all possible backward edges are added (one at a time).
+	 */
+	public static boolean LIMIT_BACK_EDGE_ADDITIONS = false;
+	/**
+	 * Maximum number of backward edges to be added to a pattern, in order to
+	 * generate child patterns.
+	 */
+	public static int MAX_NEW_BACK_EDGE_ADDITIONS = 100;
+	
+	/**
+	 * Gap (how many nodes can be skipped when looking for pattern attributes.
+	 */
+	public static int GAP = 0;
+	
+	 /**
+	  * Number of threads when loading data from database into main memory.
+	  */
+	public static int NUM_DB_THREADS = 0;
+	
+	public static int NUM_FGSPAN_THREADS = 0;
+	
+	Vector<FlowGSpan> fgspanInstances;
+	
+	DataSet dataset;
+	double totalWeight;
+	double totalFreq;
+	double minSupport;
+	double maxNodes;
+	int numThreads;
+	
+	boolean usingDB;
+	
+	/**
+	 * A table with all attributes that can possibly be found in the dataset.
+	 */
+	static Vector<String> attributeNameTable = null;
+	/**
+	 * Position in attributeTable where next attribute should be placed.
+	 */
+	static int nextAttrTableIdx = 0; 
+	
+	static Vector<Integer> existingAttrs;
+	public static AtomicInteger PATTERN_ID;
+	public static AtomicInteger NUMBER_SUBGRAPHS;
+	
+	Vector<PatternGraph> patternsToProcess;
+	LinkedHashSet<Integer> freqAttrs;
+	LinkedHashSet<PatternEdge> freqEdges; //FGSpan-edgecomb
+	
+	Vector<String> resultSet;
+	Vector<Integer> resultSizes;
+	LinkedHashMap<Integer, Vector<String>> instructionMap;
+	
+	/**
+	 * Map between pattern encoding and statistics of that pattern, i.e. 
+	 * tick count, edge frequency info, number of instances of the pattern 
+	 * in dataset.
+	 */
+	public static Map<String, Vector<Double>> sgMap;
+	
+	static LinkedHashSet<Integer> branchAttrList; 
+	
+	public FlowGSpanController(DataSet dataset, double totalWeight, double totalFreq, 
+			double minSupport, double maxNodes, int numThreads) {
+		//Initialization of all output-related sets.
+		sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>()); 
+		
+		fgspanInstances = new Vector<FlowGSpan>();
+	
+		this.dataset = dataset;
+		this.totalWeight = totalWeight;
+		this.totalFreq = totalFreq;
+		this.minSupport = minSupport;
+		this.maxNodes = maxNodes;
+		this.numThreads = numThreads;
+	
+		patternsToProcess = new Vector<PatternGraph>();
+		freqAttrs = new LinkedHashSet<Integer>();
+		freqEdges = new LinkedHashSet<PatternEdge>(); //FGSpan-edgecomb
+		resultSet = new Vector<String>();
+		resultSizes = new Vector<Integer>();
+		instructionMap = new LinkedHashMap<Integer, Vector<String>>();
+		
+		usingDB = true;
+		FlowGSpanController.NUMBER_SUBGRAPHS = new AtomicInteger(0);
+		FlowGSpanController.PATTERN_ID = new AtomicInteger(0);
+		
+		branchAttrList = null;
+	}
+	
+	public FlowGSpanController(DataSet dataset, double minSupport, double maxNodes, int numThreads){
+		//Initialization of all output-related sets.
+		sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>()); 
+		
+		fgspanInstances = new Vector<FlowGSpan>();
+	
+		this.dataset = dataset;
+		this.totalWeight = dataset.getTotalWeight();
+		this.totalFreq = dataset.getTotalFreq();
+		this.minSupport = minSupport;
+		this.maxNodes = maxNodes;
+		this.numThreads = numThreads;
+	
+		patternsToProcess = new Vector<PatternGraph>();
+		freqAttrs = new LinkedHashSet<Integer>();
+		freqEdges = new LinkedHashSet<PatternEdge>(); //FGSpan-edgecomb
+		resultSet = new Vector<String>();
+		resultSizes = new Vector<Integer>();
+		instructionMap = new LinkedHashMap<Integer, Vector<String>>();
+	
+		usingDB = false;
+		
+		FlowGSpanController.NUMBER_SUBGRAPHS = new AtomicInteger(0);
+		FlowGSpanController.PATTERN_ID = new AtomicInteger(0);
+		
+		branchAttrList = null;
+	}
+	/**
+	 * Add a new attribute to the attribute table
+	 * @param name Attribute to add to the table
+	 * @return The index associated with that string
+	 */
+	public static synchronized int addAttributeToTable(String name) {
+		if(attributeNameTable == null) {
+			attributeNameTable = new Vector<String>();
+		}
+		if(existingAttrs == null) {
+			existingAttrs = new Vector<Integer>();
+		}
+		if(!attributeNameTable.contains(name)) {
+			attributeNameTable.add(name);
+			existingAttrs.add(nextAttrTableIdx);
+			//System.out.println("Symbol and idx added: " + name + "  " + nextAttrTableIdx);
+			return nextAttrTableIdx++;
+		}
+		else {
+			return attributeNameTable.indexOf(name);
+		}
+	}
+	
+	/**
+	 * Gets attribute name from attribute table.
+	 * @param idx Index of attribute in table.
+	 * @return Attribute name.
+	 */
+	public static synchronized String getAttributeName(int idx) {
+		return attributeNameTable.get(idx);
+	}
+	
+	public static synchronized int getAttributeIndex(String name) {
+		return attributeNameTable.indexOf(name);
+	}
+	
+	public void run() {
+		int generation = 0;
+		int startIndex = 0;
+		int attrsDivision = existingAttrs.size() / ((numThreads > 0)? numThreads : 1);
+		int extraAttrsBlock = existingAttrs.size() % ((numThreads > 0)? numThreads : 1);
+		int endIndex = attrsDivision + extraAttrsBlock - 1;
+		
+		if(numThreads == 0) {
+			FlowGSpan instance = new FlowGSpan(dataset, totalWeight, totalFreq, minSupport, maxNodes);
+			instance.setExistingAttrs(existingAttrs);
+			instance.setStartIndex(startIndex);
+			instance.setEndIndex(endIndex);
+			
+			instance.run();
+			
+			freqAttrs.addAll(instance.getChildFreqAttrs());
+			patternsToProcess.addAll(instance.getChildSet());
+			resultSet.addAll(instance.getResultSet());
+			resultSizes.addAll(instance.getResultSizes());
+			
+			LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
+		
+			for(Integer patternId : tempMap.keySet()) {
+				instructionMap.put(patternId, tempMap.get(patternId));
+			}
+		
+			instance.getResultSizes().clear();
+			instance.getResultSet().clear();
+			//System.out.println("Elements = " + instance.getResultSet().toString());
+			instance.getInstructionMap().clear();
+			instance.getChildFreqAttrs().clear();
+			instance.getChildSet().clear();
+			
+			long totalMemory = Runtime.getRuntime().totalMemory();
+			long freeMemory = Runtime.getRuntime().freeMemory();
+			long consumedMemory = totalMemory - freeMemory;
+		    System.out.println("Total Memory = " + totalMemory  + ", Free Memory = " + freeMemory + ", Consumed Memory = " + consumedMemory);
+			
+		    ++generation;
+			
+			while(generation < maxNodes) {
+				startIndex = 0;
+				endIndex = patternsToProcess.size() - 1;
+			
+				instance.setFreqAttrs(freqAttrs);
+				instance.setFreqEdges(freqEdges);//FGSpan-edgecomb
+				instance.setPatternsToProcess(patternsToProcess);
+				instance.setStartIndex(startIndex);
+				instance.setEndIndex(endIndex);
+				
+				instance.run();
+				
+				patternsToProcess.clear();
+				freqAttrs.clear();
+				freqEdges.clear(); //FGSpan-edgecomb
+				
+				freqAttrs.addAll(instance.getChildFreqAttrs());
+				freqEdges.addAll(instance.getChildFreqEdges()); //FGSpan-edgecomb
+				patternsToProcess.addAll(instance.getChildSet());
+				resultSet.addAll(instance.getResultSet());
+				resultSizes.addAll(instance.getResultSizes());
+				
+				tempMap = instance.getInstructionMap();
+				
+				for(Integer patternId : tempMap.keySet()) {
+					instructionMap.put(patternId, tempMap.get(patternId));
+				}
+				
+				instance.getResultSizes().clear();
+				instance.getResultSet().clear();
+				instance.getInstructionMap().clear();
+				instance.getChildFreqAttrs().clear();
+				instance.getChildFreqEdges().clear();//FGSpan-edgecomb
+				instance.getChildSet().clear();
+				
+				//System.out.println("[BEFORE]Total Memory = " + Runtime.getRuntime().totalMemory() + ", Free Memory = " + Runtime.getRuntime().freeMemory());
+				//dataset.updateDataset();
+				//updateDatasetElements();
+				//System.gc();
+				totalMemory = Runtime.getRuntime().totalMemory();
+				freeMemory = Runtime.getRuntime().freeMemory();
+				consumedMemory = totalMemory - freeMemory;
+			    System.out.println("Total Memory = " + totalMemory  + ", Free Memory = " + freeMemory + ", Consumed Memory = " + consumedMemory);
+			
+				++generation;
+			}
+		}
+		else {
+			for(int i = 0; i < numThreads; i++) {
+				FlowGSpan instance = null;
+				if(usingDB == true) {
+					instance = new FlowGSpan(dataset, totalWeight, totalFreq, minSupport, maxNodes);
+				}
+				else {
+					instance = new FlowGSpan(dataset, minSupport, maxNodes);	
+				}
+				fgspanInstances.add(instance);
+			}
+		
+			ExecutorService executor = Executors.newFixedThreadPool(numThreads);
+			
+			for(int i = 0; i < numThreads; i++) {
+				FlowGSpan instance = fgspanInstances.get(i);
+			
+				instance.setExistingAttrs(existingAttrs);
+				instance.setStartIndex(startIndex);
+				instance.setEndIndex(endIndex);
+			
+				//DEBUG
+				//System.out.println("StartIndex, EndIndex, Thread, Gen = " + startIndex + " " + endIndex + " " + i + " " + generation);
+				//end DEBUG
+				
+				startIndex = (i+1)*(attrsDivision + extraAttrsBlock) - i*extraAttrsBlock;
+				endIndex = startIndex + attrsDivision - 1;
+			
+				Runnable worker = instance;
+				executor.execute(worker);
+			}
+		
+			// This will make the executor accept no new threads
+			// and finish all existing threads in the queue.
+			executor.shutdown();
+			try {
+				executor.awaitTermination(24, TimeUnit.HOURS);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			for(int i = 0; i < numThreads; i++) {
+				FlowGSpan instance = fgspanInstances.get(i);
+				
+				freqAttrs.addAll(instance.getChildFreqAttrs());
+				patternsToProcess.addAll(instance.getChildSet());
+				resultSet.addAll(instance.getResultSet());
+				resultSizes.addAll(instance.getResultSizes());
+			
+				LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
+			
+				for(Integer patternId : tempMap.keySet()) {
+					instructionMap.put(patternId, tempMap.get(patternId));
+				}
+			
+				instance.getResultSizes().clear();
+				instance.getResultSet().clear();
+				instance.getInstructionMap().clear();
+				instance.getChildFreqAttrs().clear();
+				instance.getChildSet().clear();
+			}
+		
+			Arrays.sort(freqAttrs.toArray());
+			
+			//System.out.println("[BEFORE]Total Memory = " + Runtime.getRuntime().totalMemory() + ", Free Memory = " + Runtime.getRuntime().freeMemory());
+			//dataset.updateDataset();
+			//updateDatasetElements();
+			//System.gc();
+			long totalMemory = Runtime.getRuntime().totalMemory();
+			long freeMemory = Runtime.getRuntime().freeMemory();
+			long consumedMemory = totalMemory - freeMemory;
+		    System.out.println("Total Memory = " + totalMemory  + ", Free Memory = " + freeMemory + ", Consumed Memory = " + consumedMemory);
+		
+			++generation;
+		
+			while(generation < maxNodes) {
+				executor = Executors.newFixedThreadPool(numThreads);
+				
+				int patternsDivision = patternsToProcess.size() / numThreads;
+				int extraPatternsBlock = patternsToProcess.size() % numThreads;
+				startIndex = 0;
+				endIndex = patternsDivision + extraPatternsBlock - 1;
+			
+				runWorkloadHeuristic(patternsToProcess, patternsDivision, extraPatternsBlock);
+				
+				for(int i = 0; i < numThreads; i++) {
+					FlowGSpan instance = fgspanInstances.get(i);
+
+					instance.setFreqAttrs(freqAttrs);
+					instance.setPatternsToProcess(patternsToProcess);
+					instance.setStartIndex(startIndex);
+					instance.setEndIndex(endIndex);
+
+					//DEBUG
+					//System.out.println("StartIndex, EndIndex, Thread, Gen = " + startIndex + " " + endIndex + " " + i + " " + generation);
+					//end DEBUG
+					
+					startIndex = (i+1)*(patternsDivision + extraPatternsBlock) - i*extraPatternsBlock;
+					endIndex = startIndex + patternsDivision - 1;
+				
+					Runnable worker = instance;
+					executor.execute(worker);
+				}
+			
+				// This will make the executor accept no new threads
+				// and finish all existing threads in the queue.
+				executor.shutdown();
+				try {
+					executor.awaitTermination(24, TimeUnit.HOURS);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+				patternsToProcess.clear();
+				freqAttrs.clear();
+				
+				for(int i = 0; i < numThreads; i++) {
+					FlowGSpan instance = fgspanInstances.get(i);
+				
+					freqAttrs.addAll(instance.getChildFreqAttrs());
+					patternsToProcess.addAll(instance.getChildSet());
+					resultSet.addAll(instance.getResultSet());
+					resultSizes.addAll(instance.getResultSizes());
+					
+					//DEBUG
+					//System.out.println("ChildSetSize, ResultSetSize, ResultSizes = " + instance.getChildSet().size() + " " + instance.getResultSet().size() + " " + instance.getResultSizes().size());
+					//end DEBUG
+					
+					LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
+				
+					for(Integer patternId : tempMap.keySet()) {
+						instructionMap.put(patternId, tempMap.get(patternId));
+					}
+				
+					instance.getResultSizes().clear();
+					instance.getResultSet().clear();
+					instance.getInstructionMap().clear();
+					instance.getChildFreqAttrs().clear();
+					instance.getChildSet().clear();
+				}
+				//System.out.println("FreqAttrs = " + freqAttrs.toString());
+				Arrays.sort(freqAttrs.toArray());
+				//System.out.println("FreqAttrs = " + freqAttrs.toString());
+				
+				//System.out.println("[BEFORE]Total Memory = " + Runtime.getRuntime().totalMemory() + ", Free Memory = " + Runtime.getRuntime().freeMemory());
+				//dataset.updateDataset();
+				//updateDatasetElements();
+				//System.gc();
+				totalMemory = Runtime.getRuntime().totalMemory();
+				freeMemory = Runtime.getRuntime().freeMemory();
+				consumedMemory = totalMemory - freeMemory;
+			    System.out.println("Total Memory = " + totalMemory  + ", Free Memory = " + freeMemory + ", Consumed Memory = " + consumedMemory);
+			
+				++generation;
+			}
+		}
+	}
+	
+	private void updateDatasetElements() {
+		for(Integer efgId : dataset.keySet()) {
+			ExecutionFlowGraph efg = dataset.get(efgId);
+			efg.setAllEdgesDiscardable();
+			efg.setAllNodesDiscardable();
+			
+			for(PatternGraph pattern : patternsToProcess) {
+				Vector<MinerState> prevStates = pattern.getMinerState(efgId);
+				
+				if(prevStates == null) {
+					continue;
+				}
+				
+				for(MinerState state : prevStates) {
+					LinkedHashMap<Long, Integer> mapping = state.getWholeGraphCore();
+					
+					for(Long vertexId : mapping.keySet()) {
+						efg.setNonDiscardableNode(vertexId);
+					}
+				}
+			}
+			
+			efg.removeDiscardableEdges();
+			efg.removeDiscardableNodes();
+		}
+	}
+	
+	private void runWorkloadHeuristic(Vector<PatternGraph> patterns, int patternsDivision, int extraPatternsBlock) {
+		InstanceNumberComparator<PatternGraph> instanceComp = new InstanceNumberComparator<PatternGraph>(patterns);
+		Collections.sort(patterns, instanceComp);
+		
+		int numBlocks = patternsDivision;
+		int blockIdx = 0;
+		int variableOffset = 0;
+		int idx = 0;
+		
+		Vector<Vector<PatternGraph>> patternsPerThread = new Vector<Vector<PatternGraph>>();
+	
+		for(int i = 0; i < numThreads; ++i) {
+			patternsPerThread.add(new Vector<PatternGraph>());
+		}
+		
+		for(blockIdx = 0; blockIdx < numBlocks; ++blockIdx) {
+			int baseIdx = numThreads*blockIdx;
+			
+			for(int offset = 0; offset < numThreads; ++offset) {
+				if((blockIdx + 1)%2 == 1) {
+					variableOffset = offset;
+				}
+				else {
+					variableOffset = numThreads - offset - 1;
+				}
+				
+				idx = baseIdx + variableOffset;
+				patternsPerThread.get(offset).add(patterns.get(idx));
+			}
+		}
+		
+		int extraBlockStart = patterns.size() - extraPatternsBlock;
+		for(int i = extraBlockStart; i < patterns.size(); ++i) {
+			patternsPerThread.get(0).add(patterns.get(i));
+		}
+		
+		patterns.clear();
+		
+		for(int i = 0; i < numThreads; ++i) {
+			patterns.addAll(patternsPerThread.get(i));
+		}
+	}
+
+	/**
+	 * Writes results to output file.
+	 */
+	public LinkedHashMap<Integer, Integer> writeResults() {
+		//Outputs results according to edge size.
+		int maxGraphSize = 0;
+		LinkedHashMap<Integer, Integer> numPatternsPerNumEdges = new LinkedHashMap<Integer, Integer>();
+		
+		for(int i = 0; i < resultSet.size(); ++i) {
+			maxGraphSize = Math.max(resultSizes.get(i), maxGraphSize);
+			if(numPatternsPerNumEdges.get(resultSizes.get(i)) == null) {
+				numPatternsPerNumEdges.put(resultSizes.get(i), 1);
+			}
+			else {
+				numPatternsPerNumEdges.put(resultSizes.get(i), 
+						numPatternsPerNumEdges.get(resultSizes.get(i)) + 1);
+			}
+		}
+		
+		//Print frequent patterns in a sorted fashion. They may be printed in increasing
+		//or decreasing order of their support value (which is max{Sw,Sf}), it depends on
+		//the sortOutput method. However the sort is always for those patterns that
+		//have same size in number of edges.
+		Vector<Integer> sortedIds = new Vector<Integer>();
+		for(int i = 0; i <= maxGraphSize; ++i) {
+			MinerManager.writeOutputToFile("\n\nGraphs of size (in number of edges)" + i + ": " + numPatternsPerNumEdges.get(i));
+			for(int j = 0; j < resultSet.size(); ++j) {
+				if(resultSizes.get(j) == i) {
+					sortedIds.add(j);
+				}
+			}
+			sortOutput(sortedIds);
+			for(Integer id : sortedIds) {
+				Vector<Double> supports = sgMap.get(resultSet.get(id));
+				if(supports.get(4) == 0) {
+					supports.remove(4);
+					MinerManager.writeOutputToFile("\n\n Node " + id + ":\n" + resultSet.get(id) + supports.toString());
+				}
+				else if(supports.get(4) == 1) {
+					supports.remove(4);
+					MinerManager.writeOutputToFile("\n\n Subpath " + id + ":\n" + resultSet.get(id) + supports.toString());
+				}
+				else  {
+					supports.remove(4);
+					MinerManager.writeOutputToFile("\n\n Subgraph " + id + ":\n" + resultSet.get(id) + supports.toString());
+				}
+			}
+			sortedIds.clear();
+		}
+		
+		MinerManager.writeOutputToFile("\n\n==========Mapping between subgraphs and instructions==========\n\n");
+		for(Integer subgraphIdx : instructionMap.keySet()) {
+			MinerManager.writeOutputToFile("Instances of pattern " + subgraphIdx + ":\n\n");
+			Vector<String> subgraphInstr = instructionMap.get(subgraphIdx);
+			
+			for(String instrSet : subgraphInstr) {
+				MinerManager.writeOutputToFile(instrSet + "\n\n");
+			}
+		}
+		return numPatternsPerNumEdges;
+	}
+	
+	/**
+	 * Sorts a set of patterns in order determined by the PatternSupportComparator class.
+	 * Patterns are sorted by using their indices in resultSet. The idea is sorting the
+	 * indices according to the support values of the patterns they are indexing in
+	 * resultSet, so that by simply iterating through sortedIds we can display the
+	 * patterns in ranked fashion.
+	 * @param sortedIds The indices in resultSet of the patterns to be displayed in a rank,
+	 * based on their support value.
+	 */
+	private void sortOutput(Vector<Integer> sortedIds) {
+		PatternSupportComparator comp = new PatternSupportComparator(resultSet, sgMap);
+		Collections.sort(sortedIds, comp);
+	}
+
+	public static LinkedHashSet<Integer> getBranchAttrList() {
+		if(branchAttrList == null) {
+			branchAttrList = new LinkedHashSet<Integer>();
+			
+			for(String att : attributeNameTable) {
+				if(att.matches("B\\w*") || att.matches("C[a-zA-Z0-9]*J")) {
+					branchAttrList.add(FlowGSpanController.getAttributeIndex(att));
+				}
+			}
+		}
+		return branchAttrList;
+	}
+}

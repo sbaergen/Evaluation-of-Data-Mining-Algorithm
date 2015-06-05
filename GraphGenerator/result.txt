@@ -1,0 +1,7 @@
+Mac OS X
+10.10.3
+x86_64
+Total Time: 1781ms
+Number of Hot Subgraphs: 33
+Number of Hot 0-Edge Subgraphs: 6
+Number of Hot 1-Edge Subgraphs: 27

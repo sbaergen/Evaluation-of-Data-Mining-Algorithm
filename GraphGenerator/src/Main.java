@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Random;
 import java.util.Vector;
 
+import mining.algorithm.ReturnInfo;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.*;
 
@@ -11,8 +12,11 @@ import data.EFG;
 import data.Node;
 
 public class Main {
-    final String INPUT = "input.txt";
-    final String CONFIG = "config.txt";
+    final static String INPUT = "input.txt";
+    final static String CONFIG = "config.txt";
+    final static String COUNTERS = "counters.txt";
+    final static String OUTPUT = "output.txt";
+    final static String RESULT = "result.txt";
     static Vector<EFG> graphs;
     static Vector<String> values;
     static int position = 12;
@@ -23,6 +27,11 @@ public class Main {
         values = m.manualParse(args[0]);
         m.createGraph();
         m.createConfigFile();
+        String arguments[] = {CONFIG, COUNTERS, OUTPUT, INPUT};
+        long startTime = System.currentTimeMillis();
+        ReturnInfo info = mining.manager.MinerManager.main(arguments);
+        long endTime = System.currentTimeMillis();
+        m.createResultFile(endTime-startTime, info);
     }
 
 
@@ -60,7 +69,7 @@ public class Main {
             graphs.add(efg);
         }
     }
-//TODO:
+
     public int[] getEFGSizes(int numEFG){
         int numNodes = Integer.parseInt(values.get(7));
         String dist = values.get(11);
@@ -288,18 +297,25 @@ public class Main {
             return true;
         return false;
     }
-
+//TODO: FIX NO NEW LINE
     public Vector<String> manualParse(String filename){
             Vector<String> values = new Vector<String>();
             try {
                 BufferedReader stream = new BufferedReader(new FileReader(filename));
                 String arguments = "";
                 String input;
+                System.out.println(System.getProperty("line.separator"));
                 while ((input = stream.readLine()) != null) {
+                    //System.out.println(input);
+                    //input = " " + input;
                     input = input.replaceAll("//.*", " ");
                     arguments += input.replaceAll("\\s+", " ");
+                    //arguments += input;
+                    System.out.println(arguments);
                 }
+
                 String[] params = arguments.split(" ");
+                //System.out.println(arguments);
                 for (String c : params) {
                     values.add(c);
                 }
@@ -468,10 +484,8 @@ public class Main {
             }
 			writer.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -479,15 +493,37 @@ public class Main {
     public void createConfigFile(){
         try {
             PrintWriter writer = new PrintWriter(CONFIG, "UTF-8");
-            String header = "localhost" + '\n' + "EFG_ZSys" + '\n' + 50000 + '\n' + "username" + '\n' + "password" +
-                    '\n' + "DT120524" + '\n' + 0 + '\n' + values.get(0) + '\n' + 0 + '\n' + values.get(1) + '\n' +
-                    values.get(2) + '\n' + values.get(3) + '\n' + 0 + '\n' + 0 + '\n' + 0 + '\n' + values.get(4) +
+            String header = "localhost" + '\n' + "EFG_ZSys" + '\n' + 50000 + '\n' + "username" + '\n' +
+                    "DT120524" + '\n' + 0 + '\n' + values.get(0) + '\n' + 0 + '\n' + values.get(1) + '\n' +
+                    values.get(2) + '\n' + values.get(3) + '\n' + 0 + '\n' + 0 + '\n' + values.get(4) +
                     '\n' + values.get(5);
             writer.println(header);
             writer.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createResultFile(long time, ReturnInfo info){
+        try {
+            PrintWriter writer = new PrintWriter(RESULT, "UTF-8");
+            writer.println(System.getProperties().getProperty("os.name"));
+            writer.println(System.getProperties().getProperty("os.version"));
+            writer.println(System.getProperties().getProperty("os.arch"));
+            writer.println("Total Time: " + time + "ms");
+            writer.println("Number of Hot Subgraphs: " + info.getNumHotSubgraphs());
+            LinkedHashMap<Integer, Integer> patternsPerEdge = info.getNumPatternsPerNumEdges();
+            int size = patternsPerEdge.size();
+            for (int i = 0; i < size; i++){
+                int numGraphs = patternsPerEdge.get(i);
+                writer.println("Number of Hot " + i + "-Edge Subgraphs: " + numGraphs);
+            }
+            writer.close();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }

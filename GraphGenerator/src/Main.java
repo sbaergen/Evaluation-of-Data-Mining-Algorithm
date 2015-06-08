@@ -35,7 +35,9 @@ public class Main {
         m.createResultFile(endTime-startTime, info, numEdges);
     }
 
-
+    /**
+     * Creates the Graph using the user defined values.
+     */
     public void createGraph() {
         int nodePosition;
         int numEFG = Integer.parseInt(values.get(6));
@@ -59,6 +61,10 @@ public class Main {
         }
     }
 
+    /**
+     * Adds all EFGs to the graphs Vector
+     * @param numEFG The number of EFGs to add
+     */
     public void addEFG(int numEFG){
         int[] sizes = getEFGSizes(numEFG);
         for (int i = 0; i < numEFG; i++){
@@ -70,6 +76,12 @@ public class Main {
         }
     }
 
+    /**
+     * Calculates the size in number of nodes in each EFG
+     * @param numEFG the number of EFGs in the dataset
+     * @return int[] that contains an array of integers where each element corresponds
+     * to the number of nodes in that EFG
+     */
     public int[] getEFGSizes(int numEFG){
         int numNodes = Integer.parseInt(values.get(7));
         String dist = values.get(11);
@@ -77,6 +89,7 @@ public class Main {
         int index;
         int[] sizes = new int[numEFG];
         switch (dist) {
+            //Gaussian
             case ("G"):
                 for (int i = 0; i < numEFG; i++){
                     sizes[i] = (int) getGaussianWeight(Double.parseDouble(values.get(12)), numNodes/numEFG, Integer.parseInt(values.get(14)));
@@ -102,6 +115,7 @@ public class Main {
                 }
                 position+=3;
                 break;
+            //Poisson
             case ("P"):
                 for (int i = 0; i < numEFG; i++) {
                     sizes[i] = (int) getPoissonNumber(numNodes / numEFG);
@@ -127,6 +141,7 @@ public class Main {
                 }
                 position++;
                 break;
+            //Exponential
             case ("E"):
                 for (int i = 0; i < numEFG; i++) {
                     double rate = Double.parseDouble(values.get(6));
@@ -156,6 +171,7 @@ public class Main {
                 }
                 position++;
                 break;
+            //Uniform
             case ("U"):
                 for (int i = 0; i < numEFG; i++) {
                     if (numNodes % numEFG < (i + 1))
@@ -169,7 +185,12 @@ public class Main {
         return sizes;
     }
 
-
+    /**
+     * Adds attributes to a node based on an inputed probability via a Bernoulli test
+     * @param node The node the attributes are added to
+     * @param attrProb The probability used for the bernoulli test
+     * @param numAttr The maximum number of attributes possible
+     */
     public void addAttributes(Node node, double attrProb, int numAttr){
         int tempPosition;
         boolean insertAttr;
@@ -185,6 +206,12 @@ public class Main {
         }
     }
 
+    /**
+     * Adds edges too a given EFG. 2 Bernoulli tests are done between each set of 2 nodes
+     * within an EFG (one forward, one backward).
+     * @param efg The EFG where edges are added
+     * @param edgeProb The probability used for the bernoulli test
+     */
     public void addEdges(EFG efg, double edgeProb){
         int edgePosition = position;
         boolean insertEdge;
@@ -260,21 +287,28 @@ public class Main {
 
     }
 
+    /**
+     * Gets a weight randomly determined on a given distribution.
+     * @return The weight as a double
+     */
     public double getDistributedWeight(){
         double weight = 0;
         String dist = values.get(position).toUpperCase();
         switch (dist) {
+            //Uniform
             case ("U"):
                 int min = Integer.parseInt(values.get(position + 1));
                 int max = Integer.parseInt(values.get(position + 2));
                 weight = getUniformWeight(min, max);
                 position+=3;
                 break;
+            //Exponential
             case ("E"):
                 double rate = Double.parseDouble(values.get(position + 1));
                 weight = getExponentialWeight(rate);
                 position+=2;
                 break;
+            //Gaussian
             case ("G"):
                 double height = Double.parseDouble(values.get(position + 1));
                 int center = Integer.parseInt(values.get(position + 2));
@@ -282,6 +316,7 @@ public class Main {
                 weight = getGaussianWeight(height, center, width);
                 position+=4;
                 break;
+            //Poisson
             case ("P"):
                 double mean = Double.parseDouble(values.get(position + 1));
                 weight = getPoissonNumber(mean);
@@ -291,20 +326,29 @@ public class Main {
         return weight;
     }
 
+    /**
+     * Performs a bernoulli test with a given probability
+     * @param prob A double between 0 and 1 to use for the bernoulli test
+     * @return The result of the bernoulli test as a boolean
+     */
     public boolean getBernoulli (double prob){
         Random rnd = new Random();
         if (rnd.nextDouble() < prob)
             return true;
         return false;
     }
-//TODO: FIX NO NEW LINE
+
+    /**
+     * Parses a file and puts the parameters into a String vector
+     * @param filename The name of the file to be parsed
+     * @return String vector with parameters
+     */
     public Vector<String> manualParse(String filename){
             Vector<String> values = new Vector<String>();
             try {
                 BufferedReader stream = new BufferedReader(new FileReader(filename));
                 String arguments = "";
                 String input;
-                System.out.println(System.getProperty("line.separator"));
                 while ((input = stream.readLine()) != null) {
                     input = input + " ";
                     input = input.replaceAll("//.*", " ");
@@ -312,7 +356,6 @@ public class Main {
                 }
 
                 String[] params = arguments.split(" ");
-                //System.out.println(arguments);
                 for (String c : params) {
                     values.add(c);
                 }
@@ -323,7 +366,12 @@ public class Main {
             return values;
         }
 
-
+    /**
+     * Returns random number on uniform distribution
+     * @param min The minimum number
+     * @param max The maximum number
+     * @return Random number on Uniform distribution
+     */
     public double getUniformWeight (int min, int max){
         Random rnd = new Random();
         return rnd.nextInt(max-min+1)+min;
@@ -338,10 +386,6 @@ public class Main {
         return 1-Math.exp(-rate*x);
     }
 
-    public double getExponentialPDF (double rate, double x){
-        return rate*Math.exp(-rate*x);
-    }
-
     public double getInverseExponentialCDF (double rate, double x){
         return -Math.log(1-x)/rate;
     }
@@ -350,13 +394,6 @@ public class Main {
         Random rnd = new Random();
         double number = rnd.nextDouble();
         return (Math.log(1-number)/-rate) + 1;
-    }
-
-
-    public double getPoissonNode (int mean){
-        Random rnd = new Random();
-        int number = rnd.nextInt(2*mean);
-        return Math.pow(mean, number)/(Math.exp(mean)*factorial(number));
     }
 
     /**
@@ -377,19 +414,6 @@ public class Main {
         return k - 1;
     }
 
-
-    public int factorial (int number) {
-        if (number <= 1)
-            return 1;
-        return number*factorial(number-1);
-    }
-
-    public double getGaussianNode (double height, double center, double width){
-        Random rnd = new Random();
-        double number = rnd.nextDouble();
-        number*=rnd.nextInt(Math.abs((int)(2*width)));
-        return height*Math.exp(-Math.pow(number-center,2)/(2*width*width));
-    }
 
     public double getGaussianWeight (double height, int center, int width) {
         Random rnd = new Random();
@@ -426,7 +450,10 @@ public class Main {
         visitor.visit(tree);
     }
 
-
+    /**
+     * Creates the graph file to be inputted into AFGMiner
+     * @return the total Edges in the dataset
+     */
 	public int createGraphFile(){
 		int size = graphs.size();
         int totalEdges = 0;
@@ -490,6 +517,9 @@ public class Main {
         return totalEdges;
 	}
 
+    /**
+     * Creates the configuration file for AFGMiner
+     */
     public void createConfigFile(){
         try {
             PrintWriter writer = new PrintWriter(CONFIG, "UTF-8");
@@ -506,6 +536,12 @@ public class Main {
         }
     }
 
+    /**
+     * Creates the result file to display the results obtained from AFGMiner including Machine characteristics.
+     * @param time Time taken to run AFGMiner
+     * @param info All info from AFGMiner
+     * @param numEdges Number of Edges in Dataset
+     */
     public void createResultFile(long time, ReturnInfo info, int numEdges){
         try {
             PrintWriter writer = new PrintWriter(RESULT, "UTF-8");

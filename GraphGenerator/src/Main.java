@@ -26,12 +26,13 @@ public class Main {
         Main m = new Main();
         values = m.manualParse(args[0]);
         m.createGraph();
+        int numEdges = m.createGraphFile();
         m.createConfigFile();
         String arguments[] = {CONFIG, COUNTERS, OUTPUT, INPUT};
         long startTime = System.currentTimeMillis();
         ReturnInfo info = mining.manager.MinerManager.main(arguments);
         long endTime = System.currentTimeMillis();
-        m.createResultFile(endTime-startTime, info);
+        m.createResultFile(endTime-startTime, info, numEdges);
     }
 
 
@@ -56,7 +57,6 @@ public class Main {
             }
             addEdges(e, edgeProb);
         }
-        createGraphFile();
     }
 
     public void addEFG(int numEFG){
@@ -306,12 +306,9 @@ public class Main {
                 String input;
                 System.out.println(System.getProperty("line.separator"));
                 while ((input = stream.readLine()) != null) {
-                    //System.out.println(input);
-                    //input = " " + input;
+                    input = input + " ";
                     input = input.replaceAll("//.*", " ");
                     arguments += input.replaceAll("\\s+", " ");
-                    //arguments += input;
-                    System.out.println(arguments);
                 }
 
                 String[] params = arguments.split(" ");
@@ -430,8 +427,9 @@ public class Main {
     }
 
 
-	public void createGraphFile(){
+	public int createGraphFile(){
 		int size = graphs.size();
+        int totalEdges = 0;
 		//http://stackoverflow.com/questions/2885173/java-how-to-create-a-file-and-write-to-a-file 25/05/2015 for PrintWriter lines
 		try {
 			PrintWriter writer = new PrintWriter(INPUT, "UTF-8");
@@ -478,6 +476,7 @@ public class Main {
 					}
 					
 				}
+                totalEdges+=numEdges;
 				writer.println(numEdges);
                 if (numEdges > 0)
 				    writer.println(edgeString);
@@ -488,6 +487,7 @@ public class Main {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+        return totalEdges;
 	}
 
     public void createConfigFile(){
@@ -506,13 +506,21 @@ public class Main {
         }
     }
 
-    public void createResultFile(long time, ReturnInfo info){
+    public void createResultFile(long time, ReturnInfo info, int numEdges){
         try {
             PrintWriter writer = new PrintWriter(RESULT, "UTF-8");
-            writer.println(System.getProperties().getProperty("os.name"));
-            writer.println(System.getProperties().getProperty("os.version"));
-            writer.println(System.getProperties().getProperty("os.arch"));
+            //System.getProperties().list(System.out);
+            writer.println("Java.vm.version: " + System.getProperties().getProperty("java.vm.version"));
+            writer.println("Java.runtime.version: " + System.getProperties().getProperty("java.runtime.version"));
+            writer.println("Java.class.version: " + System.getProperties().getProperty("java.class.version"));
+            writer.println("Sun.management.compiler: " + System.getProperties().getProperty("sun.management.compiler"));
+            writer.println("Java.vm.specification.version: " + System.getProperties().getProperty("java.vm.specification.version"));
+            writer.println("OS Name: " + System.getProperties().getProperty("os.name"));
+            writer.println("OS Version: " + System.getProperties().getProperty("os.version"));
+            writer.println("OS Arch: " + System.getProperties().getProperty("os.arch"));
+            writer.println("Available Processors: " + Runtime.getRuntime().availableProcessors());
             writer.println("Total Time: " + time + "ms");
+            writer.println("Total Edges: " + numEdges);
             writer.println("Number of Hot Subgraphs: " + info.getNumHotSubgraphs());
             LinkedHashMap<Integer, Integer> patternsPerEdge = info.getNumPatternsPerNumEdges();
             int size = patternsPerEdge.size();

@@ -1,7 +1,12 @@
-Mac OS X
-10.10.3
-x86_64
-Total Time: 1781ms
-Number of Hot Subgraphs: 33
-Number of Hot 0-Edge Subgraphs: 6
-Number of Hot 1-Edge Subgraphs: 27
+Java.vm.version: 25.45-b02
+Java.runtime.version: 1.8.0_45-b14
+Java.class.version: 52.0
+Sun.management.compiler: HotSpot 64-Bit Tiered Compilers
+Java.vm.specification.version: 1.8
+OS Name: Mac OS X
+OS Version: 10.10.3
+OS Arch: x86_64
+Available Processors: 8
+Total Time: 45ms
+Total Edges: 18
+Number of Hot Subgraphs: 0

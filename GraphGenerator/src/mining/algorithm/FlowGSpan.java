@@ -310,7 +310,7 @@ public class FlowGSpan implements Runnable{
 	 */
 	private void findFrequentNodes(Vector<PatternGraph> nodeSet, int start, int end) {
 		Vector<String> attrToPermute = new Vector<String>();
-		
+		int count = 0;
 		while(start <= end) {
 			int attr = existingAttrs.get(start);
 			++start;
@@ -414,7 +414,6 @@ public class FlowGSpan implements Runnable{
 					if(getMaxSupport(currWeightSupport/totalWeight, currFreqSupport/totalFreq) > minSupport) {
 						//Register supports in graph map
 						Vector<Double> supports = new Vector<Double>();
-                        System.out.println(i);
 
                         //DEBUG
 						if(currWeightSupport/totalWeight >= 1) {
@@ -447,7 +446,7 @@ public class FlowGSpan implements Runnable{
 				//If there are <=1 frequent items, then it is the end. This prevents reading through the 
 				//database again, when there is only one frequent itemset.
 			}while(attrToPermute.size() > 1 && itemsetNum < FlowGSpanController.MAX_ATTRIBUTES_TOTAL);
-		}	
+		}
 	}
 
 	/**

@@ -5,8 +5,8 @@ import java.util.Random;
 import java.util.Vector;
 
 import mining.algorithm.ReturnInfo;
-import org.antlr.v4.runtime.misc.NotNull;
-import org.antlr.v4.runtime.*;
+//import org.antlr.v4.runtime.misc.NotNull;
+//import org.antlr.v4.runtime.*;
 
 import data.EFG;
 import data.Node;
@@ -84,7 +84,7 @@ public class Main {
      */
     public int[] getEFGSizes(int numEFG){
         int numNodes = Integer.parseInt(values.get(7));
-        String dist = values.get(11);
+        String dist = values.get(11).toUpperCase();
         int sum = 0;
         int index;
         int[] sizes = new int[numEFG];
@@ -144,7 +144,7 @@ public class Main {
             //Exponential
             case ("E"):
                 for (int i = 0; i < numEFG; i++) {
-                    double rate = Double.parseDouble(values.get(6));
+                    double rate = Double.parseDouble(values.get(12));
                     double num = getInverseExponentialCDF(rate, 0.99);
                     num /= (double) numEFG;
                     num *= (double) (i + 1);
@@ -419,11 +419,14 @@ public class Main {
         Random rnd = new Random();
         double number = rnd.nextDouble();
         double negative = rnd.nextDouble();
-        if (negative < 0.5)
-            return -Math.sqrt(-2 * Math.pow(width, 2) * Math.log(number / height)) + center;
+        if (negative < 0.5) {
+            double value = -Math.sqrt(-2 * Math.pow(width, 2) * Math.log(number / height)) + center;
+            if (value > 0)
+                return value;
+        }
         return Math.sqrt(-2 * Math.pow(width, 2) * Math.log(number / height)) + center;
     }
-
+/*
     public static void parseText(@NotNull String text){
         InputParserLexer lexer = new InputParserLexer(new ANTLRInputStream(text));
         parse(lexer);
@@ -448,7 +451,7 @@ public class Main {
 
         ExtendedVisitor visitor = new ExtendedVisitor();
         visitor.visit(tree);
-    }
+    }*/
 
     /**
      * Creates the graph file to be inputted into AFGMiner
@@ -544,30 +547,37 @@ public class Main {
      */
     public void createResultFile(long time, ReturnInfo info, int numEdges){
         try {
-            PrintWriter writer = new PrintWriter(RESULT, "UTF-8");
+            String processor;
+            Runtime rt = Runtime.getRuntime();
+            Process p = rt.exec("sysctl -n machdep.cpu.brand_string");
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            processor = br.readLine();
+            System.out.println(processor);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(RESULT));
             //System.getProperties().list(System.out);
-            writer.println("Java.vm.version: " + System.getProperties().getProperty("java.vm.version"));
-            writer.println("Java.runtime.version: " + System.getProperties().getProperty("java.runtime.version"));
-            writer.println("Java.class.version: " + System.getProperties().getProperty("java.class.version"));
-            writer.println("Sun.management.compiler: " + System.getProperties().getProperty("sun.management.compiler"));
-            writer.println("Java.vm.specification.version: " + System.getProperties().getProperty("java.vm.specification.version"));
-            writer.println("OS Name: " + System.getProperties().getProperty("os.name"));
-            writer.println("OS Version: " + System.getProperties().getProperty("os.version"));
-            writer.println("OS Arch: " + System.getProperties().getProperty("os.arch"));
-            writer.println("Available Processors: " + Runtime.getRuntime().availableProcessors());
-            writer.println("Total Time: " + time + "ms");
-            writer.println("Total Edges: " + numEdges);
-            writer.println("Number of Hot Subgraphs: " + info.getNumHotSubgraphs());
+            writer.write("--------MACHINE INFORMATION--------\n\n");
+            writer.write("Processor: " + processor);
+            writer.write("\nJava.vm.version: " + System.getProperties().getProperty("java.vm.version"));
+            writer.write("\nJava.runtime.version: " + System.getProperties().getProperty("java.runtime.version"));
+            writer.write("\nJava.class.version: " + System.getProperties().getProperty("java.class.version"));
+            writer.write("\nSun.management.compiler: " + System.getProperties().getProperty("sun.management.compiler"));
+            writer.write("\nJava.vm.specification.version: " + System.getProperties().getProperty("java.vm.specification.version"));
+            writer.write("\nOS Name: " + System.getProperties().getProperty("os.name"));
+            writer.write("\nOS Version: " + System.getProperties().getProperty("os.version"));
+            writer.write("\nOS Arch: " + System.getProperties().getProperty("os.arch"));
+            writer.write("\nAvailable Processors: " + Runtime.getRuntime().availableProcessors());
+            writer.write("\n\n--------TEST RESULTS--------\n");
+            writer.write("\nTotal Time: " + time + "ms");
+            writer.write("\nTotal Edges: " + numEdges);
+            writer.write("\nNumber of Hot Subgraphs: " + info.getNumHotSubgraphs());
             LinkedHashMap<Integer, Integer> patternsPerEdge = info.getNumPatternsPerNumEdges();
             int size = patternsPerEdge.size();
             for (int i = 0; i < size; i++){
                 int numGraphs = patternsPerEdge.get(i);
-                writer.println("Number of Hot " + i + "-Edge Subgraphs: " + numGraphs);
+                writer.write("\nNumber of Hot " + i + "-Edge Subgraphs: " + numGraphs);
             }
             writer.close();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
+        } catch (IOException e){
             e.printStackTrace();
         }
     }

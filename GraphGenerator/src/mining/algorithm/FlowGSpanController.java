@@ -85,7 +85,7 @@ public class FlowGSpanController {
 	double minSupport;
 	double maxNodes;
 	int numThreads;
-	
+
 	boolean usingDB;
 	
 	/**
@@ -209,7 +209,7 @@ public class FlowGSpanController {
 		return attributeNameTable.indexOf(name);
 	}
 	
-	public void run() {
+	public int run() {
 		int generation = 0;
 		int startIndex = 0;
 		int attrsDivision = existingAttrs.size() / ((numThreads > 0)? numThreads : 1);
@@ -260,7 +260,6 @@ public class FlowGSpanController {
 				instance.setEndIndex(endIndex);
 				
 				instance.run();
-				
 				patternsToProcess.clear();
 				freqAttrs.clear();
 				freqEdges.clear(); //FGSpan-edgecomb
@@ -295,8 +294,10 @@ public class FlowGSpanController {
 			
 				++generation;
 			}
+            return instance.getCount();
 		}
 		else {
+            int count = 0;
 			for(int i = 0; i < numThreads; i++) {
 				FlowGSpan instance = null;
 				if(usingDB == true) {
@@ -306,7 +307,7 @@ public class FlowGSpanController {
 					instance = new FlowGSpan(dataset, minSupport, maxNodes);	
 				}
 				fgspanInstances.add(instance);
-			}
+            }
 		
 			ExecutorService executor = Executors.newFixedThreadPool(numThreads);
 			
@@ -351,7 +352,6 @@ public class FlowGSpanController {
 				for(Integer patternId : tempMap.keySet()) {
 					instructionMap.put(patternId, tempMap.get(patternId));
 				}
-			
 				instance.getResultSizes().clear();
 				instance.getResultSet().clear();
 				instance.getInstructionMap().clear();
@@ -437,6 +437,7 @@ public class FlowGSpanController {
 					instance.getInstructionMap().clear();
 					instance.getChildFreqAttrs().clear();
 					instance.getChildSet().clear();
+                    count+=instance.getCount();
 				}
 				//System.out.println("FreqAttrs = " + freqAttrs.toString());
 				Arrays.sort(freqAttrs.toArray());
@@ -453,6 +454,7 @@ public class FlowGSpanController {
 			
 				++generation;
 			}
+            return count;
 		}
 	}
 	

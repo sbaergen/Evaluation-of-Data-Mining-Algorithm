@@ -17,6 +17,7 @@ public class Main {
     final static String COUNTERS = "counters.txt";
     final static String OUTPUT = "output.txt";
     final static String RESULT = "result.txt";
+    final static String CSV = "data.csv";
     static Vector<EFG> graphs;
     static Vector<String> values;
     static int position = 12;
@@ -29,9 +30,11 @@ public class Main {
         int numEdges = m.createGraphFile();
         m.createConfigFile();
         String arguments[] = {CONFIG, COUNTERS, OUTPUT, INPUT};
+        System.out.println("Starting AFGMiner");
         long startTime = System.currentTimeMillis();
         ReturnInfo info = mining.manager.MinerManager.main(arguments);
         long endTime = System.currentTimeMillis();
+        System.out.println("Compiling Results");
         m.createResultFile(endTime-startTime, info, numEdges);
     }
 
@@ -192,7 +195,7 @@ public class Main {
      * @param numAttr The maximum number of attributes possible
      */
     public void addAttributes(Node node, double attrProb, int numAttr){
-        int tempPosition;
+        int tempPosition = position;
         boolean insertAttr;
         for (int i = 0; i < numAttr; i++){
             insertAttr = getBernoulli(attrProb);
@@ -203,6 +206,12 @@ public class Main {
             }
             if (i < numAttr-1)
                 position = tempPosition;
+        }
+        //Ensure every node has at least 1 attribute
+        if (node.getAttributes().isEmpty()){
+            position = tempPosition;
+            Random rd = new Random();
+            node.addAttribute(rd.nextInt(numAttr), getDistributedWeight());
         }
     }
 
@@ -419,6 +428,8 @@ public class Main {
         Random rnd = new Random();
         double number = rnd.nextDouble();
         double negative = rnd.nextDouble();
+        if (number >= height)
+            height = number + .1;
         if (negative < 0.5) {
             double value = -Math.sqrt(-2 * Math.pow(width, 2) * Math.log(number / height)) + center;
             if (value > 0)
@@ -460,6 +471,8 @@ public class Main {
 	public int createGraphFile(){
 		int size = graphs.size();
         int totalEdges = 0;
+        int totalAttrWeight = 0;
+        int totalNodeWeight = 0;
 		//http://stackoverflow.com/questions/2885173/java-how-to-create-a-file-and-write-to-a-file 25/05/2015 for PrintWriter lines
 		try {
 			PrintWriter writer = new PrintWriter(INPUT, "UTF-8");
@@ -552,7 +565,6 @@ public class Main {
             Process p = rt.exec("sysctl -n machdep.cpu.brand_string");
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             processor = br.readLine();
-            System.out.println(processor);
             BufferedWriter writer = new BufferedWriter(new FileWriter(RESULT));
             //System.getProperties().list(System.out);
             writer.write("--------MACHINE INFORMATION--------\n\n");
@@ -569,6 +581,8 @@ public class Main {
             writer.write("\n\n--------TEST RESULTS--------\n");
             writer.write("\nTotal Time: " + time + "ms");
             writer.write("\nTotal Edges: " + numEdges);
+            writer.write("\nTotal Subgraphs Tested: " + info.getCount());
+            System.out.println(info.getCount());
             writer.write("\nNumber of Hot Subgraphs: " + info.getNumHotSubgraphs());
             LinkedHashMap<Integer, Integer> patternsPerEdge = info.getNumPatternsPerNumEdges();
             int size = patternsPerEdge.size();
@@ -577,6 +591,28 @@ public class Main {
                 writer.write("\nNumber of Hot " + i + "-Edge Subgraphs: " + numGraphs);
             }
             writer.close();
+            File f = new File(CSV);
+            if (f.isFile())
+                writer = new BufferedWriter(new FileWriter(CSV, true));
+            else
+                writer = new BufferedWriter(new FileWriter(CSV));
+            String csvString = "";
+            int numValues = values.size();
+
+            for (int i = 0; i < numValues; i++)
+                csvString+=values.get(i) + ',';
+
+            csvString += time + ',' + numEdges + ',' + info.getCount() + ',' + info.getNumHotSubgraphs().toString();
+
+            for (int i = 0; i < size; i++) {
+                int numGraphs = patternsPerEdge.get(i);
+                csvString+= ',' + numGraphs;
+            }
+
+            writer.write(csvString);
+            writer.close();
+
+            System.out.println(time);
         } catch (IOException e){
             e.printStackTrace();
         }

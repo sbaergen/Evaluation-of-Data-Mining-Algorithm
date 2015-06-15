@@ -1,0 +1,31 @@
+import java.io.*;
+
+public class exploration {
+    
+    int[] MAXATTR = {1, 1000}
+    int[] MAXFORWARD = {0, 100}
+    int[] MAXBACKARD = {0, 100}
+    int[] GAP = {0, 20}
+    int[] MINSUPPORT = {0, 1}
+    int[] MAXNODES = {10, 100}
+    int[] EFGS = {1, 100}
+    int[] NODES = {10, 10000}
+    int[] ATTR = {10, 100}
+    double[] APROB = {0.1, 1}
+    double[] EPROB = {0, 1}
+    char[] DIST = {'U', 'E', 'G'}
+    double[] rate = {0, 10}
+    
+    public static void main (String[] args) {
+	
+        BufferedWriter writer = new BufferedWriter(new FileWriter(args[0]));
+        writer.write();
+    }
+
+    public int randomRange (int min, int max) {
+
+        Random rd = new Random();
+return rd.nextInt(max+min)+min;
+    }
+
+}

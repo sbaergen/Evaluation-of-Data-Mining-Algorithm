@@ -425,7 +425,8 @@ public class MinerManager {
 		    FlowGSpanController fgspanController = new FlowGSpanController(dataset, minSupport, 
 		    		maxNodes, FlowGSpanController.NUM_FGSPAN_THREADS);
 			Long startTime = System.currentTimeMillis();
-		    fgspanController.run();
+		    int count = fgspanController.run();
+			info.setCount(count);
 		    Long endTime = System.currentTimeMillis(); 
 		    info.setNumPatternsPerNumEdges(fgspanController.writeResults());
 		    String numSubgraphs = "\n\nNumber of Frequent Subgraphs: " + FlowGSpanController.NUMBER_SUBGRAPHS;

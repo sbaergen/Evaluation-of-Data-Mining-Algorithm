@@ -121,6 +121,8 @@ public class FlowGSpan implements Runnable{
 	
 	Vector<Integer> attributesToLookFor;
 
+	static int count = 0;
+
 	/**
 	 * Constructor for running datasets loaded from a database.
 	 * @param db Dataset (EFGs with hotness higher than MIN_METHOD_HOTNESS).
@@ -168,8 +170,16 @@ public class FlowGSpan implements Runnable{
 		//attributesToLookFor.add(FlowGSpanController.getAttributeIndex("inline1"));
 		
 	}
-	
-	/**
+
+    public static int getCount() {
+        return count;
+    }
+
+    public static void setCount(int count) {
+        FlowGSpan.count = count;
+    }
+
+    /**
 	 * Constructor for datasets loaded from input text file.
 	 * @param db Dataset loaded from text file.
 	 * @param minSup Minimum support value.
@@ -333,13 +343,14 @@ public class FlowGSpan implements Runnable{
 				ExecutionFlowGraph g = graphDB.get(methodId);
 				graphMatch(newG, g, methodId, newG.getMinerState(methodId), true, 0, v.getId(), v.getId(), null);
 			}
+            count++;
 			if(getMaxSupport(currWeightSupport/totalWeight, currFreqSupport/totalFreq) > minSupport) {
 				//Register supports in graph map.
 				Vector<Double> supports = new Vector<Double>();
 				
-				if(currWeightSupport/totalWeight >= 1) {
-					System.err.print("WEIGHT SUPPORT EXCEEDED LIMITS!!!\n");
-				}
+				//if(currWeightSupport/totalWeight >= 1) {
+				//	System.err.print("WEIGHT SUPPORT EXCEEDED LIMITS!!!\n");
+				//}
 				supports.add(currWeightSupport/totalWeight);
 				supports.add(currFreqSupport/totalFreq);
 				currNumNodes = newG.getVertexSet().size();
@@ -411,6 +422,7 @@ public class FlowGSpan implements Runnable{
 						ExecutionFlowGraph g = graphDB.get(methodId);
 						graphMatch(newG, g, methodId, newG.getMinerState(methodId), true, 0, v.getId(), v.getId(), null);
 					}
+                    count++;
 					if(getMaxSupport(currWeightSupport/totalWeight, currFreqSupport/totalFreq) > minSupport) {
 						//Register supports in graph map
 						Vector<Double> supports = new Vector<Double>();
@@ -699,16 +711,16 @@ public class FlowGSpan implements Runnable{
 		}
 		
 		boolean canIncludeInOutput = (getMaxSupport(currWeightSupport/totalWeight, currFreqSupport/totalFreq) > minSupport);
-		
+		count++;
 		/*if(child.getPatternType() == 2) {
 			if(currWeightSupport > 0 || currFreqSupport > 0) {
 				canIncludeInOutput = true;
 			}
 		}*/
 		if(canIncludeInOutput == true) {
-			if(currWeightSupport/totalWeight >= 1) {
-				System.err.print("WEIGHT SUPPORT EXCEEDED LIMITS!!!\n");
-			}
+			//if(currWeightSupport/totalWeight >= 1) {
+			//	System.err.print("WEIGHT SUPPORT EXCEEDED LIMITS!!!\n");
+			//}
 		
 			//Register supports in graph map
 			Vector<Double> supports = new Vector<Double>();

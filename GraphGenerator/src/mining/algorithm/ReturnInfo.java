@@ -10,10 +10,18 @@ public class ReturnInfo {
 
     private LinkedHashMap<Integer, Integer> numPatternsPerNumEdges;
     private AtomicInteger numHotSubgraphs;
-
+    private int count;
 
     public ReturnInfo() {
 
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public AtomicInteger getNumHotSubgraphs() {

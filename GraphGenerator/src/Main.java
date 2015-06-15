@@ -591,25 +591,45 @@ public class Main {
                 writer.write("\nNumber of Hot " + i + "-Edge Subgraphs: " + numGraphs);
             }
             writer.close();
+            String header = "";
+            String data = "";
             File f = new File(CSV);
             if (f.isFile())
                 writer = new BufferedWriter(new FileWriter(CSV, true));
-            else
+            else {
                 writer = new BufferedWriter(new FileWriter(CSV));
-            String csvString = "";
+                header = "MAXATTR, MAXFOWARD, MAXBACKWARD, GAP, MINSUPPORT, MAXNODES, EFGS, NODES, NUMATTR, ATTRBERN," +
+                        " EDGEBERN, NODES/EFG, P1, P2, P3, EDGE WEIGHT, P1, P2, P3, NODE WEIGHT, P1, P2, P3, " +
+                        "ATTR WEIGHT, P1, P2, P3, TIME, NUMEDGES, TOTALSUBGRAPHS, HOTSUBGRAPHS, 0-EDGE, 1-EDGE, 2-EDGE," +
+                        " 3-EDGE, 4-EDGE, 5-EDGE\n" ;
+                writer.write(header);
+            }
             int numValues = values.size();
 
-            for (int i = 0; i < numValues; i++)
-                csvString+=values.get(i) + ',';
+            for (int i = 0; i < numValues; i++) {
+                String current = values.get(i).toUpperCase();
+                switch (current){
+                    case ("E"):
+                        data += current + "," + values.get(i+1) + ", -,";
+                        i++;
+                        break;
+                    case ("U"):
+                        data += current + "," + values.get(i+1) + "," + values.get(i+2) + ", -,";
+                        i+=2;
+                        break;
+                    default:
+                        data += values.get(i) + ",";
+                }
+            }
 
-            csvString += time + ',' + numEdges + ',' + info.getCount() + ',' + info.getNumHotSubgraphs().toString();
+            data += time + "," + numEdges + "," + info.getCount() + "," + info.getNumHotSubgraphs().toString();
 
             for (int i = 0; i < size; i++) {
                 int numGraphs = patternsPerEdge.get(i);
-                csvString+= ',' + numGraphs;
+                data+= "," + numGraphs;
             }
 
-            writer.write(csvString);
+            writer.write(data+'\n');
             writer.close();
 
             System.out.println(time);

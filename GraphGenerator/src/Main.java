@@ -22,7 +22,7 @@ public class Main {
     static int position = 12;
 
     public static void main(String args[]) {
-        graphs = new Vector<>();
+        graphs = new Vector<EFG>();
         Main m = new Main();
         values = m.manualParse(args[0]);
         m.createGraph();

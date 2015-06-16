@@ -1,4 +1,5 @@
 // Generated from InputParser.g4 by ANTLR 4.5
+/*
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -34,7 +35,7 @@ public class InputParserParser extends Parser {
 
 	/**
 	 * @deprecated Use {@link #VOCABULARY} instead.
-	 */
+	 *
 	@Deprecated
 	public static final String[] tokenNames;
 	static {
@@ -439,4 +440,4 @@ public class InputParserParser extends Parser {
 			_decisionToDFA[i] = new DFA(_ATN.getDecisionState(i), i);
 		}
 	}
-}
+}*/

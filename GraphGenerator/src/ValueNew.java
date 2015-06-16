@@ -1,7 +1,7 @@
 /**
  * Created by seanbaergen on 15-05-28.
  */
-
+/*
 //http://stackoverflow.com/questions/15610183/if-else-statements-in-antlr-using-listeners 28/05/2015
 public class ValueNew {
 
@@ -59,6 +59,6 @@ public class ValueNew {
     public String toString() {
         return String.valueOf(value);
     }
-}
+}*/
 
 

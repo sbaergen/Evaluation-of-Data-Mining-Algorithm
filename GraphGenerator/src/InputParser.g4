@@ -26,7 +26,7 @@ ID: CHAR+;
 //parse: file EOF;
 
 //file: (beginning NL)*;
-
+/*
 beginning:
     INT //EFGS
     INT //NODES
@@ -56,4 +56,4 @@ distParams
     ;
 
 
-
+*/

@@ -1,8 +1,7 @@
 import java.io.*;
-import java.util.BitSet;
-import java.util.LinkedHashMap;
-import java.util.Random;
-import java.util.Vector;
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import mining.algorithm.ReturnInfo;
 //import org.antlr.v4.runtime.misc.NotNull;
@@ -592,13 +591,25 @@ public class Main {
             }
             writer.close();
             String header = "";
-            String data = "";
+            String data = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(new Date()) + ",";
             File f = new File(CSV);
             if (f.isFile())
                 writer = new BufferedWriter(new FileWriter(CSV, true));
             else {
                 writer = new BufferedWriter(new FileWriter(CSV));
-                header = "MAXATTR, MAXFOWARD, MAXBACKWARD, GAP, MINSUPPORT, MAXNODES, EFGS, NODES, NUMATTR, ATTRBERN," +
+                writer.write("--------MACHINE INFORMATION--------\n\n");
+                writer.write("Processor: " + processor);
+                writer.write("\nJava.vm.version: " + System.getProperties().getProperty("java.vm.version"));
+                writer.write("\nJava.runtime.version: " + System.getProperties().getProperty("java.runtime.version"));
+                writer.write("\nJava.class.version: " + System.getProperties().getProperty("java.class.version"));
+                writer.write("\nSun.management.compiler: " + System.getProperties().getProperty("sun.management.compiler"));
+                writer.write("\nJava.vm.specification.version: " + System.getProperties().getProperty("java.vm.specification.version"));
+                writer.write("\nOS Name: " + System.getProperties().getProperty("os.name"));
+                writer.write("\nOS Version: " + System.getProperties().getProperty("os.version"));
+                writer.write("\nOS Arch: " + System.getProperties().getProperty("os.arch"));
+                writer.write("\nAvailable Processors: " + Runtime.getRuntime().availableProcessors());
+                writer.write("\n\n--------TEST RESULTS--------\n");
+                header = " DATE ,MAXATTR, MAXFOWARD, MAXBACKWARD, GAP, MINSUPPORT, MAXNODES, EFGS, NODES, NUMATTR, ATTRBERN," +
                         " EDGEBERN, NODES/EFG, P1, P2, P3, EDGE WEIGHT, P1, P2, P3, NODE WEIGHT, P1, P2, P3, " +
                         "ATTR WEIGHT, P1, P2, P3, TIME, NUMEDGES, TOTALSUBGRAPHS, HOTSUBGRAPHS, 0-EDGE, 1-EDGE, 2-EDGE," +
                         " 3-EDGE, 4-EDGE, 5-EDGE\n" ;

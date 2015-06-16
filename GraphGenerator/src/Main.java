@@ -91,7 +91,7 @@ public class Main {
         int index;
         int[] sizes = new int[numEFG];
         //Gaussian
-        if (dist == "G") {
+        if (dist.equals("G")) {
             for (int i = 0; i < numEFG; i++) {
                 sizes[i] = (int) getGaussianWeight(Double.parseDouble(values.get(12)), numNodes / numEFG, Integer.parseInt(values.get(14)));
                 if (sizes[i] <= 0)
@@ -117,7 +117,7 @@ public class Main {
             position += 3;
         }
             //Poisson
-        else if  (dist == "P") {
+        else if  (dist.equals("P")) {
             for (int i = 0; i < numEFG; i++) {
                 sizes[i] = (int) getPoissonNumber(numNodes / numEFG);
                 if (sizes[i] == 0)
@@ -143,7 +143,7 @@ public class Main {
             position++;
         }
             //Exponential
-        else if (dist == "E") {
+        else if (dist.equals("E")) {
             for (int i = 0; i < numEFG; i++) {
                 double rate = Double.parseDouble(values.get(12));
                 double num = getInverseExponentialCDF(rate, 0.99);
@@ -301,20 +301,20 @@ public class Main {
         double weight = 0;
         String dist = values.get(position).toUpperCase();
             //Uniform
-            if (dist == "U") {
+            if (dist.equals("U")) {
                 int min = Integer.parseInt(values.get(position + 1));
                 int max = Integer.parseInt(values.get(position + 2));
                 weight = getUniformWeight(min, max);
                 position += 3;
             }
             //Exponential
-            else if (dist == "E") {
+            else if (dist.equals("E")) {
                 double rate = Double.parseDouble(values.get(position + 1));
                 weight = getExponentialWeight(rate);
                 position += 2;
             }
             //Gaussian
-            else if (dist == "G") {
+            else if (dist.equals("G")) {
                 double height = Double.parseDouble(values.get(position + 1));
                 int center = Integer.parseInt(values.get(position + 2));
                 int width = Integer.parseInt(values.get(position + 3));
@@ -615,11 +615,11 @@ public class Main {
 
             for (int i = 0; i < numValues; i++) {
                 String current = values.get(i).toUpperCase();
-                    if (current == "E") {
+                    if (current.equals("E")) {
                         data += current + "," + values.get(i + 1) + ", -,";
                         i++;
                     }
-                    else if (current == "U") {
+                    else if (current.equals("U")) {
                         data += current + "," + values.get(i + 1) + "," + values.get(i + 2) + ", -,";
                         i += 2;
                     }

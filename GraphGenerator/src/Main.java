@@ -90,99 +90,97 @@ public class Main {
         int sum = 0;
         int index;
         int[] sizes = new int[numEFG];
-        switch (dist) {
-            //Gaussian
-            case ("G"):
-                for (int i = 0; i < numEFG; i++){
-                    sizes[i] = (int) getGaussianWeight(Double.parseDouble(values.get(12)), numNodes/numEFG, Integer.parseInt(values.get(14)));
-                    if (sizes[i] <= 0)
-                        sizes[i] = 1;
-                    sum += sizes[i];
-                }
-                index = 0;
-                while (sum != numNodes){
-                    if (sum < numNodes){
-                        sizes[numEFG-index-1]++;
-                        sum++;
-                    } else {
-                        if (sizes[index] != 1) {
-                            sizes[index]--;
-                            sum--;
-                        }
+        //Gaussian
+        if (dist == "G") {
+            for (int i = 0; i < numEFG; i++) {
+                sizes[i] = (int) getGaussianWeight(Double.parseDouble(values.get(12)), numNodes / numEFG, Integer.parseInt(values.get(14)));
+                if (sizes[i] <= 0)
+                    sizes[i] = 1;
+                sum += sizes[i];
+            }
+            index = 0;
+            while (sum != numNodes) {
+                if (sum < numNodes) {
+                    sizes[numEFG - index - 1]++;
+                    sum++;
+                } else {
+                    if (sizes[index] != 1) {
+                        sizes[index]--;
+                        sum--;
                     }
-                    if (index == numEFG-1)
-                        index = 0;
-                    else
-                        index++;
                 }
-                position+=3;
-                break;
+                if (index == numEFG - 1)
+                    index = 0;
+                else
+                    index++;
+            }
+            position += 3;
+        }
             //Poisson
-            case ("P"):
-                for (int i = 0; i < numEFG; i++) {
-                    sizes[i] = (int) getPoissonNumber(numNodes / numEFG);
-                    if (sizes[i] == 0)
-                        sizes[i] = 1;
-                    sum += sizes[i];
-                }
-                index = 0;
-                while (sum != numNodes){
-                    if (sum < numNodes){
-                        sizes[numEFG-index-1]++;
-                        sum++;
-                    } else {
-                        if (sizes[index] != 1) {
-                            sizes[index]--;
-                            sum--;
-                        }
+        else if  (dist == "P") {
+            for (int i = 0; i < numEFG; i++) {
+                sizes[i] = (int) getPoissonNumber(numNodes / numEFG);
+                if (sizes[i] == 0)
+                    sizes[i] = 1;
+                sum += sizes[i];
+            }
+            index = 0;
+            while (sum != numNodes) {
+                if (sum < numNodes) {
+                    sizes[numEFG - index - 1]++;
+                    sum++;
+                } else {
+                    if (sizes[index] != 1) {
+                        sizes[index]--;
+                        sum--;
                     }
-                    if (index == numEFG-1)
-                        index = 0;
-                    else
-                        index++;
                 }
-                position++;
-                break;
+                if (index == numEFG - 1)
+                    index = 0;
+                else
+                    index++;
+            }
+            position++;
+        }
             //Exponential
-            case ("E"):
-                for (int i = 0; i < numEFG; i++) {
-                    double rate = Double.parseDouble(values.get(12));
-                    double num = getInverseExponentialCDF(rate, 0.99);
-                    num /= (double) numEFG;
-                    num *= (double) (i + 1);
-                    sizes[i] = (int) (numNodes * getExponentialNode(rate, num));
-                    if (sizes[i] == 0)
-                        sizes[i] = 1;
-                    sum+=sizes[i];
-                }
-                index = 0;
-                while (sum != numNodes){
-                    if (sum < numNodes){
-                        sizes[numEFG-index-1]++;
-                        sum++;
-                    } else {
-                        if (sizes[index] != 1) {
-                            sizes[index]--;
-                            sum--;
-                        }
+        else if (dist == "E") {
+            for (int i = 0; i < numEFG; i++) {
+                double rate = Double.parseDouble(values.get(12));
+                double num = getInverseExponentialCDF(rate, 0.99);
+                num /= (double) numEFG;
+                num *= (double) (i + 1);
+                sizes[i] = (int) (numNodes * getExponentialNode(rate, num));
+                if (sizes[i] == 0)
+                    sizes[i] = 1;
+                sum += sizes[i];
+            }
+            index = 0;
+            while (sum != numNodes) {
+                if (sum < numNodes) {
+                    sizes[numEFG - index - 1]++;
+                    sum++;
+                } else {
+                    if (sizes[index] != 1) {
+                        sizes[index]--;
+                        sum--;
                     }
-                    if (index == numEFG-1)
-                        index = 0;
-                    else
-                        index++;
                 }
-                position++;
-                break;
+                if (index == numEFG - 1)
+                    index = 0;
+                else
+                    index++;
+            }
+            position++;
+        }
             //Uniform
-            case ("U"):
-                for (int i = 0; i < numEFG; i++) {
-                    if (numNodes % numEFG < (i + 1))
-                        sizes[i] = numNodes / numEFG;
-                    else
-                        sizes[i] = numNodes / numEFG + 1;
-                }
-                position+=2;
-                break;
+        else {
+            for (int i = 0; i < numEFG; i++) {
+                if (numNodes % numEFG < (i + 1))
+                    sizes[i] = numNodes / numEFG;
+                else
+                    sizes[i] = numNodes / numEFG + 1;
+            }
+            position += 2;
         }
         return sizes;
     }
@@ -302,35 +300,33 @@ public class Main {
     public double getDistributedWeight(){
         double weight = 0;
         String dist = values.get(position).toUpperCase();
-        switch (dist) {
             //Uniform
-            case ("U"):
+            if (dist == "U") {
                 int min = Integer.parseInt(values.get(position + 1));
                 int max = Integer.parseInt(values.get(position + 2));
                 weight = getUniformWeight(min, max);
-                position+=3;
-                break;
+                position += 3;
+            }
             //Exponential
-            case ("E"):
+            else if (dist == "E") {
                 double rate = Double.parseDouble(values.get(position + 1));
                 weight = getExponentialWeight(rate);
-                position+=2;
-                break;
+                position += 2;
+            }
             //Gaussian
-            case ("G"):
+            else if (dist == "G") {
                 double height = Double.parseDouble(values.get(position + 1));
                 int center = Integer.parseInt(values.get(position + 2));
                 int width = Integer.parseInt(values.get(position + 3));
                 weight = getGaussianWeight(height, center, width);
-                position+=4;
-                break;
+                position += 4;
+            }
             //Poisson
-            case ("P"):
+            else {
                 double mean = Double.parseDouble(values.get(position + 1));
                 weight = getPoissonNumber(mean);
-                position+=2;
-                break;
-        }
+                position += 2;
+            }
         return weight;
     }
 
@@ -619,18 +615,16 @@ public class Main {
 
             for (int i = 0; i < numValues; i++) {
                 String current = values.get(i).toUpperCase();
-                switch (current){
-                    case ("E"):
-                        data += current + "," + values.get(i+1) + ", -,";
+                    if (current == "E") {
+                        data += current + "," + values.get(i + 1) + ", -,";
                         i++;
-                        break;
-                    case ("U"):
-                        data += current + "," + values.get(i+1) + "," + values.get(i+2) + ", -,";
-                        i+=2;
-                        break;
-                    default:
+                    }
+                    else if (current == "U") {
+                        data += current + "," + values.get(i + 1) + "," + values.get(i + 2) + ", -,";
+                        i += 2;
+                    }
+                    else
                         data += values.get(i) + ",";
-                }
             }
 
             data += time + "," + numEdges + "," + info.getCount() + "," + info.getNumHotSubgraphs().toString();

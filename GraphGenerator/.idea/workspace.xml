@@ -23,12 +23,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="InputParser.g4" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/InputParser.g4">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="58" column="2" selection-start-line="58" selection-start-column="2" selection-end-line="58" selection-end-column="2" />
-              <folding />
+            <state vertical-scroll-proportion="0.629771">
+              <caret line="628" column="0" selection-start-line="628" selection-start-column="0" selection-end-line="628" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#12293#12301#0" expanded="true" />
+                <element signature="e#13529#13530#0" expanded="true" />
+                <element signature="e#13571#13572#0" expanded="true" />
+                <element signature="e#13640#13641#0" expanded="true" />
+                <element signature="e#13682#13683#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -123,10 +130,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PairComparator.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PairComparator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mining/data/PairComparator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2576336">
+            <state vertical-scroll-proportion="0.0">
               <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
               <folding />
             </state>
@@ -163,7 +170,6 @@
         <option value="$PROJECT_DIR$/src/mining/algorithm/ReturnInfo.java" />
         <option value="$PROJECT_DIR$/src/mining/manager/MinerManager.java" />
         <option value="$PROJECT_DIR$/src/mining/algorithm/FlowGSpan.java" />
-        <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/ExtendedVisitor.java" />
         <option value="$PROJECT_DIR$/src/InputParser.g4" />
         <option value="$PROJECT_DIR$/src/InputParser.tokens" />
@@ -174,6 +180,7 @@
         <option value="$PROJECT_DIR$/src/InputParserVisitor.java" />
         <option value="$PROJECT_DIR$/src/ValueNew.java" />
         <option value="$PROJECT_DIR$/src/InputParserBaseVisitor.java" />
+        <option value="$PROJECT_DIR$/src/Main.java" />
       </list>
     </option>
   </component>
@@ -878,16 +885,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="28" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ExtendedVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -980,9 +977,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mining/data/PairComparator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2576336">
+        <state vertical-scroll-proportion="0.0">
           <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.629771">
+          <caret line="628" column="0" selection-start-line="628" selection-start-column="0" selection-end-line="628" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#12293#12301#0" expanded="true" />
+            <element signature="e#13529#13530#0" expanded="true" />
+            <element signature="e#13571#13572#0" expanded="true" />
+            <element signature="e#13640#13641#0" expanded="true" />
+            <element signature="e#13682#13683#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -358,7 +358,7 @@ public class Main {
                     input = input.replaceAll("//.*", " ");
                     arguments += input.replaceAll("\\s+", " ");
                 }
-		System.out.println("Arguments: " + arguments);
+
                 String[] params = arguments.split(" ");
                 for (String c : params) {
                     values.add(c);

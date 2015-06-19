@@ -616,7 +616,7 @@ public class Main {
             for (int i = 0; i < numValues; i++) {
                 String current = values.get(i).toUpperCase();
                     if (current.equals("E")) {
-                        data += current + "," + values.get(i + 1) + ", -,";
+                        data += current + "," + values.get(i + 1) + ", -, -,";
                         i++;
                     }
                     else if (current.equals("U")) {

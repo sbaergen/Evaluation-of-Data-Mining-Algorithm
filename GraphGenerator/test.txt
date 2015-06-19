@@ -1,11 +1,11 @@
-5 //Max attrib
+5000 //Max attrib
 0 //Max forward edges
 0 //Max backward edges
 0 //gap value
-.1 //minSupport
-10 //Max nodes per pattern
-10 //#EFGs
-100 //#Nodes
+0 //minSupport
+1000 //Max nodes per pattern
+1 //#EFGs
+10 //#Nodes
 3 //Size of union of all attributes
 .5 //Attribute Bernoulli
 0 //Edge Bernoulli

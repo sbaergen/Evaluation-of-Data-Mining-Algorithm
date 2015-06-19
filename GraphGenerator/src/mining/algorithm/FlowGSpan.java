@@ -121,7 +121,7 @@ public class FlowGSpan implements Runnable{
 	
 	Vector<Integer> attributesToLookFor;
 
-	static int count = 0;
+	int count = 0;
 
 	/**
 	 * Constructor for running datasets loaded from a database.
@@ -171,12 +171,12 @@ public class FlowGSpan implements Runnable{
 		
 	}
 
-    public static int getCount() {
+    public int getCount() {
         return count;
     }
 
-    public static void setCount(int count) {
-        FlowGSpan.count = count;
+    public void setCount(int count) {
+        this.count = count;
     }
 
     /**

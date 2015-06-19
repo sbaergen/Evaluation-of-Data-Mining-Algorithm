@@ -291,9 +291,9 @@ public class FlowGSpanController {
 				freeMemory = Runtime.getRuntime().freeMemory();
 				consumedMemory = totalMemory - freeMemory;
 			    System.out.println("Total Memory = " + totalMemory  + ", Free Memory = " + freeMemory + ", Consumed Memory = " + consumedMemory);
-			
+			    System.out.println(instance.getCount());
 				++generation;
-			}
+            }
             return instance.getCount();
 		}
 		else {
@@ -437,7 +437,7 @@ public class FlowGSpanController {
 					instance.getInstructionMap().clear();
 					instance.getChildFreqAttrs().clear();
 					instance.getChildSet().clear();
-                    count+=instance.getCount();
+					count+=instance.getCount();
 				}
 				//System.out.println("FreqAttrs = " + freqAttrs.toString());
 				Arrays.sort(freqAttrs.toArray());

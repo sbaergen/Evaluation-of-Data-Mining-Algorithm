@@ -1,5 +1,4 @@
 import java.io.*;
-import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -579,6 +578,7 @@ public class Main {
             writer.write("\nTotal Subgraphs Tested: " + info.getCount());
             System.out.println(info.getCount());
             writer.write("\nNumber of Hot Subgraphs: " + info.getNumHotSubgraphs());
+            System.out.println(info.getNumHotSubgraphs());
             LinkedHashMap<Integer, Integer> patternsPerEdge = info.getNumPatternsPerNumEdges();
             int size = patternsPerEdge.size();
             for (int i = 0; i < size; i++){
@@ -637,7 +637,7 @@ public class Main {
             writer.write(data+'\n');
             writer.close();
 
-            System.out.println(time);
+            System.out.println();
         } catch (IOException e){
             e.printStackTrace();
         }

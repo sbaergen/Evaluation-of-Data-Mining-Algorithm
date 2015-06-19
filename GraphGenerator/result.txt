@@ -13,11 +13,11 @@ Available Processors: 8
 
 --------TEST RESULTS--------
 
-Total Time: 1981ms
-Total Edges: 200
-Total Subgraphs Tested: 22390
-Number of Hot Subgraphs: 205
-Number of Hot 0-Edge Subgraphs: 7
-Number of Hot 1-Edge Subgraphs: 30
-Number of Hot 2-Edge Subgraphs: 30
-Number of Hot 3-Edge Subgraphs: 138
+Total Time: 2263ms
+Total Edges: 20
+Total Subgraphs Tested: 106844
+Number of Hot Subgraphs: 296
+Number of Hot 0-Edge Subgraphs: 5
+Number of Hot 1-Edge Subgraphs: 21
+Number of Hot 2-Edge Subgraphs: 45
+Number of Hot 3-Edge Subgraphs: 225

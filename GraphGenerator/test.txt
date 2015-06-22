@@ -4,7 +4,7 @@
 0 //gap value
 0 //minSupport
 1000 //Max nodes per pattern
-1 //#EFGs
+2 //#EFGs
 10 //#Nodes
 3 //Size of union of all attributes
 .5 //Attribute Bernoulli

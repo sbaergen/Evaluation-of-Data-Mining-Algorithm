@@ -36,16 +36,16 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36217305">
-              <caret line="686" column="0" selection-start-line="686" selection-start-column="0" selection-end-line="686" selection-end-column="0" />
+            <state vertical-scroll-proportion="-0.36217305">
+              <caret line="305" column="64" selection-start-line="305" selection-start-column="64" selection-end-line="305" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3689#3697#0" expanded="true" />
-                <element signature="e#17908#17916#0" expanded="true" />
-                <element signature="e#19192#19193#0" expanded="true" />
-                <element signature="e#19234#19235#0" expanded="true" />
-                <element signature="e#19303#19304#0" expanded="true" />
-                <element signature="e#19345#19346#0" expanded="true" />
+                <element signature="e#3624#3632#0" expanded="true" />
+                <element signature="e#17869#17877#0" expanded="true" />
+                <element signature="e#19153#19154#0" expanded="true" />
+                <element signature="e#19195#19196#0" expanded="true" />
+                <element signature="e#19264#19265#0" expanded="true" />
+                <element signature="e#19306#19307#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -67,8 +67,8 @@
       <file leaf-file-name="MinerManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mining/manager/MinerManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="352" column="0" selection-start-line="352" selection-start-column="0" selection-end-line="352" selection-end-column="0" />
+            <state vertical-scroll-proportion="-6.111111">
+              <caret line="178" column="29" selection-start-line="178" selection-start-column="14" selection-end-line="178" selection-end-column="29" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -96,8 +96,8 @@
       <file leaf-file-name="FlowGSpanController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mining/algorithm/FlowGSpanController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="101" column="39" selection-start-line="101" selection-start-column="39" selection-end-line="101" selection-end-column="39" />
+            <state vertical-scroll-proportion="-4.4444447">
+              <caret line="290" column="35" selection-start-line="290" selection-start-column="35" selection-end-line="290" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -166,9 +166,9 @@
         <option value="$PROJECT_DIR$/src/ValueNew.java" />
         <option value="$PROJECT_DIR$/src/InputParserBaseVisitor.java" />
         <option value="$PROJECT_DIR$/src/mining/algorithm/FlowGSpan.java" />
-        <option value="$PROJECT_DIR$/src/mining/algorithm/FlowGSpanController.java" />
         <option value="$PROJECT_DIR$/src/Patterns.java" />
         <option value="$PROJECT_DIR$/src/mining/manager/MinerManager.java" />
+        <option value="$PROJECT_DIR$/src/mining/algorithm/FlowGSpanController.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
       </list>
     </option>
@@ -902,14 +902,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mining/algorithm/FlowGSpanController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="101" column="39" selection-start-line="101" selection-start-column="39" selection-end-line="101" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/mining/algorithm/FlowGSpan.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -962,8 +954,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mining/manager/MinerManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="352" column="0" selection-start-line="352" selection-start-column="0" selection-end-line="352" selection-end-column="0" />
+        <state vertical-scroll-proportion="-6.111111">
+          <caret line="178" column="29" selection-start-line="178" selection-start-column="14" selection-end-line="178" selection-end-column="29" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
@@ -973,18 +965,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/mining/algorithm/FlowGSpanController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.4444447">
+          <caret line="290" column="35" selection-start-line="290" selection-start-column="35" selection-end-line="290" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36217305">
-          <caret line="686" column="0" selection-start-line="686" selection-start-column="0" selection-end-line="686" selection-end-column="0" />
+        <state vertical-scroll-proportion="-0.36217305">
+          <caret line="305" column="64" selection-start-line="305" selection-start-column="64" selection-end-line="305" selection-end-column="64" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3689#3697#0" expanded="true" />
-            <element signature="e#17908#17916#0" expanded="true" />
-            <element signature="e#19192#19193#0" expanded="true" />
-            <element signature="e#19234#19235#0" expanded="true" />
-            <element signature="e#19303#19304#0" expanded="true" />
-            <element signature="e#19345#19346#0" expanded="true" />
+            <element signature="e#3624#3632#0" expanded="true" />
+            <element signature="e#17869#17877#0" expanded="true" />
+            <element signature="e#19153#19154#0" expanded="true" />
+            <element signature="e#19195#19196#0" expanded="true" />
+            <element signature="e#19264#19265#0" expanded="true" />
+            <element signature="e#19306#19307#0" expanded="true" />
           </folding>
         </state>
       </provider>

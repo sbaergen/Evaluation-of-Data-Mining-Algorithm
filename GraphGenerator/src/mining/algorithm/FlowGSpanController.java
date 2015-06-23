@@ -291,7 +291,6 @@ public class FlowGSpanController {
 				freeMemory = Runtime.getRuntime().freeMemory();
 				consumedMemory = totalMemory - freeMemory;
 			    System.out.println("Total Memory = " + totalMemory  + ", Free Memory = " + freeMemory + ", Consumed Memory = " + consumedMemory);
-			    System.out.println(instance.getCount());
 				++generation;
             }
             return instance.getCount();

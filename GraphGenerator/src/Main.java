@@ -61,7 +61,6 @@ public class Main {
                 int numEFG = Integer.parseInt(br.readLine().trim());
                 for (int i = 0; i < numEFG; i++){
                     numNodes = Integer.parseInt(br.readLine().trim());
-                    System.out.println("NUMNODES: " + numNodes);
                     EFG efg = new EFG(numNodes);
                     for (int j = 0; j < numNodes; j++) {
                         br.readLine();
@@ -304,7 +303,7 @@ public class Main {
                 if (i != j) {
                     insertEdge = getBernoulli(edgeProb);
                     if (insertEdge) {
-                        if (!patterns)
+                        if (!patterns && patternBank.size() > 0)
                             if (!getBernoulli(edgeProb)){
                                 //TODO: ADD PATTERN
                                 EFG pat = patternBank.get(new Random().nextInt(patternBank.size()));
@@ -578,7 +577,6 @@ public class Main {
 		//http://stackoverflow.com/questions/2885173/java-how-to-create-a-file-and-write-to-a-file 25/05/2015 for PrintWriter lines
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            System.out.println("SIZE" + size);
 			writer.write(size+"\n");
 			// For each EFG
 			for (EFG currentEFG: data){

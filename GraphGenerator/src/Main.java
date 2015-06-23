@@ -303,7 +303,7 @@ public class Main {
                 if (i != j) {
                     insertEdge = getBernoulli(edgeProb);
                     if (insertEdge) {
-                        if (!patterns && patternBank.size() > 0)
+                        if (!patterns && patternBank != null)
                             if (!getBernoulli(edgeProb)){
                                 //TODO: ADD PATTERN
                                 EFG pat = patternBank.get(new Random().nextInt(patternBank.size()));

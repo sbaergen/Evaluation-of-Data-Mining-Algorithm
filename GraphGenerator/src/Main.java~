@@ -1,5 +1,4 @@
 import java.io.*;
-import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -19,14 +18,21 @@ public class Main {
     final static String CSV = "data.csv";
     static Vector<EFG> graphs;
     static Vector<String> values;
+    static Vector<EFG> patternBank;
     static int position = 12;
 
     public static void main(String args[]) {
         graphs = new Vector<EFG>();
         Main m = new Main();
         values = m.manualParse(args[0]);
-        m.createGraph();
-        int numEdges = m.createGraphFile();
+        if (args.length == 2)
+            patternBank = m.createPatterns(args[1]);
+        else if (args.length != 1){
+            System.out.println("Usage: Main Parameters [PatternsFileName(optional)]");
+            System.exit(10);
+        }
+        m.createGraph(values, graphs);
+        int numEdges = m.createGraphFile(INPUT, graphs);
         m.createConfigFile();
         String arguments[] = {CONFIG, COUNTERS, OUTPUT, INPUT};
         System.out.println("Starting AFGMiner");
@@ -37,18 +43,74 @@ public class Main {
         m.createResultFile(endTime-startTime, info, numEdges);
     }
 
+
+    public Vector<EFG> createPatterns(String filename){
+        File file = new File(filename);
+        Vector<EFG> patterns = new Vector<EFG>();
+        if (file.exists()){
+            System.out.println("Reading Patterns");
+            try {
+                Node node;
+                int numNodes;
+                int numAttr;
+                int numEdges;
+                double weight;
+                String[] attr;
+                String[] edge;
+                BufferedReader br = new BufferedReader(new FileReader(filename));
+                int numEFG = Integer.parseInt(br.readLine().trim());
+                for (int i = 0; i < numEFG; i++){
+                    numNodes = Integer.parseInt(br.readLine().trim());
+                    EFG efg = new EFG(numNodes);
+                    for (int j = 0; j < numNodes; j++) {
+                        br.readLine();
+                        weight = Double.parseDouble(br.readLine().trim());
+                        node = new Node(weight, Integer.parseInt(values.get(8)), numNodes);
+                        numAttr = Integer.parseInt(br.readLine().trim());
+                        for (int k = 0; k < numAttr; k++) {
+                            attr = br.readLine().split(" ");
+                            node.addAttribute(Integer.parseInt(attr[0]), Double.parseDouble(attr[1]));
+                        }
+                        efg.addNode(j, node);
+                    }
+                    numEdges = Integer.parseInt(br.readLine().trim());
+                    for (int l = 0; l < numEdges; l++){
+                        edge = br.readLine().split(" ");
+                        efg.getNodes().get(Integer.parseInt(edge[0])).addEdge(Integer.parseInt(edge[1]), Double.parseDouble(edge[2]));
+                    }
+                    patterns.add(efg);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return patterns;
+        }
+        Random rd = new Random();
+        Vector<String> patternValues = new Vector<String>();
+        for (String s: values)
+            patternValues.add(s);
+        int numEFG = rd.nextInt(10) + 1;
+        patternValues.set(6,  numEFG + "");
+        patternValues.set(7, numEFG + rd.nextInt(numEFG*10)+"");
+        createGraph(patternValues, patterns);
+        createGraphFile(filename, patterns);
+        position = 12;
+        return patterns;
+    }
+
     /**
      * Creates the Graph using the user defined values.
      */
-    public void createGraph() {
+    public void createGraph(Vector<String> params, Vector<EFG> data) {
         int nodePosition;
-        int numEFG = Integer.parseInt(values.get(6));
-        int numAttr = Integer.parseInt(values.get(8));
-        double attrProb = Double.parseDouble(values.get(9));
-        double edgeProb = Double.parseDouble(values.get(10));
-        addEFG(numEFG); // Create EFGs with number of nodes,
+        int numEFG = Integer.parseInt(params.get(6));
+        int numAttr = Integer.parseInt(params.get(8));
+        double attrProb = Double.parseDouble(params.get(9));
+        double edgeProb = Double.parseDouble(params.get(10));
+        addEFG(numEFG, data); // Create EFGs with number of nodes,
         nodePosition = position;
-        for (EFG e: graphs){
+        for (EFG e: data){
             position = nodePosition;
             int size = e.getSize();
             for (int i = 0; i < size; i++){
@@ -59,7 +121,7 @@ public class Main {
                 if (i < size-1)
                     position = nodePosition;
             }
-            addEdges(e, edgeProb);
+            addEdges(e, edgeProb, false);
         }
     }
 
@@ -67,14 +129,14 @@ public class Main {
      * Adds all EFGs to the graphs Vector
      * @param numEFG The number of EFGs to add
      */
-    public void addEFG(int numEFG){
+    public void addEFG(int numEFG, Vector<EFG> data){
         int[] sizes = getEFGSizes(numEFG);
         for (int i = 0; i < numEFG; i++){
             int efgSize = sizes[i];
             if (efgSize != 1)
                 efgSize+=2;
             EFG efg = new EFG(efgSize);
-            graphs.add(efg);
+            data.add(efg);
         }
     }
 
@@ -218,7 +280,7 @@ public class Main {
      * @param efg The EFG where edges are added
      * @param edgeProb The probability used for the bernoulli test
      */
-    public void addEdges(EFG efg, double edgeProb){
+    public void addEdges(EFG efg, double edgeProb, boolean patterns){
         int edgePosition = position;
         boolean insertEdge;
         boolean validSink = false;
@@ -227,9 +289,9 @@ public class Main {
         BitSet sourceCheck = new BitSet(numNodes);
         Node node;
         Node source = efg.getNodes().get(0);
-        for (int i = 1; i < numNodes-1; i++) {
+        for (int i = 1; i < efg.getSize()-1; i++) {
             node = efg.getNodes().get(i);
-            for (int j = i; j < numNodes - 1; j++) {
+            for (int j = i; j < (numNodes = efg.getSize() - 1); j++) {
                 insertEdge = getBernoulli(edgeProb);
                 if (insertEdge) {
                     weight = getDistributedWeight();
@@ -241,14 +303,58 @@ public class Main {
                 if (i != j) {
                     insertEdge = getBernoulli(edgeProb);
                     if (insertEdge) {
-                        weight = getDistributedWeight();
-                        node = efg.getNodes().get(j);
-                        node.addEdge(i, weight);
-                        sourceCheck.set(i);
+                        if (!patterns && patternBank.size() > 0)
+                            if (!getBernoulli(edgeProb)){
+                                //TODO: ADD PATTERN
+                                EFG pat = patternBank.get(new Random().nextInt(patternBank.size()));
+                                LinkedHashMap<Integer, Node> patNodes = pat.getNodes();
+                                LinkedHashMap<Integer, Node> origNodes = efg.getNodes();
+                                int origSize = origNodes.size();
+                                int patSize = patNodes.size();
+                                int newSize = origSize + patSize;
+                                efg.setSize(newSize);
+                                for (int k = 0; k < patSize; k++){
+                                    efg.addNode(origSize + k, patNodes.get(k));
+                                }
+                                for (int l = 0; l < origSize; l++){
+                                    BitSet newEdge = new BitSet(newSize);
+                                    Node current = efg.getNodes().get(l);
+                                    BitSet oldEdge = current.getEdges();
+                                    int index = 0;
+                                    while (oldEdge.nextSetBit(index) != -1){
+                                        index = oldEdge.nextSetBit(index);
+                                        if (index == origSize-1){
+                                            newEdge.set(newSize-1);
+                                        } else {
+                                            newEdge.set(index);
+                                        }
+                                    }
+                                    index = 0;
+                                    BitSet newSourceCheck = new BitSet(newSize);
+                                    while (sourceCheck.nextSetBit(index) != -1){
+                                        index = sourceCheck.nextSetBit(index);
+                                        newSourceCheck.set(index);
+                                    }
+                                    current.setEdges(newEdge);
+                                    sourceCheck = newSourceCheck;
+                                }
+                                weight = getDistributedWeight();
+                                node.addEdge(origSize, weight);
+                            } else {
+                                weight = getDistributedWeight();
+                                node = efg.getNodes().get(j);
+                                node.addEdge(i, weight);
+                                sourceCheck.set(i);
+                            }
+                        } else {
+                            weight = getDistributedWeight();
+                            node = efg.getNodes().get(j);
+                            node.addEdge(i, weight);
+                            sourceCheck.set(i);
+                        }
                     }
                     position = edgePosition;
                 }
-            }
             // Sink Node
             node = efg.getNodes().get(i);
             int card = node.getEdges().cardinality();
@@ -358,7 +464,7 @@ public class Main {
                     input = input.replaceAll("//.*", " ");
                     arguments += input.replaceAll("\\s+", " ");
                 }
-
+		System.out.println("Arguments: " + arguments);
                 String[] params = arguments.split(" ");
                 for (String c : params) {
                     values.add(c);
@@ -463,38 +569,38 @@ public class Main {
      * Creates the graph file to be inputted into AFGMiner
      * @return the total Edges in the dataset
      */
-	public int createGraphFile(){
-		int size = graphs.size();
+	public int createGraphFile(String file, Vector<EFG> data){
+		int size = data.size();
         int totalEdges = 0;
         int totalAttrWeight = 0;
         int totalNodeWeight = 0;
 		//http://stackoverflow.com/questions/2885173/java-how-to-create-a-file-and-write-to-a-file 25/05/2015 for PrintWriter lines
 		try {
-			PrintWriter writer = new PrintWriter(INPUT, "UTF-8");
-			writer.println(size);
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+			writer.write(size+"\n");
 			// For each EFG
-			for (EFG currentEFG: graphs){
+			for (EFG currentEFG: data){
                 int numEdges = 0;
                 String edgeString = "";
                 LinkedHashMap<Integer, Node> currentNodes = currentEFG.getNodes();
 				int numNodes = currentNodes.size();
-				writer.println(numNodes);
+				writer.write(numNodes + "\n");
 				
 				// For each node in EFG for node information
 				for (int j = 0; j < numNodes; j++){
-					writer.println(j);
+					writer.write(j +"\n");
 					Node currentNode = currentNodes.get(j);
-					writer.println(currentNode.getWeight());
+					writer.write(currentNode.getWeight()+"\n");
 					BitSet attributes = currentNode.getAttributes();
 					int numAttr = attributes.cardinality();
-					writer.println(numAttr);
+					writer.write(numAttr+"\n");
 					LinkedHashMap<Integer, Double> currentAttributes = currentNode.getAttrWeight();
 					
 					// For each attribute in Node
 					int attrIndex = attributes.nextSetBit(0);
 					while (attrIndex != -1){
 						double attrWeight = currentAttributes.get(attrIndex);
-						writer.println(attrIndex + " " + attrWeight);
+						writer.write(attrIndex + " " + attrWeight+"\n");
 						attrIndex = attributes.nextSetBit(attrIndex+1);
 					}
 					
@@ -515,14 +621,12 @@ public class Main {
 					
 				}
                 totalEdges+=numEdges;
-				writer.println(numEdges);
+				writer.write(numEdges+"\n");
                 if (numEdges > 0)
-				    writer.println(edgeString);
+				    writer.write(edgeString+"\n");
             }
 			writer.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
         return totalEdges;
@@ -577,7 +681,6 @@ public class Main {
             writer.write("\nTotal Time: " + time + "ms");
             writer.write("\nTotal Edges: " + numEdges);
             writer.write("\nTotal Subgraphs Tested: " + info.getCount());
-            System.out.println(info.getCount());
             writer.write("\nNumber of Hot Subgraphs: " + info.getNumHotSubgraphs());
             LinkedHashMap<Integer, Integer> patternsPerEdge = info.getNumPatternsPerNumEdges();
             int size = patternsPerEdge.size();
@@ -616,7 +719,7 @@ public class Main {
             for (int i = 0; i < numValues; i++) {
                 String current = values.get(i).toUpperCase();
                     if (current.equals("E")) {
-                        data += current + "," + values.get(i + 1) + ", -,";
+                        data += current + "," + values.get(i + 1) + ", -, -,";
                         i++;
                     }
                     else if (current.equals("U")) {
@@ -637,7 +740,7 @@ public class Main {
             writer.write(data+'\n');
             writer.close();
 
-            System.out.println(time);
+            System.out.println();
         } catch (IOException e){
             e.printStackTrace();
         }

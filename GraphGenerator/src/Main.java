@@ -305,7 +305,6 @@ public class Main {
                     if (insertEdge) {
                         if (!patterns && patternBank != null)
                             if (!getBernoulli(edgeProb)){
-                                //TODO: ADD PATTERN
                                 EFG pat = patternBank.get(new Random().nextInt(patternBank.size()));
                                 LinkedHashMap<Integer, Node> patNodes = pat.getNodes();
                                 LinkedHashMap<Integer, Node> origNodes = efg.getNodes();

@@ -4,24 +4,24 @@ import java.util.Random;
 public class exploration {
 
 	public static void main(String[] args) {
-        final int[] MAXATTR = { 1, 1000 };
-        final int[] MAXFORWARD = { 0, 100 };
-        final int[] MAXBACKARD = { 0, 100 };
-        final int[] GAP = { 0, 20 };
-        final double[] MINSUPPORT = { 0.5, 1.0 };
-        final int[] MAXNODES = { 10, 100 };
-        final int[] EFGS = { 1, 100 };
-        final int[] NODES = { 10, 10000 };
-        final int[] ATTR = { 10, 100 };
-        final double[] APROB = { 0.1, 1 };
-        final double[] EPROB = { 0, 1 };
+        final int[] MAXATTR = { 100, 100 };
+        final int[] MAXFORWARD = { 100, 100 };
+        final int[] MAXBACKARD = { 100, 100 };
+        final int[] GAP = { 0, 0 };
+        final double[] MINSUPPORT = { 0, 1.0 };
+        final int[] MAXNODES = { 100, 100 };
+        final int[] EFGS = { 100, 100 };
+        final int[] NODES = { 1000, 1000 };
+        final int[] ATTR = { 100, 100 };
+        final double[] APROB = { 0.5, .5 };
+        final double[] EPROB = { .5, .5 };
         final char[] DIST = { 'U', 'E', 'G' };
-        final double[] RATE = { 0, 10 };
-        final int[] MIN = { 1, 100 };
+        final double[] RATE = { 1, 1 };
+        final int[] MIN = { 10, 10 };
         final int MAX = MIN[1];
-        final double[] HEIGHT = { 0.1, 5 };
-        final int[] CENTRE = { 1, 100 };
-        final int[] WIDTH = { 1, 100 };
+        final double[] HEIGHT = { 1, 1 };
+        final int[] CENTRE = { 10, 10 };
+        final int[] WIDTH = { 10, 10 };
         
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(args[0]));
@@ -33,7 +33,7 @@ public class exploration {
             writer.write("\n"+randomInt(MAXNODES[0], MAXNODES[1]));
             int numEFGS = randomInt(EFGS[0], EFGS[1]);
             writer.write("\n"+numEFGS);
-            writer.write("\n"+randomInt(numEFGS, NODES[1]));
+            writer.write("\n"+randomInt(NODES[0], NODES[1]));
             writer.write("\n"+randomInt(ATTR[0], ATTR[1]));
             writer.write("\n"+randomDouble(APROB[0], APROB[1]));
             writer.write("\n"+randomDouble(EPROB[0], EPROB[1]));

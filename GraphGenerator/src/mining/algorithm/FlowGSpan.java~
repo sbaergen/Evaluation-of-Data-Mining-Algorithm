@@ -429,7 +429,7 @@ public class FlowGSpan implements Runnable{
 
                         //DEBUG
 						if(currWeightSupport/totalWeight >= 1) {
-							//System.out.println("WEIGHT SUPPORT EXCEEDED LIMITS!!!\n");
+							System.out.println("WEIGHT SUPPORT EXCEEDED LIMITS!!!\n");
 						}
 						//end DEBUG
 						

@@ -1,0 +1,2 @@
+javac -sourcepath src/ -d build src/mining/**/*.java
+java -cp .:build:**/**/*.class mining.manager.MinerManager config.txt counters.txt output.txt $1

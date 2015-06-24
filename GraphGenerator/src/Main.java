@@ -179,7 +179,7 @@ public class Main {
             position += 3;
         }
             //Poisson
-        else if  (dist.equals("P")) {
+        /*else if  (dist.equals("P")) {
             for (int i = 0; i < numEFG; i++) {
                 sizes[i] = (int) getPoissonNumber(numNodes / numEFG);
                 if (sizes[i] == 0)
@@ -203,7 +203,7 @@ public class Main {
                     index++;
             }
             position++;
-        }
+        }*/
             //Exponential
         else if (dist.equals("E")) {
             for (int i = 0; i < numEFG; i++) {
@@ -368,10 +368,7 @@ public class Main {
                     validSink = true;
                 }
             }
-
-            if (i != numNodes - 2) {
-                position = edgePosition;
-            }
+            position = edgePosition;
         }
 
         // Source Node

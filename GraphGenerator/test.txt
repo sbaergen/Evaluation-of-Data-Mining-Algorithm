@@ -1,22 +1,24 @@
-321 //Max attrib
-25 //Max forward edges
-17 //Max backward edges
-9 //gap value
-0.7704173352149024 //minSupport
-86 //Max nodes per pattern
-2 //#EFGs
-9063 //#Nodes
-85 //Size of union of all attributes
-.4883198339556476 //Attribute Bernoulli
-.2141100508728816 //Edge Bernoulli
-e // Nodes/EFG
-.4615575582389275
-e // Edge
-8.080164576804073
-u //Node
-70
-79
-u //Attribute
-53
-95
+100 //Max attrib
+100 //Max forward edges
+100 //Max backward edges
+0 //gap value
+0.4314967836268525 //minSupport
+100 //Max nodes per pattern
+100 //#EFGs
+816 //#Nodes
+100 //Size of union of all attributes
+.5 //Attribute Bernoulli
+.5 //Edge Bernoulli
+g // Nodes/EFG
+1
+10
+20
+g // Edge
+1
+10
+10
+e //Node
+1
+e //Attribute
+1
 

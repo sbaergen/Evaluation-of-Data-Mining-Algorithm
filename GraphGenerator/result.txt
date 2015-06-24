@@ -1,19 +1,19 @@
 --------MACHINE INFORMATION--------
 
-Processor: null
-Java.vm.version: 20.0-b11
-Java.runtime.version: 1.6.0_22-b22
-Java.class.version: 50.0
+Processor: Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz
+Java.vm.version: 25.45-b02
+Java.runtime.version: 1.8.0_45-b14
+Java.class.version: 52.0
 Sun.management.compiler: HotSpot 64-Bit Tiered Compilers
-Java.vm.specification.version: 1.0
-OS Name: Linux
-OS Version: 2.6.32-220.17.1.el6.x86_64
-OS Arch: amd64
+Java.vm.specification.version: 1.8
+OS Name: Mac OS X
+OS Version: 10.10.3
+OS Arch: x86_64
 Available Processors: 8
 
 --------TEST RESULTS--------
 
-Total Time: 11657ms
-Total Edges: 240240
+Total Time: 810ms
+Total Edges: 6500
 Total Subgraphs Tested: 0
 Number of Hot Subgraphs: 0

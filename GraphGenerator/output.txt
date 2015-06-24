@@ -1,5 +1,5 @@
-Results for Data Mining on 2015/06/24 14:18:30
-	Support Threshold:		0.4314967836268525
+Results for Data Mining on 2015/06/24 14:33:44
+	Support Threshold:		0.9884998999699534
 	Max Number of Nodes (Wt):		100
 	Max Number of Attributes Allowed:		100
 	Max Number of EFGEdge Additions:		200
@@ -14,4 +14,4 @@ Graphs of size (in number of edges)0: null
 
 Number of Frequent Subgraphs: 0
 
-Total runtime: 314
+Total runtime: 916

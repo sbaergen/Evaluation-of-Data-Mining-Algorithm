@@ -314,6 +314,7 @@ public class Main {
                                 LinkedHashMap<Integer, Node> origNodes = efg.getNodes();
                                 int origSize = origNodes.size();
                                 int patSize = patNodes.size();
+                                values.set(7, Integer.parseInt(values.get(7))+patSize+"");
                                 int newSize = origSize + patSize;
                                 efg.setSize(newSize);
                                 for (int k = 0; k < patSize; k++){
@@ -715,7 +716,7 @@ public class Main {
                 writer.write(header);
             }
             int numValues = values.size();
-
+            System.out.println("Number of Nodes: " + values.get(7));
             for (int i = 0; i < numValues; i++) {
                 String current = values.get(i).toUpperCase();
                     if (current.equals("E")) {

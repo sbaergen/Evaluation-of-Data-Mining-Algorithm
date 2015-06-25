@@ -12,13 +12,8 @@ OS Arch: amd64
 Available Processors: 8
 
 --------TEST RESULTS--------
-Total Time: 43333ms
-Total Edges: 41
-Total Subgraphs Tested: 2632721
-Number of Hot Subgraphs: 12499
-Number of Hot 0-Edge Subgraphs: 21
-Number of Hot 1-Edge Subgraphs: 243
-Number of Hot 2-Edge Subgraphs: 1100
-Number of Hot 3-Edge Subgraphs: 5332
-Number of Hot 4-Edge Subgraphs: 5803
 
+Total Time: 527ms
+Total Edges: 0
+Total Subgraphs Tested: 0
+Number of Hot Subgraphs: 0

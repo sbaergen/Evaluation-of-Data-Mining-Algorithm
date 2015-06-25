@@ -125,7 +125,6 @@ public class Main {
                     if (getBernoulli(Double.parseDouble(values.get(values.size() - 1)))){
                         EFG pat = patternBank.get(new Random().nextInt(patternBank.size()));
                         LinkedHashMap<Integer, Node> pattern = pat.getNodes();
-                        System.out.println(pattern);
                         int patSize = pat.getSize();
                         values.set(7, Integer.parseInt(values.get(7))+patSize+"");
                         e.setSize(e.getSize()+patSize - 1);
@@ -329,7 +328,6 @@ public class Main {
         BitSet sourceCheck = new BitSet(numNodes);
         Node node;
         Node source = efg.getNodes().get(0);
-        System.out.println(efg.getNodes().toString());
         for (int i = 1; i < numNodes-1; i++) {
             node = efg.getNodes().get(i);
             for (int j = i; j < numNodes - 1; j++) {
@@ -753,7 +751,7 @@ public class Main {
                 writer.write("\n\n--------TEST RESULTS--------\n");
                 header = " DATE ,MAXATTR, MAXFOWARD, MAXBACKWARD, GAP, MINSUPPORT, MAXNODES, EFGS, NODES, NUMATTR, ATTRBERN," +
                         " EDGEBERN, NODES/EFG, P1, P2, P3, EDGE WEIGHT, P1, P2, P3, NODE WEIGHT, P1, P2, P3, " +
-                        "ATTR WEIGHT, P1, P2, P3, TIME, NUMEDGES, TOTALSUBGRAPHS, HOTSUBGRAPHS, 0-EDGE, 1-EDGE, 2-EDGE," +
+                        "ATTR WEIGHT, P1, P2, P3, PATEFG, PATNODE, PATPROB, TIME, NUMEDGES, TOTALSUBGRAPHS, HOTSUBGRAPHS, 0-EDGE, 1-EDGE, 2-EDGE," +
                         " 3-EDGE, 4-EDGE, 5-EDGE\n" ;
                 writer.write(header);
             }

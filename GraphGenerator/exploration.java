@@ -8,10 +8,10 @@ public class exploration {
         final int[] MAXFORWARD = { 100, 100 };
         final int[] MAXBACKARD = { 100, 100 };
         final int[] GAP = { 0, 0 };
-        final double[] MINSUPPORT = { 0, .5 };
+        final double[] MINSUPPORT = { 0, 0 };
         final int[] MAXNODES = { 100, 100 };
         final int[] EFGS = { 100, 1000 };
-        final int[] NODES = { 100, 10000 };
+        final int[] NODES = { 1, 10 };
         final int[] ATTR = { 10, 10 };
         final double[] APROB = { 0.5, .5 };
         final double[] EPROB = { .5, .5 };

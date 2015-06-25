@@ -31,7 +31,8 @@ public class Main {
             System.out.println("Usage: Main Parameters [PatternsFileName(optional)]");
             System.exit(10);
         }
-        m.createGraph(values, graphs);
+        System.out.println("Creating Graph");
+        m.createGraph(values, graphs, false);
         int numEdges = m.createGraphFile(INPUT, graphs);
         m.createConfigFile();
         String arguments[] = {CONFIG, COUNTERS, OUTPUT, INPUT};
@@ -86,6 +87,7 @@ public class Main {
             }
             return patterns;
         }
+        System.out.println("Creating Patterns");
         Random rd = new Random();
         Vector<String> patternValues = new Vector<String>();
         for (String s: values)
@@ -93,11 +95,11 @@ public class Main {
         int size = patternValues.size();
         int numEFG = Integer.parseInt(patternValues.get(size-3));
         patternValues.set(6,  numEFG + "");
-        int numNodes = Integer.parseInt(patternValues.get(size-2));
+        int numNodes = Integer.parseInt(patternValues.get(size - 2));
         if (numNodes < numEFG)
             numNodes = numEFG;
         patternValues.set(7, numNodes +"");
-        createGraph(patternValues, patterns);
+        createGraph(patternValues, patterns, true);
         createGraphFile(filename, patterns);
         position = 12;
         return patterns;
@@ -106,26 +108,50 @@ public class Main {
     /**
      * Creates the Graph using the user defined values.
      */
-    public void createGraph(Vector<String> params, Vector<EFG> data) {
+    public void createGraph(Vector<String> params, Vector<EFG> data, boolean isPattern) {
         int nodePosition;
         int numEFG = Integer.parseInt(params.get(6));
         int numAttr = Integer.parseInt(params.get(8));
         double attrProb = Double.parseDouble(params.get(9));
         double edgeProb = Double.parseDouble(params.get(10));
-        addEFG(numEFG, data); // Create EFGs with number of nodes,
+        addEFG(numEFG, data, params, isPattern); // Create EFGs with number of nodes,
         nodePosition = position;
         for (EFG e: data){
             position = nodePosition;
             int size = e.getSize();
+            int index = 0;
             for (int i = 0; i < size; i++){
-                int weight = (int)getDistributedWeight();
-                Node node = new Node(weight + 1, numAttr, size);
-                addAttributes(node, attrProb, numAttr);
-                e.addNode(i, node);
-                if (i < size-1)
-                    position = nodePosition;
+                if (!isPattern && patternBank != null && i < size-1 && i > 0){
+                    if (getBernoulli(Double.parseDouble(values.get(values.size() - 1)))){
+                        EFG pat = patternBank.get(new Random().nextInt(patternBank.size()));
+                        LinkedHashMap<Integer, Node> pattern = pat.getNodes();
+                        int patSize = pat.getSize();
+                        values.set(7, Integer.parseInt(values.get(7))+patSize+"");
+                        e.setSize(e.getSize()+patSize - 1);
+                        for (int j = 0; j < patSize; j++){
+                            e.addNode(index, pattern.get(j));
+                            index++;
+                        }
+                    } else {
+                        int weight = (int)getDistributedWeight();
+                        Node node = new Node(weight + 1, numAttr, size);
+                        addAttributes(node, attrProb, numAttr);
+                        e.addNode(index, node);
+                        index++;
+                        if (i < size-1)
+                            position = nodePosition;
+                    }
+                } else {
+                    int weight = (int) getDistributedWeight();
+                    Node node = new Node(weight + 1, numAttr, size);
+                    addAttributes(node, attrProb, numAttr);
+                    e.addNode(index, node);
+                    index++;
+                    if (i < size - 1)
+                        position = nodePosition;
+                }
             }
-            addEdges(e, edgeProb, false);
+            addEdges(e, edgeProb);
         }
     }
 
@@ -133,8 +159,8 @@ public class Main {
      * Adds all EFGs to the graphs Vector
      * @param numEFG The number of EFGs to add
      */
-    public void addEFG(int numEFG, Vector<EFG> data){
-        int[] sizes = getEFGSizes(numEFG);
+    public void addEFG(int numEFG, Vector<EFG> data, Vector<String> params, boolean isPattern){
+        int[] sizes = getEFGSizes(numEFG, params, isPattern);
         for (int i = 0; i < numEFG; i++){
             int efgSize = sizes[i];
             if (efgSize != 1)
@@ -150,16 +176,21 @@ public class Main {
      * @return int[] that contains an array of integers where each element corresponds
      * to the number of nodes in that EFG
      */
-    public int[] getEFGSizes(int numEFG){
-        int numNodes = Integer.parseInt(values.get(7));
-        String dist = values.get(11).toUpperCase();
+    public int[] getEFGSizes(int numEFG, Vector<String> params, boolean isPattern){
+        int numNodes = Integer.parseInt(params.get(7));
+        String dist = params.get(11).toUpperCase();;
+        String tempdist = "";
+        if (isPattern) {
+            tempdist = dist;
+            dist = "U";
+        }
         int sum = 0;
         int index;
         int[] sizes = new int[numEFG];
         //Gaussian
         if (dist.equals("G")) {
             for (int i = 0; i < numEFG; i++) {
-                sizes[i] = (int) getGaussianWeight(Double.parseDouble(values.get(12)), numNodes / numEFG, Integer.parseInt(values.get(14)));
+                sizes[i] = (int) getGaussianWeight(Double.parseDouble(params.get(12)), numNodes / numEFG, Integer.parseInt(params.get(14)));
                 if (sizes[i] <= 0)
                     sizes[i] = 1;
                 sum += sizes[i];
@@ -211,7 +242,7 @@ public class Main {
             //Exponential
         else if (dist.equals("E")) {
             for (int i = 0; i < numEFG; i++) {
-                double rate = Double.parseDouble(values.get(12));
+                double rate = Double.parseDouble(params.get(12));
                 double num = getInverseExponentialCDF(rate, 0.99);
                 num /= (double) numEFG;
                 num *= (double) (i + 1);
@@ -248,6 +279,10 @@ public class Main {
             }
             position += 2;
         }
+        if (tempdist.equals("G"))
+            position++;
+        else if (tempdist.equals("E"))
+            position--;
         return sizes;
     }
 
@@ -284,7 +319,7 @@ public class Main {
      * @param efg The EFG where edges are added
      * @param edgeProb The probability used for the bernoulli test
      */
-    public void addEdges(EFG efg, double edgeProb, boolean patterns){
+    public void addEdges(EFG efg, double edgeProb){
         int edgePosition = position;
         boolean insertEdge;
         boolean validSink = false;
@@ -293,9 +328,9 @@ public class Main {
         BitSet sourceCheck = new BitSet(numNodes);
         Node node;
         Node source = efg.getNodes().get(0);
-        for (int i = 1; i < efg.getSize()-1; i++) {
+        for (int i = 1; i < numNodes-1; i++) {
             node = efg.getNodes().get(i);
-            for (int j = i; j < (numNodes = efg.getSize() - 1); j++) {
+            for (int j = i; j < numNodes - 1; j++) {
                 insertEdge = getBernoulli(edgeProb);
                 if (insertEdge) {
                     weight = getDistributedWeight();
@@ -307,19 +342,20 @@ public class Main {
                 if (i != j) {
                     insertEdge = getBernoulli(edgeProb);
                     if (insertEdge) {
-                        if (!patterns && patternBank != null)
-                            if (!getBernoulli(Double.parseDouble(values.get(values.size()-1)))){
-                                EFG pat = patternBank.get(new Random().nextInt(patternBank.size()));
+                        /*if (!patterns && patternBank != null)
+                            if (!getBernoulli(Double.parseDouble(values.get(values.size() - 1)))){
+
                                 LinkedHashMap<Integer, Node> patNodes = pat.getNodes();
                                 LinkedHashMap<Integer, Node> origNodes = efg.getNodes();
                                 int origSize = origNodes.size();
                                 int patSize = patNodes.size();
                                 values.set(7, Integer.parseInt(values.get(7))+patSize+"");
-				System.out.println(values.get(7);                                
-				int newSize = origSize + patSize;
+                                System.out.println("CURRENT NODES: " + values.get(7));
+                                int newSize = origSize + patSize;
                                 efg.setSize(newSize);
                                 for (int k = 0; k < patSize; k++){
                                     efg.addNode(origSize + k, patNodes.get(k));
+                                    System.out.print(origSize);
                                 }
                                 for (int l = 0; l < origSize; l++){
                                     BitSet newEdge = new BitSet(newSize);
@@ -333,12 +369,15 @@ public class Main {
                                         } else {
                                             newEdge.set(index);
                                         }
+                                        index++;
                                     }
                                     index = 0;
                                     BitSet newSourceCheck = new BitSet(newSize);
+
                                     while (sourceCheck.nextSetBit(index) != -1){
                                         index = sourceCheck.nextSetBit(index);
                                         newSourceCheck.set(index);
+                                        index++;
                                     }
                                     current.setEdges(newEdge);
                                     sourceCheck = newSourceCheck;
@@ -351,7 +390,7 @@ public class Main {
                                 node.addEdge(i, weight);
                                 sourceCheck.set(i);
                             }
-                        } else {
+                        } else {*/
                             weight = getDistributedWeight();
                             node = efg.getNodes().get(j);
                             node.addEdge(i, weight);

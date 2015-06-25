@@ -8,11 +8,11 @@ public class exploration {
         final int[] MAXFORWARD = { 100, 100 };
         final int[] MAXBACKARD = { 100, 100 };
         final int[] GAP = { 0, 0 };
-        final double[] MINSUPPORT = { 0, 1.0 };
+        final double[] MINSUPPORT = { 0, .5 };
         final int[] MAXNODES = { 100, 100 };
-        final int[] EFGS = { 100, 100 };
-        final int[] NODES = { 1000, 1000 };
-        final int[] ATTR = { 100, 100 };
+        final int[] EFGS = { 100, 1000 };
+        final int[] NODES = { 100, 10000 };
+        final int[] ATTR = { 10, 10 };
         final double[] APROB = { 0.5, .5 };
         final double[] EPROB = { .5, .5 };
         final char[] DIST = { 'U', 'E', 'G' };
@@ -22,8 +22,8 @@ public class exploration {
         final double[] HEIGHT = { 1, 1 };
         final int[] CENTRE = { 10, 10 };
         final int[] WIDTH = { 10, 10 };
-        final int[] PATEFG = { 1, 10 };
-        final int[] PATNODE = { 1, 100 };
+        final int[] PATEFGS = { 1, 2 };
+        final int[] PATNODE = { 1, 10 };
         final double[] PATPROB = { 0, .5 };
         
         try {

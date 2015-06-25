@@ -22,6 +22,9 @@ public class exploration {
         final double[] HEIGHT = { 1, 1 };
         final int[] CENTRE = { 10, 10 };
         final int[] WIDTH = { 10, 10 };
+        final int[] PATEFG = { 1, 10 };
+        final int[] PATNODE = { 1, 100 };
+        final double[] PATPROB = { 0, .5 };
         
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(args[0]));
@@ -33,6 +36,11 @@ public class exploration {
             writer.write("\n"+randomInt(MAXNODES[0], MAXNODES[1]));
             int numEFGS = randomInt(EFGS[0], EFGS[1]);
             writer.write("\n"+numEFGS);
+            int numNodes = randomInt(NODES[0], NODES[1]);
+            if (numNodes < numEFGS)
+                NODES[0] = numEFGS;
+            if (NODES[1] < numEFGS)
+                NODES[1] = numEFGS;
             writer.write("\n"+randomInt(NODES[0], NODES[1]));
             writer.write("\n"+randomInt(ATTR[0], ATTR[1]));
             writer.write("\n"+randomDouble(APROB[0], APROB[1]));
@@ -56,6 +64,16 @@ public class exploration {
                         break;
                 }
             }
+            numEFGS = randomInt(PATEFGS[0], PATEFGS[1]);
+            writer.write("\n"+numEFGS);
+            numNodes = randomInt(PATNODE[0], PATNODE[1]);
+            if (numNodes < numEFGS)
+                PATNODE[0] = numEFGS;
+            if (PATNODE[1] < numEFGS)
+                PATNODE[1] = numEFGS;
+            writer.write("\n"+randomInt(PATNODE[0], PATNODE[1]));
+            writer.write("\n"+randomDouble(PATPROB[0], PATPROB[1]));
+            
             writer.close();
 
         } catch (IOException e ){

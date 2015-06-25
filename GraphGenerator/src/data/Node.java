@@ -29,9 +29,9 @@ public class Node {
 	/**
 	 * The weight of the node.
 	 */
-	private double weight;
+	private int weight;
 	
-	public Node(double weight, int attrNumber, int nodeNumber){
+	public Node(int weight, int attrNumber, int nodeNumber){
 		this.weight = weight;
 		this.attributes = new BitSet(attrNumber);
 		this.edges = new BitSet(nodeNumber);
@@ -144,11 +144,11 @@ public class Node {
 		this.edgeWeight = edgeWeight;
 	}
 
-	public double getWeight() {
+	public int getWeight() {
 		return weight;
 	}
 
-	public void setWeight(double weight) {
+	public void setWeight(int weight) {
 		this.weight = weight;
 	}
 	

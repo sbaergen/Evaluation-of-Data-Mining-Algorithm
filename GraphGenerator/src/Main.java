@@ -54,7 +54,7 @@ public class Main {
                 int numNodes;
                 int numAttr;
                 int numEdges;
-                double weight;
+                int weight;
                 String[] attr;
                 String[] edge;
                 BufferedReader br = new BufferedReader(new FileReader(filename));
@@ -64,7 +64,7 @@ public class Main {
                     EFG efg = new EFG(numNodes);
                     for (int j = 0; j < numNodes; j++) {
                         br.readLine();
-                        weight = Double.parseDouble(br.readLine().trim());
+                        weight = Integer.parseInt(br.readLine().trim());
                         node = new Node(weight, Integer.parseInt(values.get(8)), numNodes);
                         numAttr = Integer.parseInt(br.readLine().trim());
                         for (int k = 0; k < numAttr; k++) {
@@ -90,9 +90,13 @@ public class Main {
         Vector<String> patternValues = new Vector<String>();
         for (String s: values)
             patternValues.add(s);
-        int numEFG = rd.nextInt(10) + 1;
+        int size = patternValues.size();
+        int numEFG = Integer.parseInt(patternValues.get(size-3));
         patternValues.set(6,  numEFG + "");
-        patternValues.set(7, numEFG + rd.nextInt(numEFG*10)+"");
+        int numNodes = Integer.parseInt(patternValues.get(size-2));
+        if (numNodes < numEFG)
+            numNodes = numEFG;
+        patternValues.set(7, numNodes +"");
         createGraph(patternValues, patterns);
         createGraphFile(filename, patterns);
         position = 12;
@@ -114,8 +118,8 @@ public class Main {
             position = nodePosition;
             int size = e.getSize();
             for (int i = 0; i < size; i++){
-                double weight = getDistributedWeight();
-                Node node = new Node(weight, numAttr, size);
+                int weight = (int)getDistributedWeight();
+                Node node = new Node(weight + 1, numAttr, size);
                 addAttributes(node, attrProb, numAttr);
                 e.addNode(i, node);
                 if (i < size-1)
@@ -304,7 +308,7 @@ public class Main {
                     insertEdge = getBernoulli(edgeProb);
                     if (insertEdge) {
                         if (!patterns && patternBank != null)
-                            if (!getBernoulli(edgeProb)){
+                            if (!getBernoulli(Double.parseDouble(values.get(values.size()-1)))){
                                 EFG pat = patternBank.get(new Random().nextInt(patternBank.size()));
                                 LinkedHashMap<Integer, Node> patNodes = pat.getNodes();
                                 LinkedHashMap<Integer, Node> origNodes = efg.getNodes();

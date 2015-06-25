@@ -30,6 +30,7 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import mining.algorithm.FlowGSpanController;
 import mining.algorithm.ReturnInfo;
@@ -69,7 +70,7 @@ public class MinerManager {
 		else {
 			info = pm.readInputFromFile(args);
 		}
-                return info;
+        return info;
 	}
 	
 	private void readInputFromDB(String[] args) {
@@ -374,7 +375,7 @@ public class MinerManager {
 		    		//end DEBUG
 		    		while(attrNum > 0) {
 		    			String tempStr = br.readLine();
-                                        String[] attrValStr = tempStr.split(" "); //tuple (attribute, weight) split by space on file
+                        String[] attrValStr = tempStr.split(" "); //tuple (attribute, weight) split by space on file
 		    			//int attr = Integer.valueOf(attrValStr[0]); //1st part of string: attribute order in bitvector
 		    			double weight = Double.valueOf(attrValStr[1]); //2nd string: weight of attribute
 		    			v.setAttribute(FlowGSpanController.addAttributeToTable(attrValStr[0]), weight); //insert attr into vertex
@@ -429,6 +430,7 @@ public class MinerManager {
 			info.setCount(count);
 		    Long endTime = System.currentTimeMillis(); 
 		    info.setNumPatternsPerNumEdges(fgspanController.writeResults());
+            System.out.println(FlowGSpanController.NUMBER_SUBGRAPHS);
 		    String numSubgraphs = "\n\nNumber of Frequent Subgraphs: " + FlowGSpanController.NUMBER_SUBGRAPHS;
 		    info.setNumHotSubgraphs(FlowGSpanController.NUMBER_SUBGRAPHS);
 		    Long totalTime = endTime - startTime;

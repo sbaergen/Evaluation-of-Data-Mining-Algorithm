@@ -31,7 +31,6 @@ public class Main {
             System.out.println("Usage: Main Parameters [PatternsFileName(optional)]");
             System.exit(10);
         }
-        System.out.println("Creating Graph");
         m.createGraph(values, graphs, false);
         int numEdges = m.createGraphFile(INPUT, graphs);
         m.createConfigFile();
@@ -150,6 +149,11 @@ public class Main {
                     if (i < size - 1)
                         position = nodePosition;
                 }
+            }
+            size = e.getSize();
+            for (int i = 0; i < size; i++){
+                BitSet newBitSet = new BitSet(size);
+                e.getNodes().get(i).setEdges(newBitSet);
             }
             addEdges(e, edgeProb);
         }

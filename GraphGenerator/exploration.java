@@ -22,9 +22,9 @@ public class exploration {
         final double[] HEIGHT = { 1, 1 };
         final int[] CENTRE = { 10, 10 };
         final int[] WIDTH = { 10, 10 };
-        final int[] PATEFGS = { 1, 2 };
-        final int[] PATNODE = { 1, 10 };
-        final double[] PATPROB = { 0, .5 };
+        final int[] PATEFGS = { 1, 1 };
+        final int[] PATNODE = { 1, 1 };
+        final double[] PATPROB = { 1, 1 };
         
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(args[0]));

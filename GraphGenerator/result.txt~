@@ -1,36 +1,31 @@
 --------MACHINE INFORMATION--------
 
-<<<<<<< HEAD
 Processor: null
-Java.vm.version: 11.2-b01
-Java.runtime.version: 1.6.0_12-b04
+Java.vm.version: 20.0-b11
+Java.runtime.version: 1.6.0_22-b22
 Java.class.version: 50.0
-Sun.management.compiler: HotSpot 64-Bit Server Compiler
+Sun.management.compiler: HotSpot 64-Bit Tiered Compilers
 Java.vm.specification.version: 1.0
 OS Name: Linux
 OS Version: 2.6.32-220.17.1.el6.x86_64
 OS Arch: amd64
-=======
-Processor: Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz
-Java.vm.version: 25.45-b02
-Java.runtime.version: 1.8.0_45-b14
-Java.class.version: 52.0
-Sun.management.compiler: HotSpot 64-Bit Tiered Compilers
-Java.vm.specification.version: 1.8
-OS Name: Mac OS X
-OS Version: 10.10.3
-OS Arch: x86_64
->>>>>>> 32f6cb4b9892e44e82df74a94de1bc680699c58a
 Available Processors: 8
 
 --------TEST RESULTS--------
 
 <<<<<<< HEAD
-Total Time: 1594ms
-Total Edges: 11191
-=======
-Total Time: 810ms
-Total Edges: 6500
->>>>>>> 32f6cb4b9892e44e82df74a94de1bc680699c58a
+Total Time: 3340ms
+Total Edges: 255333
 Total Subgraphs Tested: 0
 Number of Hot Subgraphs: 0
+=======
+Total Time: 43333ms
+Total Edges: 41
+Total Subgraphs Tested: 2632721
+Number of Hot Subgraphs: 12499
+Number of Hot 0-Edge Subgraphs: 21
+Number of Hot 1-Edge Subgraphs: 243
+Number of Hot 2-Edge Subgraphs: 1100
+Number of Hot 3-Edge Subgraphs: 5332
+Number of Hot 4-Edge Subgraphs: 5803
+>>>>>>> c7380b48ca499e8413fab8f1227570e111a40034

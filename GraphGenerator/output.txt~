@@ -1,0 +1,20 @@
+<<<<<<< HEAD
+Results for Data Mining on 2015/06/25 14:51:21
+	Support Threshold:		0.4883098449214597
+	Max Number of Nodes (Wt):		100
+	Max Number of Attributes Allowed:		100
+	Max Number of EFGEdge Additions:		200
+	Min Method Hotness:		0.0
+	Dataset Size (in number of graphs):		740
+
+Graphs of size (in number of edges)0: null
+
+==========Mapping between subgraphs and instructions==========
+
+
+
+Number of Frequent Subgraphs: 0
+
+Total runtime: 2229
+=======
+>>>>>>> c7380b48ca499e8413fab8f1227570e111a40034

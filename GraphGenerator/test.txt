@@ -1,9 +1,9 @@
-5 //Max attrib
-10 //Max forward edges
+7 //Max attrib
+15 //Max forward edges
 10 //Max backward edges
 0 //gap value
-0//minSupport
-5 //Max nodes per pattern
+0.051//minSupport
+9 //Max nodes per pattern
 1 //#EFGs
 10 //#Nodes
 5 //Size of union of all attributes

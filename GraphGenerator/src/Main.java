@@ -27,7 +27,13 @@ public class Main {
         values = m.manualParse(args[0]);
         if (args.length == 2)
             patternBank = m.createPatterns(args[1]);
-        else if (args.length != 1){
+        else if (args.length == 1){
+            int size = values.size();
+            values.set(size-1, 0+"");
+            values.set(size-2, 0+"");
+            values.set(size-3, 0+"");
+        }
+        else {
             System.out.println("Usage: Main Parameters [PatternsFileName(optional)]");
             System.exit(10);
         }

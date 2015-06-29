@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -366,6 +367,20 @@ public class MinerManager {
 		    	ExecutionFlowGraph efg = new ExecutionFlowGraph();
 		        
 		    	while(vertexNum > 0) {
+                    Runtime runtime = Runtime.getRuntime();
+
+                    NumberFormat format = NumberFormat.getInstance();
+
+                    StringBuilder sb = new StringBuilder();
+                    long maxMemory = runtime.maxMemory();
+                    long allocatedMemory = runtime.totalMemory();
+                    long freeMemory = runtime.freeMemory();
+
+                    sb.append("free memory: " + format.format(freeMemory / 1024) + "\n");
+                    sb.append("allocated memory: " + format.format(allocatedMemory / 1024) + "\n");
+                    sb.append("max memory: " + format.format(maxMemory / 1024) + "\n");
+                    sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024));
+                    System.out.println(sb);
 		    		long vertexId = Long.valueOf(br.readLine());
 		    		double hotness = Double.valueOf(br.readLine());
 		    		int attrNum = Integer.valueOf(br.readLine());//number of attributes

@@ -293,6 +293,7 @@ public class FlowGSpan implements Runnable{
 				FlowGSpanController.NUMBER_SUBGRAPHS.incrementAndGet();
 				
 				resultSet.add(keyStr);
+                System.out.println(resultSet.size() + " 0");
 				resultSizes.add(0);
 				
 				int graphInstances = (int)FlowGSpanController.sgMap.get(keyStr).get(3).floatValue();
@@ -503,6 +504,7 @@ public class FlowGSpan implements Runnable{
 				FlowGSpanController.NUMBER_SUBGRAPHS.incrementAndGet();
 					
 				resultSet.add(childKeyStr);
+                System.out.println(resultSet.size() + " " + child.getEdgeSet().size());
 				resultSizes.add(child.getEdgeSet().size());
 				
 				int numInstances = (int)FlowGSpanController.sgMap.get(childKeyStr).get(3).floatValue();

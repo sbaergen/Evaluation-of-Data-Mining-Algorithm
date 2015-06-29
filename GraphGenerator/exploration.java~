@@ -4,17 +4,17 @@ import java.util.Random;
 public class exploration {
 
 	public static void main(String[] args) {
-        final int[] MAXATTR = { 100, 100 };
-        final int[] MAXFORWARD = { 100, 100 };
-        final int[] MAXBACKARD = { 100, 100 };
-        final int[] GAP = { 0, 0 };
-        final double[] MINSUPPORT = { 0, .1 };
-        final int[] MAXNODES = { 100, 100 };
-        final int[] EFGS = { 100, 1000 };
+        final int[] MAXATTR = { 1, 10 };
+        final int[] MAXFORWARD = { 0, 15 };
+        final int[] MAXBACKARD = { 0, 15 };
+        final int[] GAP = { 0, 5 };
+        final double[] MINSUPPORT = { 0.05, 1 };
+        final int[] MAXNODES = { 5, 15 };
+        final int[] EFGS = { 1, 10 };
         final int[] NODES = { 1, 10 };
-        final int[] ATTR = { 10, 10 };
-        final double[] APROB = { 0.5, .5 };
-        final double[] EPROB = { .5, .5 };
+        final int[] ATTR = { 1, 10 };
+        final double[] APROB = { 0, 1 };
+        final double[] EPROB = { 0, 1 };
         final char[] DIST = { 'U', 'E', 'G' };
         final double[] RATE = { 1, 1 };
         final int[] MIN = { 10, 10 };
@@ -22,9 +22,9 @@ public class exploration {
         final double[] HEIGHT = { 1, 1 };
         final int[] CENTRE = { 10, 10 };
         final int[] WIDTH = { 10, 10 };
-        final int[] PATEFGS = { 1, 2 };
+        final int[] PATEFGS = { 1, 5 };
         final int[] PATNODE = { 1, 10 };
-        final double[] PATPROB = { 0, .5 };
+        final double[] PATPROB = { 0, 1 };
         
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(args[0]));

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Results for Data Mining on 2015/06/29 11:21:51
 	Support Threshold:		0.051
 	Max Number of Nodes (Wt):		9

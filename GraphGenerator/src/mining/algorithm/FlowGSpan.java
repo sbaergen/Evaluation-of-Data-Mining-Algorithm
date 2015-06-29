@@ -438,6 +438,7 @@ public class FlowGSpan implements Runnable{
 						currNumNodes = newG.getVertexSet().size();
 						supports.add(currNumNodes);
 						supports.add((double)numMatches);
+						System.out.println(numMatches);
 						supports.add((double)newG.getPatternType());
 						
 						graphDB.addUsefulGraphs(newG.getGS());

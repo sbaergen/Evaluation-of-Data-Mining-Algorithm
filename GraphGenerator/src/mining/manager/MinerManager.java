@@ -357,17 +357,7 @@ public class MinerManager {
 		    
 		    //DEBUG
     		System.out.println("There is(are)  " + graphNum + " EFG(s) in this dataset."); //Changed to println from print
-    		//end DEBUG
-		    while(graphNum > 0) {
-		    	 //DEBUG
-	    		//System.out.print("\n\nEFG: \n\n");
-	    		//end DEBUG
-		    	//reading vertex info
-		    	int vertexNum =  Integer.valueOf(br.readLine());//number of vertices
-		    	ExecutionFlowGraph efg = new ExecutionFlowGraph();
-		        
-		    	while(vertexNum > 0) {
-                    Runtime runtime = Runtime.getRuntime();
+		Runtime runtime = Runtime.getRuntime();
 
                     NumberFormat format = NumberFormat.getInstance();
 
@@ -381,6 +371,26 @@ public class MinerManager {
                     sb.append("max memory: " + format.format(maxMemory / 1024) + "\n");
                     sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024));
                     System.out.println(sb);
+    		//end DEBUG
+		    while(graphNum > 0) {
+		    	 //DEBUG
+	    		//System.out.print("\n\nEFG: \n\n");
+	    		//end DEBUG
+		    	//reading vertex info
+		    	int vertexNum =  Integer.valueOf(br.readLine());//number of vertices
+		    	ExecutionFlowGraph efg = new ExecutionFlowGraph();
+		        StringBuilder sba = new StringBuilder();
+			Runtime runtimea = Runtime.getRuntime();
+                    long maxMemorya = runtimea.maxMemory();
+                    long allocatedMemorya = runtimea.totalMemory();
+                    long freeMemorya = runtimea.freeMemory();
+
+                    sba.append("free memory: " + format.format(freeMemorya / 1024) + "\n");
+                    sba.append("allocated memory: " + format.format(allocatedMemorya / 1024) + "\n");
+                    sba.append("max memory: " + format.format(maxMemorya / 1024) + "\n");
+                    sba.append("total free memory: " + format.format((freeMemorya + (maxMemorya - allocatedMemorya)) / 1024));
+		    	while(vertexNum > 0) {
+                    
 		    		long vertexId = Long.valueOf(br.readLine());
 		    		double hotness = Double.valueOf(br.readLine());
 		    		int attrNum = Integer.valueOf(br.readLine());//number of attributes

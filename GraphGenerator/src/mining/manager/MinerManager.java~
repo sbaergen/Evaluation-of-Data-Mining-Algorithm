@@ -25,11 +25,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import mining.algorithm.FlowGSpanController;
 import mining.algorithm.ReturnInfo;
@@ -50,7 +52,7 @@ public class MinerManager {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static ReturnInfo main(String[] args) {
 		FileOutputStream fstream;
 		ReturnInfo info = new ReturnInfo();
         try {
@@ -69,7 +71,7 @@ public class MinerManager {
 		else {
 			info = pm.readInputFromFile(args);
 		}
-                //return info;
+        return info;
 	}
 	
 	private void readInputFromDB(String[] args) {
@@ -355,6 +357,20 @@ public class MinerManager {
 		    
 		    //DEBUG
     		System.out.println("There is(are)  " + graphNum + " EFG(s) in this dataset."); //Changed to println from print
+Runtime runtime = Runtime.getRuntime();
+
+                    NumberFormat format = NumberFormat.getInstance();
+
+                    StringBuilder sb = new StringBuilder();
+                    long maxMemory = runtime.maxMemory();
+                    long allocatedMemory = runtime.totalMemory();
+                    long freeMemory = runtime.freeMemory();
+
+                    sb.append("free memory: " + format.format(freeMemory / 1024) + "\n");
+                    sb.append("allocated memory: " + format.format(allocatedMemory / 1024) + "\n");
+                    sb.append("max memory: " + format.format(maxMemory / 1024) + "\n");
+                    sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024));
+                    System.out.println(sb);
     		//end DEBUG
 		    while(graphNum > 0) {
 		    	 //DEBUG
@@ -363,8 +379,18 @@ public class MinerManager {
 		    	//reading vertex info
 		    	int vertexNum =  Integer.valueOf(br.readLine());//number of vertices
 		    	ExecutionFlowGraph efg = new ExecutionFlowGraph();
-		        
+		        StringBuilder sba = new StringBuilder();
+			Runtime runtimea = Runtime.getRuntime();
+                    long maxMemorya = runtimea.maxMemory();
+                    long allocatedMemorya = runtimea.totalMemory();
+                    long freeMemorya = runtimea.freeMemory();
+
+                    sba.append("free memory: " + format.format(freeMemorya / 1024) + "\n");
+                    sba.append("allocated memory: " + format.format(allocatedMemorya / 1024) + "\n");
+                    sba.append("max memory: " + format.format(maxMemorya / 1024) + "\n");
+                    sba.append("total free memory: " + format.format((freeMemorya + (maxMemorya - allocatedMemorya)) / 1024));
 		    	while(vertexNum > 0) {
+                    
 		    		long vertexId = Long.valueOf(br.readLine());
 		    		double hotness = Double.valueOf(br.readLine());
 		    		int attrNum = Integer.valueOf(br.readLine());//number of attributes
@@ -374,7 +400,7 @@ public class MinerManager {
 		    		//end DEBUG
 		    		while(attrNum > 0) {
 		    			String tempStr = br.readLine();
-                                        String[] attrValStr = tempStr.split(" "); //tuple (attribute, weight) split by space on file
+                        String[] attrValStr = tempStr.split(" "); //tuple (attribute, weight) split by space on file
 		    			//int attr = Integer.valueOf(attrValStr[0]); //1st part of string: attribute order in bitvector
 		    			double weight = Double.valueOf(attrValStr[1]); //2nd string: weight of attribute
 		    			v.setAttribute(FlowGSpanController.addAttributeToTable(attrValStr[0]), weight); //insert attr into vertex
@@ -429,6 +455,7 @@ public class MinerManager {
 			info.setCount(count);
 		    Long endTime = System.currentTimeMillis(); 
 		    info.setNumPatternsPerNumEdges(fgspanController.writeResults());
+            System.out.println(FlowGSpanController.NUMBER_SUBGRAPHS);
 		    String numSubgraphs = "\n\nNumber of Frequent Subgraphs: " + FlowGSpanController.NUMBER_SUBGRAPHS;
 		    info.setNumHotSubgraphs(FlowGSpanController.NUMBER_SUBGRAPHS);
 		    Long totalTime = endTime - startTime;

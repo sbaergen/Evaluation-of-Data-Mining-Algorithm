@@ -7,5 +7,5 @@ do
 	echo Creating Parameters
 	java exploration $1
 	echo Generating Graph
-	java -Xmx4096m -cp .:bin:**/**/*.class Main $1
+	java -cp .:bin:**/**/*.class Main $1
 done

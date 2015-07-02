@@ -221,12 +221,12 @@ public class FlowGSpanController {
 			instance.setExistingAttrs(existingAttrs);
 			instance.setStartIndex(startIndex);
 			instance.setEndIndex(endIndex);
-			//System.out.println("Elements = " + instance.getResultSet().toString());
+			System.out.println("Elements = " + instance.getResultSet().toString());
 			instance.run();
-			//System.out.println("Elements = " + instance.getResultSet().toString());
+			System.out.println("Elements = " + instance.getResultSet().toString());
 			freqAttrs.addAll(instance.getChildFreqAttrs());
 			patternsToProcess.addAll(instance.getChildSet());
-			//System.out.println(patternsToProcess.size() + "PATTERNS INIT");
+			System.out.println(patternsToProcess.size() + "PATTERNS INIT");
 			resultSet.addAll(instance.getResultSet());
 			resultSizes.addAll(instance.getResultSizes());
 			
@@ -234,7 +234,7 @@ public class FlowGSpanController {
 			for(Integer patternId : tempMap.keySet()) {
 				instructionMap.put(patternId, tempMap.get(patternId));
 			}
-			//System.out.println(instructionMap.size());
+			System.out.println(instructionMap.size());
 			instance.getResultSizes().clear();
 			instance.getResultSet().clear();
 
@@ -267,7 +267,7 @@ public class FlowGSpanController {
 				freqAttrs.addAll(instance.getChildFreqAttrs());
 				freqEdges.addAll(instance.getChildFreqEdges()); //FGSpan-edgecomb
 				patternsToProcess.addAll(instance.getChildSet());
-				//System.out.println(patternsToProcess.size() + " PATTERNS");
+				System.out.println(patternsToProcess.size() + " PATTERNS");
 				resultSet.addAll(instance.getResultSet());
 				resultSizes.addAll(instance.getResultSizes());
 				

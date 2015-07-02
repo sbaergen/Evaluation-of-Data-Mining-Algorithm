@@ -52,7 +52,8 @@ public class MinerManager {
 	/**
 	 * @param args
 	 */
-	public static ReturnInfo main(String[] args) {
+	//public static ReturnInfo main(String[] args) {
+	public static void main(String[] args) {
 		FileOutputStream fstream;
 		ReturnInfo info = new ReturnInfo();
         try {
@@ -69,9 +70,10 @@ public class MinerManager {
 			pm.readInputFromDB(args);
 		}
 		else {
-			info = pm.readInputFromFile(args);
+			//info = pm.readInputFromFile(args);
+			pm.readInputFromFile(args);
 		}
-        return info;
+        //return info;
 	}
 	
 	private void readInputFromDB(String[] args) {
@@ -361,16 +363,7 @@ public class MinerManager {
 
                     NumberFormat format = NumberFormat.getInstance();
 
-                    StringBuilder sb = new StringBuilder();
-                    long maxMemory = runtime.maxMemory();
-                    long allocatedMemory = runtime.totalMemory();
-                    long freeMemory = runtime.freeMemory();
-
-                    sb.append("free memory: " + format.format(freeMemory / 1024) + "\n");
-                    sb.append("allocated memory: " + format.format(allocatedMemory / 1024) + "\n");
-                    sb.append("max memory: " + format.format(maxMemory / 1024) + "\n");
-                    sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024));
-                    System.out.println(sb);
+            
     		//end DEBUG
 		    while(graphNum > 0) {
 		    	 //DEBUG
@@ -379,16 +372,7 @@ public class MinerManager {
 		    	//reading vertex info
 		    	int vertexNum =  Integer.valueOf(br.readLine());//number of vertices
 		    	ExecutionFlowGraph efg = new ExecutionFlowGraph();
-		        StringBuilder sba = new StringBuilder();
-			Runtime runtimea = Runtime.getRuntime();
-                    long maxMemorya = runtimea.maxMemory();
-                    long allocatedMemorya = runtimea.totalMemory();
-                    long freeMemorya = runtimea.freeMemory();
-
-                    sba.append("free memory: " + format.format(freeMemorya / 1024) + "\n");
-                    sba.append("allocated memory: " + format.format(allocatedMemorya / 1024) + "\n");
-                    sba.append("max memory: " + format.format(maxMemorya / 1024) + "\n");
-                    sba.append("total free memory: " + format.format((freeMemorya + (maxMemorya - allocatedMemorya)) / 1024));
+                   
 		    	while(vertexNum > 0) {
                     
 		    		long vertexId = Long.valueOf(br.readLine());

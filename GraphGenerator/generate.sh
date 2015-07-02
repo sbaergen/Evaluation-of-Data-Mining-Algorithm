@@ -1,4 +1,4 @@
-for i in 0 1 2 3 4 5 6 7 8 9
+for i in {0..9}
 do
 	echo $i
 	echo Compiling
@@ -7,5 +7,5 @@ do
 	echo Creating Parameters
 	java exploration $1
 	echo Generating Graph
-	java -cp .:bin:**/**/*.class Main $1
+	java -Xmx4000m -cp .:bin:**/**/*.class Main $1
 done

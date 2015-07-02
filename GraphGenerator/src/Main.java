@@ -37,6 +37,7 @@ public class Main {
             System.out.println("Usage: Main Parameters [PatternsFileName(optional)]");
             System.exit(10);
         }
+        System.out.println("Creating Graph");
         m.createGraph(values, graphs, false);
         int numEdges = m.createGraphFile(INPUT, graphs);
         m.createConfigFile();
@@ -128,7 +129,29 @@ public class Main {
             for (int i = 0; i < size; i++){
                 if (!isPattern && patternBank != null && i < size-1 && i > 0){
                     if (getBernoulli(Double.parseDouble(values.get(values.size() - 1)))){
-                        EFG pat = patternBank.get(new Random().nextInt(patternBank.size()));
+                        int tempPosition = position;
+                        int offset = 5;
+                        int valuesSize = values.size();
+                        while (true){
+                            String value = values.get(valuesSize-offset);
+                            if (value.equals("G") || value.equals("g") || value.equals("u") || value.equals("U") || value.equals("E") || value.equals("e")){
+                                position = valuesSize-offset;
+                                break;
+                            }
+                            offset++;
+                        }
+                        System.out.println("Selecting Pattern");
+                        double patternSelect = patternSelection();
+                        System.out.println(patternSelect);
+                        double interval = 1.0/patternBank.size();
+                        double sum = 0;
+                        int patternIndex = -1;
+                        while (sum < patternSelect){
+                            patternIndex++;
+                            sum+=interval;
+                        }
+                        EFG pat = patternBank.get(patternIndex);
+                        position = tempPosition;
                         LinkedHashMap<Integer, Node> pattern = pat.getNodes();
                         int patSize = pat.getSize();
                         values.set(7, Integer.parseInt(values.get(7))+patSize+"");
@@ -223,32 +246,6 @@ public class Main {
             }
             position += 3;
         }
-            //Poisson
-        /*else if  (dist.equals("P")) {
-            for (int i = 0; i < numEFG; i++) {
-                sizes[i] = (int) getPoissonNumber(numNodes / numEFG);
-                if (sizes[i] == 0)
-                    sizes[i] = 1;
-                sum += sizes[i];
-            }
-            index = 0;
-            while (sum != numNodes) {
-                if (sum < numNodes) {
-                    sizes[numEFG - index - 1]++;
-                    sum++;
-                } else {
-                    if (sizes[index] != 1) {
-                        sizes[index]--;
-                        sum--;
-                    }
-                }
-                if (index == numEFG - 1)
-                    index = 0;
-                else
-                    index++;
-            }
-            position++;
-        }*/
             //Exponential
         else if (dist.equals("E")) {
             for (int i = 0; i < numEFG; i++) {
@@ -352,55 +349,6 @@ public class Main {
                 if (i != j) {
                     insertEdge = getBernoulli(edgeProb);
                     if (insertEdge) {
-                        /*if (!patterns && patternBank != null)
-                            if (!getBernoulli(Double.parseDouble(values.get(values.size() - 1)))){
-
-                                LinkedHashMap<Integer, Node> patNodes = pat.getNodes();
-                                LinkedHashMap<Integer, Node> origNodes = efg.getNodes();
-                                int origSize = origNodes.size();
-                                int patSize = patNodes.size();
-                                values.set(7, Integer.parseInt(values.get(7))+patSize+"");
-                                System.out.println("CURRENT NODES: " + values.get(7));
-                                int newSize = origSize + patSize;
-                                efg.setSize(newSize);
-                                for (int k = 0; k < patSize; k++){
-                                    efg.addNode(origSize + k, patNodes.get(k));
-                                    System.out.print(origSize);
-                                }
-                                for (int l = 0; l < origSize; l++){
-                                    BitSet newEdge = new BitSet(newSize);
-                                    Node current = efg.getNodes().get(l);
-                                    BitSet oldEdge = current.getEdges();
-                                    int index = 0;
-                                    while (oldEdge.nextSetBit(index) != -1){
-                                        index = oldEdge.nextSetBit(index);
-                                        if (index == origSize-1){
-                                            newEdge.set(newSize-1);
-                                        } else {
-                                            newEdge.set(index);
-                                        }
-                                        index++;
-                                    }
-                                    index = 0;
-                                    BitSet newSourceCheck = new BitSet(newSize);
-
-                                    while (sourceCheck.nextSetBit(index) != -1){
-                                        index = sourceCheck.nextSetBit(index);
-                                        newSourceCheck.set(index);
-                                        index++;
-                                    }
-                                    current.setEdges(newEdge);
-                                    sourceCheck = newSourceCheck;
-                                }
-                                weight = getDistributedWeight();
-                                node.addEdge(origSize, weight);
-                            } else {
-                                weight = getDistributedWeight();
-                                node = efg.getNodes().get(j);
-                                node.addEdge(i, weight);
-                                sourceCheck.set(i);
-                            }
-                        } else {*/
                             weight = getDistributedWeight();
                             node = efg.getNodes().get(j);
                             node.addEdge(i, weight);
@@ -515,7 +463,7 @@ public class Main {
                     input = input.replaceAll("//.*", " ");
                     arguments += input.replaceAll("\\s+", " ");
                 }
-		System.out.println("Arguments: " + arguments);
+		        System.out.println("Arguments: " + arguments);
                 String[] params = arguments.split(" ");
                 for (String c : params) {
                     values.add(c);
@@ -527,6 +475,28 @@ public class Main {
             return values;
         }
 
+    public double patternSelection(){
+        String dist = values.get(position).toUpperCase();
+        Random rd = new Random();
+        if (dist == "G"){
+            double height = Double.parseDouble(values.get(position+1));
+            int centre = Integer.parseInt(values.get(position+2));
+            int width = Integer.parseInt(values.get(position+3));
+            double root = Math.sqrt(Math.abs(2*Math.pow(width,2)*Math.log(.01/height)));
+            int max = (int)(root+centre);
+            int min = (int)(-1*root + centre);
+            int num = rd.nextInt(max-min)+min;
+            return height*Math.exp(-1*Math.pow(num-centre, 2)/(2*width*width));
+        } else if (dist == "E") {
+            double rate = Double.parseDouble(values.get(position+1));
+            int max = (int)(-1*Math.log(.01/rate)/rate);
+            int min = (int)(-1*Math.log(1/rate)/rate);
+            int num = rd.nextInt(max-min)+min;
+            return rate*Math.exp(-1*num*rate);
+        } else {
+            return rd.nextDouble();
+        }
+    }
     /**
      * Returns random number on uniform distribution
      * @param min The minimum number
@@ -589,32 +559,6 @@ public class Main {
         }
         return Math.sqrt(-2 * Math.pow(width, 2) * Math.log(number / height)) + center;
     }
-/*
-    public static void parseText(@NotNull String text){
-        InputParserLexer lexer = new InputParserLexer(new ANTLRInputStream(text));
-        parse(lexer);
-    }
-
-	public static void parseFile(@NotNull String filename) {
-        InputParserLexer lexer = null;
-        try {
-            InputStream stream = new FileInputStream(filename);
-            lexer = new InputParserLexer(new ANTLRInputStream(stream));
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        parse(lexer);
-    }
-
-
-    private static void parse(@NotNull InputParserLexer lexer) {
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        InputParserParser parser = new InputParserParser(tokens);
-        InputParserParser.ParseContext tree = parser.parse();
-
-        ExtendedVisitor visitor = new ExtendedVisitor();
-        visitor.visit(tree);
-    }*/
 
     /**
      * Creates the graph file to be inputted into AFGMiner
@@ -623,8 +567,6 @@ public class Main {
 	public int createGraphFile(String file, Vector<EFG> data){
 		int size = data.size();
         int totalEdges = 0;
-        int totalAttrWeight = 0;
-        int totalNodeWeight = 0;
 		//http://stackoverflow.com/questions/2885173/java-how-to-create-a-file-and-write-to-a-file 25/05/2015 for PrintWriter lines
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -725,7 +667,8 @@ public class Main {
             writer.write("\nSun.management.compiler: " + System.getProperties().getProperty("sun.management.compiler"));
             writer.write("\nJava.vm.specification.version: " + System.getProperties().getProperty("java.vm.specification.version"));
             writer.write("\nOS Name: " + System.getProperties().getProperty("os.name"));
-            writer.write("\nOS Version: " + System.getProperties().getProperty("os.version"));
+            writer.write("\nOS Version: " + System.getProperties().getProperty("os.ver" +
+                    "sion"));
             writer.write("\nOS Arch: " + System.getProperties().getProperty("os.arch"));
             writer.write("\nAvailable Processors: " + Runtime.getRuntime().availableProcessors());
             writer.write("\n\n--------TEST RESULTS--------\n");

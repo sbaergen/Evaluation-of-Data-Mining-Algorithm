@@ -504,7 +504,7 @@ public class FlowGSpan implements Runnable{
 				FlowGSpanController.NUMBER_SUBGRAPHS.incrementAndGet();
 					
 				resultSet.add(childKeyStr);
-                System.out.println(resultSet.size() + " " + child.getEdgeSet().size());
+                System.out.println(resultSet.size() + " " + child.getEdgeSet().size() + "subGraph");
 				resultSizes.add(child.getEdgeSet().size());
 				
 				int numInstances = (int)FlowGSpanController.sgMap.get(childKeyStr).get(3).floatValue();

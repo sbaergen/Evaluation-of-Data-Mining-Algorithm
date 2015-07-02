@@ -52,66 +52,6 @@ public class Node {
 		edgeWeight.put(edgeIndex, weightEdge);
 	}
 
-
-    /**
-     * Uses D. Knuth's algorithm for generating Poisson-distributed random variables
-     * http://en.wikipedia.org/wiki/Poisson_distribution#Generating_Poisson-distributed_random_variables 27/05/2015
-     * @param mean
-     * @return
-     */
-    public int getPoisson (double mean) {
-        Random rnd = new Random();
-        double L = Math.exp(-mean);
-        int k = 0;
-        int p = 1;
-        do {
-            k++;
-            p*=rnd.nextDouble();
-        } while (p > L);
-        return k-1;
-
-    }
-    /**
-     * Gets a random number on an exponential distribution based on
-     * the inversion method.
-     * @param rate
-     * @return
-     */
-    public double getExponential (double rate){
-        Random rnd = new Random();
-        int number = rnd.nextInt();
-        return Math.log(1-number)/-rate;
-    }
-	/**
-	 * Gets a random number on a Gaussian distribution. Two random numbers are used:
-	 * number is used to plug into the inverse Gaussian function, where negative is
-	 * used to determine to use the negative or positive square root via a Bernoulli
-	 * test.
-	 * @param height
-	 * @param center
-	 * @param width
-	 * @return random Gaussian number
-	 */
-	public double getGaussian (double height, int center, int width){
-		Random rnd = new Random();
-		double number = rnd.nextDouble();
-		double negative = rnd.nextDouble();
-		if (negative < 0.5)
-			return -Math.sqrt(-2*Math.pow(width, 2)*Math.log(number/height))+center;
-		return Math.sqrt(-2*Math.pow(width, 2)*Math.log(number/height))+center;
-	}
-
-	/**
-	 * Gets a random number on a Uniform distribution
-	 * @param min
-	 * @param max
-	 * @return
-	 */
-	public double getUniform (int min, int max){
-		Random rnd = new Random();
-		return rnd.nextInt(max-min+1) + min;
-	}
-
 	public BitSet getAttributes() {
 		return attributes;
 	}

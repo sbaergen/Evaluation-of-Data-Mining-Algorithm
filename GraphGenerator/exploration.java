@@ -45,7 +45,7 @@ public class exploration {
             writer.write("\n"+randomInt(ATTR[0], ATTR[1]));
             writer.write("\n"+randomDouble(APROB[0], APROB[1]));
             writer.write("\n"+randomDouble(EPROB[0], EPROB[1]));
-            for (int i = 0; i < 4; i++){
+            for (int i = 0; i < 5; i++){
                 char distribution = DIST[randomInt(0,2)];
                 writer.write("\n"+distribution);
                 switch(distribution) {

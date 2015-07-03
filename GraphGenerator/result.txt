@@ -1,26 +1,19 @@
 --------MACHINE INFORMATION--------
 
-Processor: null
-Java.vm.version: 11.2-b01
-Java.runtime.version: 1.6.0_12-b04
-Java.class.version: 50.0
-Sun.management.compiler: HotSpot 64-Bit Server Compiler
-Java.vm.specification.version: 1.0
-OS Name: Linux
-OS Version: 2.6.32-220.17.1.el6.x86_64
-OS Arch: amd64
+Processor: Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz
+Java.vm.version: 25.45-b02
+Java.runtime.version: 1.8.0_45-b14
+Java.class.version: 52.0
+Sun.management.compiler: HotSpot 64-Bit Tiered Compilers
+Java.vm.specification.version: 1.8
+OS Name: Mac OS X
+OS Version: 10.10.4
+OS Arch: x86_64
 Available Processors: 8
 
 --------TEST RESULTS--------
 
-Total Time: 830ms
-Total Edges: 533
-Total Subgraphs Tested: 71
-Number of Hot Subgraphs: 72
-Number of Hot 0-Edge Subgraphs: 1
-Number of Hot 1-Edge Subgraphs: 1
-Number of Hot 2-Edge Subgraphs: 1
-Number of Hot 3-Edge Subgraphs: 3
-Number of Hot 4-Edge Subgraphs: 7
-Number of Hot 5-Edge Subgraphs: 17
-Number of Hot 6-Edge Subgraphs: 42
+Total Time: 4783ms
+Total Edges: 64954
+Total Subgraphs Tested: 0
+Number of Hot Subgraphs: 0

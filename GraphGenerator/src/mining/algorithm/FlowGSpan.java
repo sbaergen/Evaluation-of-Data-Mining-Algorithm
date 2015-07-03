@@ -293,7 +293,7 @@ public class FlowGSpan implements Runnable{
 				FlowGSpanController.NUMBER_SUBGRAPHS.incrementAndGet();
 				
 				resultSet.add(keyStr);
-                System.out.println(resultSet.size() + " 0");
+                //System.out.println(resultSet.size() + " 0");
 				resultSizes.add(0);
 				
 				int graphInstances = (int)FlowGSpanController.sgMap.get(keyStr).get(3).floatValue();
@@ -439,7 +439,7 @@ public class FlowGSpan implements Runnable{
 						currNumNodes = newG.getVertexSet().size();
 						supports.add(currNumNodes);
 						supports.add((double)numMatches);
-						System.out.println(numMatches);
+						//System.out.println(numMatches);
 						supports.add((double)newG.getPatternType());
 						
 						graphDB.addUsefulGraphs(newG.getGS());
@@ -504,7 +504,7 @@ public class FlowGSpan implements Runnable{
 				FlowGSpanController.NUMBER_SUBGRAPHS.incrementAndGet();
 					
 				resultSet.add(childKeyStr);
-                System.out.println(resultSet.size() + " " + child.getEdgeSet().size() + "subGraph");
+               // System.out.println(resultSet.size() + " " + child.getEdgeSet().size() + "subGraph");
 				resultSizes.add(child.getEdgeSet().size());
 				
 				int numInstances = (int)FlowGSpanController.sgMap.get(childKeyStr).get(3).floatValue();
@@ -760,7 +760,7 @@ public class FlowGSpan implements Runnable{
 		if(fromV.getChildren().size() > 0) {
         	LinkedHashSet<Integer> branchAttrs = (LinkedHashSet<Integer>) FlowGSpanController.getBranchAttrList().clone();
         	boolean hasBranchAttr = false;
-        	
+        	System.out.println(branchAttrs.size());
         	for(Integer att : branchAttrs) {
         		if(fromV.getAttribute(att) == true) {
         			hasBranchAttr = true;
@@ -831,7 +831,7 @@ public class FlowGSpan implements Runnable{
 		for(int i = 0; i < attrToPermute.size(); ++i) {
 			PatternGraph childGraph = graph.clone();
 			PatternVertex newV = new PatternVertex(0f, childGraph.getVertexSet().size());
-			
+			System.out.println(i + "I");
 			for(int j = 0; j < attrToPermute.get(i).length();) {
 				String substr;
 				int whitespaceIdx = attrToPermute.get(i).indexOf(' ', j);

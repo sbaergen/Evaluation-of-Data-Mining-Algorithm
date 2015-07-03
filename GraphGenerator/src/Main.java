@@ -41,6 +41,8 @@ public class Main {
         m.createGraph(values, graphs, false);
         int numEdges = m.createGraphFile(INPUT, graphs);
         m.createConfigFile();
+        graphs = null;
+        patternBank = null;
         String arguments[] = {CONFIG, COUNTERS, OUTPUT, INPUT};
         System.out.println("Starting AFGMiner");
         long startTime = System.currentTimeMillis();

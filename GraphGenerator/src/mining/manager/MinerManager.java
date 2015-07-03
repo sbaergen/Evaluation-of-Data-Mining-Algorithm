@@ -63,7 +63,6 @@ public class MinerManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		MinerManager pm = new MinerManager();
 		if(readFromDB) {
 			pm.readInputFromDB(args);
@@ -380,7 +379,7 @@ public class MinerManager {
                     sb.append("allocated memory: " + format.format(allocatedMemory / 1024) + "\n");
                     sb.append("max memory: " + format.format(maxMemory / 1024) + "\n");
                     sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024));
-                    System.out.println(sb);
+                    //System.out.println(sb);
 		    		long vertexId = Long.valueOf(br.readLine());
 		    		double hotness = Double.valueOf(br.readLine());
 		    		int attrNum = Integer.valueOf(br.readLine());//number of attributes

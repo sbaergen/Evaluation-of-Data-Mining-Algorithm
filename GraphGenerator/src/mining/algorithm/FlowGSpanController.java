@@ -221,23 +221,25 @@ public class FlowGSpanController {
 			instance.setExistingAttrs(existingAttrs);
 			instance.setStartIndex(startIndex);
 			instance.setEndIndex(endIndex);
-			
+			//System.out.println("Elements = " + instance.getResultSet().toString());
 			instance.run();
-			
+			//System.out.println("Elements = " + instance.getResultSet().toString());
 			freqAttrs.addAll(instance.getChildFreqAttrs());
 			patternsToProcess.addAll(instance.getChildSet());
+			//System.out.println(patternsToProcess.size() + "PATTERNS INIT");
 			resultSet.addAll(instance.getResultSet());
 			resultSizes.addAll(instance.getResultSizes());
 			
 			LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
-		
 			for(Integer patternId : tempMap.keySet()) {
 				instructionMap.put(patternId, tempMap.get(patternId));
 			}
-		
+			//System.out.println(instructionMap.size());
 			instance.getResultSizes().clear();
 			instance.getResultSet().clear();
+
 			//System.out.println("Elements = " + instance.getResultSet().toString());
+
 			instance.getInstructionMap().clear();
 			instance.getChildFreqAttrs().clear();
 			instance.getChildSet().clear();
@@ -267,6 +269,7 @@ public class FlowGSpanController {
 				freqAttrs.addAll(instance.getChildFreqAttrs());
 				freqEdges.addAll(instance.getChildFreqEdges()); //FGSpan-edgecomb
 				patternsToProcess.addAll(instance.getChildSet());
+				//System.out.println(patternsToProcess.size() + " PATTERNS");
 				resultSet.addAll(instance.getResultSet());
 				resultSizes.addAll(instance.getResultSizes());
 				

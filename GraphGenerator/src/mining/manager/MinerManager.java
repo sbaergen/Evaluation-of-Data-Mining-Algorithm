@@ -52,7 +52,8 @@ public class MinerManager {
 	/**
 	 * @param args
 	 */
-	public static ReturnInfo main(String[] args) {
+	//public static ReturnInfo main(String[] args) {
+	public static void main(String[] args) {
 		FileOutputStream fstream;
 		ReturnInfo info = new ReturnInfo();
         try {
@@ -68,9 +69,10 @@ public class MinerManager {
 			pm.readInputFromDB(args);
 		}
 		else {
-			info = pm.readInputFromFile(args);
+			//info = pm.readInputFromFile(args);
+			pm.readInputFromFile(args);
 		}
-        return info;
+        //return info;
 	}
 	
 	private void readInputFromDB(String[] args) {
@@ -356,6 +358,11 @@ public class MinerManager {
 		    
 		    //DEBUG
     		System.out.println("There is(are)  " + graphNum + " EFG(s) in this dataset."); //Changed to println from print
+		Runtime runtime = Runtime.getRuntime();
+
+                    NumberFormat format = NumberFormat.getInstance();
+
+            
     		//end DEBUG
 		    while(graphNum > 0) {
 		    	 //DEBUG
@@ -364,8 +371,9 @@ public class MinerManager {
 		    	//reading vertex info
 		    	int vertexNum =  Integer.valueOf(br.readLine());//number of vertices
 		    	ExecutionFlowGraph efg = new ExecutionFlowGraph();
-		        
+                   
 		    	while(vertexNum > 0) {
+
                     Runtime runtime = Runtime.getRuntime();
 
                     NumberFormat format = NumberFormat.getInstance();
@@ -380,6 +388,7 @@ public class MinerManager {
                     sb.append("max memory: " + format.format(maxMemory / 1024) + "\n");
                     sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024));
                     //System.out.println(sb);
+
 		    		long vertexId = Long.valueOf(br.readLine());
 		    		double hotness = Double.valueOf(br.readLine());
 		    		int attrNum = Integer.valueOf(br.readLine());//number of attributes

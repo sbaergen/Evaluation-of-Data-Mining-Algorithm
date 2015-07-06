@@ -41,6 +41,8 @@ public class Main {
         m.createGraph(values, graphs, false);
         int numEdges = m.createGraphFile(INPUT, graphs);
         m.createConfigFile();
+	graphs = null;
+	patternBank = null;
         String arguments[] = {CONFIG, COUNTERS, OUTPUT, INPUT};
         System.out.println("Starting AFGMiner");
         long startTime = System.currentTimeMillis();
@@ -142,7 +144,6 @@ public class Main {
                         }
                         System.out.println("Selecting Pattern");
                         double patternSelect = patternSelection();
-                        System.out.println(patternSelect);
                         double interval = 1.0/patternBank.size();
                         double sum = 0;
                         int patternIndex = -1;
@@ -709,7 +710,6 @@ public class Main {
                 writer.write(header);
             }
             int numValues = values.size();
-            System.out.println("Number of Nodes: " + values.get(7));
             for (int i = 0; i < numValues; i++) {
                 String current = values.get(i).toUpperCase();
                     if (current.equals("E")) {

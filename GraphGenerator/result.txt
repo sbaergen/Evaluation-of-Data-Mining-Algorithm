@@ -1,10 +1,10 @@
 --------MACHINE INFORMATION--------
 
 Processor: null
-Java.vm.version: 20.0-b11
-Java.runtime.version: 1.6.0_22-b22
+Java.vm.version: 11.2-b01
+Java.runtime.version: 1.6.0_12-b04
 Java.class.version: 50.0
-Sun.management.compiler: HotSpot 64-Bit Tiered Compilers
+Sun.management.compiler: HotSpot 64-Bit Server Compiler
 Java.vm.specification.version: 1.0
 OS Name: Linux
 OS Version: 2.6.32-220.17.1.el6.x86_64
@@ -13,7 +13,9 @@ Available Processors: 8
 
 --------TEST RESULTS--------
 
-Total Time: 1217ms
-Total Edges: 5506
-Total Subgraphs Tested: 0
-Number of Hot Subgraphs: 0
+Total Time: 50506ms
+Total Edges: 7411
+Total Subgraphs Tested: 7921
+Number of Hot Subgraphs: 1356
+Number of Hot 0-Edge Subgraphs: 89
+Number of Hot 1-Edge Subgraphs: 1267

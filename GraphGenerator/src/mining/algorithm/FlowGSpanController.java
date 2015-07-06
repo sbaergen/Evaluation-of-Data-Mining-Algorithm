@@ -238,7 +238,7 @@ public class FlowGSpanController {
 			instance.getResultSizes().clear();
 			instance.getResultSet().clear();
 
-			System.out.println("Elements = " + instance.getResultSet().toString());
+			//System.out.println("Elements = " + instance.getResultSet().toString());
 
 			instance.getInstructionMap().clear();
 			instance.getChildFreqAttrs().clear();

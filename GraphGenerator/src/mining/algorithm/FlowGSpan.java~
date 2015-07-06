@@ -295,7 +295,11 @@ public class FlowGSpan implements Runnable{
 				FlowGSpanController.NUMBER_SUBGRAPHS.incrementAndGet();
 				
 				resultSet.add(keyStr);
+<<<<<<< HEAD
                // System.out.println(resultSet.size() + " 0-edge");
+=======
+                //System.out.println(resultSet.size() + " 0");
+>>>>>>> 687c0ee92a3936d637e4ed92dd08850d81a2b539
 				resultSizes.add(0);
 				
 				int graphInstances = (int)FlowGSpanController.sgMap.get(keyStr).get(3).floatValue();
@@ -394,13 +398,13 @@ public class FlowGSpan implements Runnable{
 				
 				Vector<String> attrToRemove = new Vector<String>(); 
 				//Determine and display frequent itemsets.
-				System.out.println(attrToPermute.size() + "  SIZE");
+				System.out.println(attrToPermute.size());
 				for(int i = 0; i < attrToPermute.size(); ++i) {
 					PatternVertex v = new PatternVertex((double)0, 0);
 					PatternGraph newG = new PatternGraph();
     					//System.out.println(i + "I");
-{					System.out.println(attrToPermute.get(i));
-					for(int j = 0; j < attrToPermute.get(i).length();) 
+					System.out.println(attrToPermute.get(i));
+					for(int j = 0; j < attrToPermute.get(i).length();) {
 						String substr;
 						int whitespaceIdx = attrToPermute.get(i).indexOf(' ', j);
 						//System.out.println(j + "J");						
@@ -452,6 +456,10 @@ public class FlowGSpan implements Runnable{
 						currNumNodes = newG.getVertexSet().size();
 						supports.add(currNumNodes);
 						supports.add((double)numMatches);
+<<<<<<< HEAD
+=======
+						//System.out.println(numMatches);
+>>>>>>> 687c0ee92a3936d637e4ed92dd08850d81a2b539
 						supports.add((double)newG.getPatternType());
 						
 						graphDB.addUsefulGraphs(newG.getGS());
@@ -521,8 +529,12 @@ public class FlowGSpan implements Runnable{
 				FlowGSpanController.NUMBER_SUBGRAPHS.incrementAndGet();
 					
 				resultSet.add(childKeyStr);
+<<<<<<< HEAD
 
 
+=======
+               // System.out.println(resultSet.size() + " " + child.getEdgeSet().size() + "subGraph");
+>>>>>>> 687c0ee92a3936d637e4ed92dd08850d81a2b539
 				resultSizes.add(child.getEdgeSet().size());
 				
 				int numInstances = (int)FlowGSpanController.sgMap.get(childKeyStr).get(3).floatValue();
@@ -784,7 +796,7 @@ public class FlowGSpan implements Runnable{
 		if(fromV.getChildren().size() > 0) {
         	LinkedHashSet<Integer> branchAttrs = (LinkedHashSet<Integer>) FlowGSpanController.getBranchAttrList().clone();
         	boolean hasBranchAttr = false;
-        	
+        	System.out.println(branchAttrs.size());
         	for(Integer att : branchAttrs) {
         		if(fromV.getAttribute(att) == true) {
         			hasBranchAttr = true;

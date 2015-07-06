@@ -52,8 +52,8 @@ public class MinerManager {
 	/**
 	 * @param args
 	 */
-	public static ReturnInfo main(String[] args) {
-	//public static void main(String[] args) {
+	//public static ReturnInfo main(String[] args) {
+	public static void main(String[] args) {
 		FileOutputStream fstream;
 		ReturnInfo info = new ReturnInfo();
         try {
@@ -64,16 +64,15 @@ public class MinerManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		MinerManager pm = new MinerManager();
 		if(readFromDB) {
 			pm.readInputFromDB(args);
 		}
 		else {
-			info = pm.readInputFromFile(args);
-			//pm.readInputFromFile(args);
+			//info = pm.readInputFromFile(args);
+			pm.readInputFromFile(args);
 		}
-        return info;
+        //return info;
 	}
 	
 	private void readInputFromDB(String[] args) {
@@ -374,7 +373,24 @@ public class MinerManager {
 		    	ExecutionFlowGraph efg = new ExecutionFlowGraph();
                    
 		    	while(vertexNum > 0) {
+<<<<<<< HEAD
                     
+=======
+                    Runtime runtime = Runtime.getRuntime();
+
+                    NumberFormat format = NumberFormat.getInstance();
+
+                    StringBuilder sb = new StringBuilder();
+                    long maxMemory = runtime.maxMemory();
+                    long allocatedMemory = runtime.totalMemory();
+                    long freeMemory = runtime.freeMemory();
+
+                    sb.append("free memory: " + format.format(freeMemory / 1024) + "\n");
+                    sb.append("allocated memory: " + format.format(allocatedMemory / 1024) + "\n");
+                    sb.append("max memory: " + format.format(maxMemory / 1024) + "\n");
+                    sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024));
+                    //System.out.println(sb);
+>>>>>>> 687c0ee92a3936d637e4ed92dd08850d81a2b539
 		    		long vertexId = Long.valueOf(br.readLine());
 		    		double hotness = Double.valueOf(br.readLine());
 		    		int attrNum = Integer.valueOf(br.readLine());//number of attributes

@@ -295,7 +295,9 @@ public class FlowGSpan implements Runnable{
 				FlowGSpanController.NUMBER_SUBGRAPHS.incrementAndGet();
 				
 				resultSet.add(keyStr);
+
                // System.out.println(resultSet.size() + " 0-edge");
+
 				resultSizes.add(0);
 				
 				int graphInstances = (int)FlowGSpanController.sgMap.get(keyStr).get(3).floatValue();
@@ -452,6 +454,9 @@ public class FlowGSpan implements Runnable{
 						currNumNodes = newG.getVertexSet().size();
 						supports.add(currNumNodes);
 						supports.add((double)numMatches);
+
+						//System.out.println(numMatches);
+
 						supports.add((double)newG.getPatternType());
 						
 						graphDB.addUsefulGraphs(newG.getGS());
@@ -522,6 +527,7 @@ public class FlowGSpan implements Runnable{
 					
 				resultSet.add(childKeyStr);
 
+               // System.out.println(resultSet.size() + " " + child.getEdgeSet().size() + "subGraph");
 
 				resultSizes.add(child.getEdgeSet().size());
 				
@@ -784,7 +790,7 @@ public class FlowGSpan implements Runnable{
 		if(fromV.getChildren().size() > 0) {
         	LinkedHashSet<Integer> branchAttrs = (LinkedHashSet<Integer>) FlowGSpanController.getBranchAttrList().clone();
         	boolean hasBranchAttr = false;
-        	
+        	System.out.println(branchAttrs.size());
         	for(Integer att : branchAttrs) {
         		if(fromV.getAttribute(att) == true) {
         			hasBranchAttr = true;

@@ -703,6 +703,7 @@ public class Main {
                 writer.write("\nOS Version: " + System.getProperties().getProperty("os.version"));
                 writer.write("\nOS Arch: " + System.getProperties().getProperty("os.arch"));
                 writer.write("\nAvailable Processors: " + Runtime.getRuntime().availableProcessors());
+
                 writer.write("\n\n--------TEST RESULTS--------\n");
                 header = " DATE ,MAXATTR, MAXFOWARD, MAXBACKWARD, GAP, MINSUPPORT, MAXNODES, EFGS, NODES, NUMATTR, ATTRBERN," +
                         " EDGEBERN, NODES/EFG, P1, P2, P3, EDGE WEIGHT, P1, P2, P3, NODE WEIGHT, P1, P2, P3, " +

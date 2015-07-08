@@ -257,6 +257,7 @@ public class FlowGSpanController {
 			
 				instance.setFreqAttrs(freqAttrs);
 				instance.setFreqEdges(freqEdges);//FGSpan-edgecomb
+				System.out.println(freqEdges +  "EDGES");
 				instance.setPatternsToProcess(patternsToProcess);
 				instance.setStartIndex(startIndex);
 				instance.setEndIndex(endIndex);

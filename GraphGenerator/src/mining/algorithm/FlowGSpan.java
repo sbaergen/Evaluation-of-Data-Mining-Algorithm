@@ -286,7 +286,7 @@ public class FlowGSpan implements Runnable{
 		if(patternsToProcess == null) {
 			//Mines for 0-edge frequent subgraphs (i.e. frequent nodes).
 			findFrequentNodes(childSet, startIndex, endIndex);
-			System.out.println("FOUND FREQUENT");
+			//System.out.println("FOUND FREQUENT");
 			for(PatternGraph graph: childSet) {
 				System.out.println("CHILD");
 				String keyStr = graph.getKeyString();
@@ -379,14 +379,13 @@ public class FlowGSpan implements Runnable{
 			//System.out.println("Attr " + FlowGSpanController.getAttributeName(attr) + " had " + this.numMatches + " matches\n");
 			//end DEBUG
 		}
-		
-		if(FlowGSpanController.MAX_ATTRIBUTES_TOTAL > 1) {
+        if(FlowGSpanController.MAX_ATTRIBUTES_TOTAL > 1) {
 			int itemsetNum = 1;
 		
 			//While not complete...
 			do
 			{
-				System.out.println(Runtime.getRuntime().freeMemory() + " DO");
+				//System.out.println(Runtime.getRuntime().freeMemory() + " DO");
 				//Increase the itemset that is being looked at...
 				//System.out.println(itemsetNum + "ITEMSETNUM");
 				itemsetNum++;
@@ -396,12 +395,12 @@ public class FlowGSpan implements Runnable{
 				
 				Vector<String> attrToRemove = new Vector<String>(); 
 				//Determine and display frequent itemsets.
-				System.out.println(attrToPermute.size());
+				//System.out.println(attrToPermute.size());
 				for(int i = 0; i < attrToPermute.size(); ++i) {
 					PatternVertex v = new PatternVertex((double)0, 0);
 					PatternGraph newG = new PatternGraph();
     					//System.out.println(i + "I");
-					System.out.println(attrToPermute.get(i));
+					//System.out.println(attrToPermute.get(i));
 					for(int j = 0; j < attrToPermute.get(i).length();) {
 						String substr;
 						int whitespaceIdx = attrToPermute.get(i).indexOf(' ', j);
@@ -794,6 +793,7 @@ public class FlowGSpan implements Runnable{
         	for(Integer att : branchAttrs) {
         		if(fromV.getAttribute(att) == true) {
         			hasBranchAttr = true;
+                    //break;
         		}
             }
         	
@@ -810,7 +810,7 @@ public class FlowGSpan implements Runnable{
             //Generate candidate patterns...
 	System.out.println("genAttributesToPermute");
             genAttributesToPermute(itemsetNum, freqAttrs, attrToPermute);
-        System.out.println("calcFrequentSubGraphAttrs");
+            System.out.println("calcFrequentSubGraphAttrs");
             //And determine and display frequent itemsets.
             calcFrequentSubGraphAttrs(graph, vertexIdToAttachTo, children, itemsetNum, attrToPermute);
         //If there are <=1 frequent items, then it is the end. 
@@ -863,11 +863,11 @@ public class FlowGSpan implements Runnable{
 		for(int i = 0; i < attrToPermute.size(); ++i) {
 			PatternGraph childGraph = graph.clone();
 			PatternVertex newV = new PatternVertex(0f, childGraph.getVertexSet().size());
-			System.out.println(i + "I");
+			//System.out.println(i + "I");
 			for(int j = 0; j < attrToPermute.get(i).length();) {
 				String substr;
 				int whitespaceIdx = attrToPermute.get(i).indexOf(' ', j);
-				System.out.println(j + "J");
+				//System.out.println(j + "J");
 				if(whitespaceIdx == -1) {
 					int strSize = attrToPermute.get(i).length() - j;
 					substr = attrToPermute.get(i).substring(j, j + strSize);
@@ -886,7 +886,7 @@ public class FlowGSpan implements Runnable{
 			PatternVertex fromV = childGraph.getVertex(vertexIdToAttachTo);
 			PatternEdge newE = new PatternEdge(fromV, newV, 0f);
 			childGraph.insertEdge(newE);
-			System.out.println("findEntryExitVertices");
+            System.out.println("findEntryExitVertices");
 			childGraph.findEntryExitVertices();
 			
 			if(fromV.getChildren().size() > 1) {

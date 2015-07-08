@@ -52,14 +52,14 @@ public class MinerManager {
 	/**
 	 * @param args
 	 */
-	//public static ReturnInfo main(String[] args) {
-	public static void main(String[] args) {
+	public static ReturnInfo main(String[] args) {
+	//public static void main(String[] args) {
 		FileOutputStream fstream;
 		ReturnInfo info = new ReturnInfo();
         try {
 			fstream = new FileOutputStream(args[2]);
-			 DataOutputStream outputStream = new DataOutputStream(fstream);
-			 FILE_WRITER = new BufferedWriter(new OutputStreamWriter(outputStream));
+			DataOutputStream outputStream = new DataOutputStream(fstream);
+			FILE_WRITER = new BufferedWriter(new OutputStreamWriter(outputStream));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,10 +69,10 @@ public class MinerManager {
 			pm.readInputFromDB(args);
 		}
 		else {
-			//info = pm.readInputFromFile(args);
-			pm.readInputFromFile(args);
+			info = pm.readInputFromFile(args);
+			//pm.readInputFromFile(args);
 		}
-        //return info;
+        return info;
 	}
 	
 	private void readInputFromDB(String[] args) {
@@ -374,9 +374,7 @@ public class MinerManager {
                    
 		    	while(vertexNum > 0) {
 
-                    Runtime runtime = Runtime.getRuntime();
 
-                    NumberFormat format = NumberFormat.getInstance();
 
                     StringBuilder sb = new StringBuilder();
                     long maxMemory = runtime.maxMemory();

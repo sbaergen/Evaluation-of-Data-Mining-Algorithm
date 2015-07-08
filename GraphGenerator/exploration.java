@@ -8,7 +8,7 @@ public class exploration {
         final int[] MAXFORWARD = { 0, 50 };
         final int[] MAXBACKARD = { 0, 50 };
         final int[] GAP = { 0, 20 };
-        final double[] MINSUPPORT = { 0.05, .5 };
+        final double[] MINSUPPORT = { 0.0, .0 };
         final int[] MAXNODES = { 10, 1000 };
         final int[] EFGS = { 100, 1000 };
         final int[] NODES = { 1000, 10000 };

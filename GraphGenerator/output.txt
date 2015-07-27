@@ -1,4 +1,4 @@
-Results for Data Mining on 2015/07/07 15:46:13
+Results for Data Mining on 2015/07/24 15:37:17
 	Support Threshold:		0.051
 	Max Number of Nodes (Wt):		9
 	Max Number of Attributes Allowed:		7
@@ -6,35 +6,6 @@ Results for Data Mining on 2015/07/07 15:46:13
 	Min Method Hotness:		0.0
 	Dataset Size (in number of graphs):		1
 
-Graphs of size (in number of edges)0: 1
+Number of Frequent Subgraphs: 0
 
- Node 0:
-( [ 0: (a) ] )
-[3.4999999999999996, 0.0, 1.0, 2.0]
-
-Graphs of size (in number of edges)1: 1
-
- Subpath 1:
-( [ 0: (a) ], [ 1: (a) ] )
-[0.3125, 1.0, 2.0, 1.0]
-
-==========Mapping between subgraphs and instructions==========
-
-Instances of pattern 0:
-
-( [  ] )
-
-
-( [  ] )
-
-
-Instances of pattern 1:
-
-( [  ], [  ] )
-
-
-
-
-Number of Frequent Subgraphs: 2
-
-Total runtime: 11
+Total runtime: 2

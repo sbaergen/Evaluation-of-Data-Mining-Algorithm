@@ -402,7 +402,7 @@ public class PatternVertex {
 		String str = "";//String.valueOf(this.id)+ ": ";
 		
 		for(Integer idx : attrWeight.keySet()) {
-			str += "(" + FlowGSpanController.getAttributeName(idx) + ")";
+			str += "(" + idx + ")";
 		}
 		return str;
 	}
@@ -414,7 +414,7 @@ public class PatternVertex {
 	public String toString() {
 		String str = String.valueOf(Long.toHexString(this.id))+ ": ";
 		for (int idx = attribute.nextSetBit(0); idx >= 0; idx = attribute.nextSetBit(idx+1)) {
-			str += "(" + FlowGSpanController.getAttributeName(idx)+ ")";	
+			str += "(" + idx+ ")";
 		 }
 		
 		return str;

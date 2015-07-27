@@ -73,14 +73,14 @@ public class EFGVertex {
 	 * Whether a Vertex is a dummy node. A dummy node represents a whole basic 
 	 * block without any profile information (i.e. no weight information).
 	 */
-	boolean isDummy = false;
+	//boolean isDummy = false;
 	
 	/**
 	 * If Vertex represents an instruction (be it assembly-level instruction or bytecode)
 	 * in the EFG, the ID means the instruction address. If Vertex represents a sub-graph
 	 * pattern node, the ID means the depth-first-like order of the Vertex in the pattern.
 	 */
-	long id;
+	int id;
 	
 	/**
 	 * ID of the EFG this Vertex comes from, if the Vertex represents an EFG node. 
@@ -90,7 +90,7 @@ public class EFGVertex {
 	/**
 	 * If this Vertex represents a bytecode, the bytecode ID will be stored here.
 	 */
-	String bytecodeId = "";
+	//String bytecodeId = "";
 	
 	/**
 	 * Attribute weight of the attribute with minimum weight in Vertex.
@@ -103,26 +103,26 @@ public class EFGVertex {
 	
 	boolean canBeDiscarded;
 	
-	long BBN;
+	//int BBN;
 	
 	/**
 	 * Collection of instruction this Vertex is mapped to.
 	 */
-	Vector<String> instructions; 
+	//Vector<String> instructions;
 	/**
 	 * Collection of addresses of the instructions this Vertex is mapped to.
 	 */
-	Vector<String> addresses;
+	//Vector<String> addresses;
 	
 	/**
 	 * Vertex constructor.
 	 * @param weight Vertex weight.
 	 * @param id Vertex ID.
 	 */
-	public EFGVertex(double weight, long id) {
+	public EFGVertex(double weight, int id) {
 		this.weight = weight;
 		this.id = id;
-		isDummy = false;
+		//isDummy = false;
 		
 		attribute = new BitSet();
 		attribute.set(0, NUM_ATTR - 1, false);
@@ -137,8 +137,8 @@ public class EFGVertex {
 		minAttrWeight = Double.MAX_VALUE;
 		maxAttrWeight = 0;
 	
-		instructions = null;
-		addresses = null;
+		//instructions = null;
+		//addresses = null;
 	
 		forwardEdgeCount = 0;
 		
@@ -151,9 +151,9 @@ public class EFGVertex {
 	 * @param id Vertex ID.
 	 * @param bytecodeId Bytecode ID represented by Vertex.
 	 */
-	public EFGVertex(double weight, long id, String bytecodeId) {
+	public EFGVertex(double weight, int id, String bytecodeId) {
 		this(weight, id);
-		this.bytecodeId = bytecodeId;
+		//this.bytecodeId = bytecodeId;
 	}
 	
 	/**
@@ -162,33 +162,32 @@ public class EFGVertex {
 	 * @param id ID of dummy node.
 	 * @param dummy Whether node is really dummy or not.
 	 */
-	public EFGVertex(double weight, long id, boolean dummy) {
+	public EFGVertex(double weight, int id, boolean dummy) {
 		this(weight, id);
-		isDummy = dummy;
+		//isDummy = dummy;
 	}
-	public void setBBN(long bbn) {
-		BBN = bbn;
-	}
+	//public void setBBN(int bbn) {
+		//BBN = bbn;
+	//}
 	/**
 	 * Returns bytecode ID.
 	 * @return Bytecode ID in string representation.
 	 */
-	public String getBytecodeId() {
-		return bytecodeId;
-	}
+	/*public String getBytecodeId() {
+		return bytecodeId;}*/
 	/**
 	 * Returns whether Vertex is a dummy node.
 	 * @return True if node is dummy, false otherwise.
 	 */
-	public boolean isDummy() {
+	/*public boolean isDummy() {
 		return isDummy;
-	}
+	}*/
 	
 	/**
 	 * Sets node ID.
 	 * @param vertexId Node ID.
 	 */
-	public void setId(long vertexId) {
+	public void setId(int vertexId) {
 		this.id = vertexId;
 	}
 	
@@ -196,7 +195,7 @@ public class EFGVertex {
 	 * Returns node ID.
 	 * @return Node ID.
 	 */
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	
@@ -477,9 +476,9 @@ public class EFGVertex {
 	 * @return String representation of node.
 	 */
 	public String toString() {
-		String str = String.valueOf(Long.toHexString(this.id))+ ": ";
+		String str = String.valueOf(Integer.toHexString(this.id))+ ": ";
 		for (int idx = attribute.nextSetBit(0); idx >= 0; idx = attribute.nextSetBit(idx+1)) {
-			str += "(" + FlowGSpanController.getAttributeName(idx)+ ")";	
+			str += "(" + idx+ ")";
 		 }
 		
 		return str;
@@ -493,7 +492,7 @@ public class EFGVertex {
 		String str = "";//String.valueOf(this.id)+ ": ";
 		
 		for(Integer idx : attrWeight.keySet()) {
-			str += "(" + FlowGSpanController.getAttributeName(idx) + ")";
+			str += "(" + idx + ")";
 		}
 		return str;
 	}
@@ -621,38 +620,38 @@ public class EFGVertex {
 	 * Note that in this case it is implied that the node is part of a sub-graph pattern.
 	 * @param instruction Instruction to be added.
 	 */
-	public void addInstruction(String instruction) {
+	/*public void addInstruction(String instruction) {
 		if(instructions == null) {
 			instructions = new Vector<String>();
 		}
 		instructions.add(instruction);
-	}
+	}*/
 	/**
 	 * Returns list of instructions that this node corresponds to.
 	 * @return List of instructions the node corresponds to.
 	 */
-	public Vector<String> getInstructions() {
+	/*public Vector<String> getInstructions() {
 		return instructions;
-	}
+	}*/
 	
 	/**
 	 * Returns addresses of instructions this node is mapped to.
 	 * @return List of instruction addresses this node is mapped to.
 	 */
-	public Vector<String> getAddresses() {
+	/*public Vector<String> getAddresses() {
 		return addresses;
 	}
 	/**
 	 * Adds instruction addresses to the list of addresses this node is mapped to.
 	 * @param address Address to add.
 	 */
-	public void addAddress(String address) {
+/*	public void addAddress(String address) {
 		if(addresses == null) {
 			addresses = new Vector<String>();
 		}
 		addresses.add(address);
 	}
-
+*/
 	/**
 	 * Returns all child nodes of this node that are linked to it by forward edges.
 	 * @return List of child nodes linked to this node by forward edges.
@@ -712,7 +711,7 @@ public class EFGVertex {
 		return canBeDiscarded;
 	}
 
-	public long getBBN() {
+	/*public Integer getBBN() {
 		return BBN;
-	}
+	}*/
 }

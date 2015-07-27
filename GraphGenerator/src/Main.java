@@ -45,9 +45,15 @@ public class Main {
         patternBank = null;
         String arguments[] = {CONFIG, COUNTERS, OUTPUT, INPUT};
         System.out.println("Starting AFGMiner");
+        Runtime rt = Runtime.getRuntime();
+        System.out.println("Total Memory: " + rt.totalMemory());
+        System.out.println("Free Memory: " + rt.freeMemory());
         long startTime = System.currentTimeMillis();
         ReturnInfo info = mining.manager.MinerManager.main(arguments);
         long endTime = System.currentTimeMillis();
+        System.out.println("Total Memory: " + rt.totalMemory());
+        System.out.println("Free Memory: " + rt.freeMemory());
+        System.out.println("Consumed Memory: " + (rt.totalMemory()-rt.freeMemory()));
         System.out.println("Compiling Results");
         m.createResultFile(endTime-startTime, info, numEdges);
     }

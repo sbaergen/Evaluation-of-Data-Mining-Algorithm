@@ -91,11 +91,11 @@ public class FlowGSpanController {
 	/**
 	 * A table with all attributes that can possibly be found in the dataset.
 	 */
-	static Vector<String> attributeNameTable = null;
+	//static Vector<String> attributeNameTable = null;
 	/**
 	 * Position in attributeTable where next attribute should be placed.
 	 */
-	static int nextAttrTableIdx = 0; 
+	//static int nextAttrTableIdx = 0;
 	
 	static Vector<Integer> existingAttrs;
 	public static AtomicInteger PATTERN_ID;
@@ -107,22 +107,24 @@ public class FlowGSpanController {
 	
 	Vector<String> resultSet;
 	Vector<Integer> resultSizes;
-	LinkedHashMap<Integer, Vector<String>> instructionMap;
+	//LinkedHashMap<Integer, Vector<String>> instructionMap;
 	
 	/**
 	 * Map between pattern encoding and statistics of that pattern, i.e. 
 	 * tick count, edge frequency info, number of instances of the pattern 
 	 * in dataset.
 	 */
-	public static Map<String, Vector<Double>> sgMap;
+	//public static Map<String, Vector<Double>> sgMap;
+
+	public static Vector<String> strMap;
 	
-	static LinkedHashSet<Integer> branchAttrList; 
+	//static LinkedHashSet<Integer> branchAttrList;
 	
 	public FlowGSpanController(DataSet dataset, double totalWeight, double totalFreq, 
 			double minSupport, double maxNodes, int numThreads) {
 		//Initialization of all output-related sets.
-		sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>()); 
-		
+	//	sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>());
+		strMap = new Vector<>();
 		fgspanInstances = new Vector<FlowGSpan>();
 	
 		this.dataset = dataset;
@@ -137,19 +139,19 @@ public class FlowGSpanController {
 		freqEdges = new LinkedHashSet<PatternEdge>(); //FGSpan-edgecomb
 		resultSet = new Vector<String>();
 		resultSizes = new Vector<Integer>();
-		instructionMap = new LinkedHashMap<Integer, Vector<String>>();
+		//instructionMap = new LinkedHashMap<Integer, Vector<String>>();
 		
 		usingDB = true;
 		FlowGSpanController.NUMBER_SUBGRAPHS = new AtomicInteger(0);
 		FlowGSpanController.PATTERN_ID = new AtomicInteger(0);
 		
-		branchAttrList = null;
+		//branchAttrList = null;
 	}
 	
 	public FlowGSpanController(DataSet dataset, double minSupport, double maxNodes, int numThreads){
 		//Initialization of all output-related sets.
-		sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>()); 
-		
+	//	sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>());
+		strMap = new Vector<>();
 		fgspanInstances = new Vector<FlowGSpan>();
 	
 		this.dataset = dataset;
@@ -164,21 +166,21 @@ public class FlowGSpanController {
 		freqEdges = new LinkedHashSet<PatternEdge>(); //FGSpan-edgecomb
 		resultSet = new Vector<String>();
 		resultSizes = new Vector<Integer>();
-		instructionMap = new LinkedHashMap<Integer, Vector<String>>();
+		//instructionMap = new LinkedHashMap<Integer, Vector<String>>();
 	
 		usingDB = false;
 		
 		FlowGSpanController.NUMBER_SUBGRAPHS = new AtomicInteger(0);
 		FlowGSpanController.PATTERN_ID = new AtomicInteger(0);
 		
-		branchAttrList = null;
+		//branchAttrList = null;
 	}
 	/**
 	 * Add a new attribute to the attribute table
 	 * @param name Attribute to add to the table
 	 * @return The index associated with that string
 	 */
-	public static synchronized int addAttributeToTable(String name) {
+	/*public static synchronized int addAttributeToTable(String name) {
 		if(attributeNameTable == null) {
 			attributeNameTable = new Vector<String>();
 		}
@@ -194,24 +196,27 @@ public class FlowGSpanController {
 		else {
 			return attributeNameTable.indexOf(name);
 		}
-	}
+	}*/
 	
 	/**
 	 * Gets attribute name from attribute table.
 	 * @param idx Index of attribute in table.
 	 * @return Attribute name.
 	 */
-	public static synchronized String getAttributeName(int idx) {
+	/*public static synchronized String getAttributeName(int idx) {
 		return attributeNameTable.get(idx);
 	}
 	
 	public static synchronized int getAttributeIndex(String name) {
 		return attributeNameTable.indexOf(name);
 	}
-	
+	*/
 	public int run() {
 		int generation = 0;
 		int startIndex = 0;
+        if(existingAttrs == null) {
+            existingAttrs = new Vector<Integer>();
+        }
 		int attrsDivision = existingAttrs.size() / ((numThreads > 0)? numThreads : 1);
 		int extraAttrsBlock = existingAttrs.size() % ((numThreads > 0)? numThreads : 1);
 		int endIndex = attrsDivision + extraAttrsBlock - 1;
@@ -230,17 +235,17 @@ public class FlowGSpanController {
 			resultSet.addAll(instance.getResultSet());
 			resultSizes.addAll(instance.getResultSizes());
 			
-			LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
+			/*LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
 			for(Integer patternId : tempMap.keySet()) {
 				instructionMap.put(patternId, tempMap.get(patternId));
-			}
+			}*/
 			//System.out.println(instructionMap.size());
 			instance.getResultSizes().clear();
 			instance.getResultSet().clear();
 
 			//System.out.println("Elements = " + instance.getResultSet().toString());
 
-			instance.getInstructionMap().clear();
+			//instance.getInstructionMap().clear();
 			instance.getChildFreqAttrs().clear();
 			instance.getChildSet().clear();
 			
@@ -257,7 +262,7 @@ public class FlowGSpanController {
 			
 				instance.setFreqAttrs(freqAttrs);
 				instance.setFreqEdges(freqEdges);//FGSpan-edgecomb
-				System.out.println(freqEdges +  "EDGES");
+				//System.out.println(freqEdges +  "EDGES");
 				instance.setPatternsToProcess(patternsToProcess);
 				instance.setStartIndex(startIndex);
 				instance.setEndIndex(endIndex);
@@ -274,15 +279,15 @@ public class FlowGSpanController {
 				resultSet.addAll(instance.getResultSet());
 				resultSizes.addAll(instance.getResultSizes());
 				
-				tempMap = instance.getInstructionMap();
+				/*tempMap = instance.getInstructionMap();
 				
 				for(Integer patternId : tempMap.keySet()) {
 					instructionMap.put(patternId, tempMap.get(patternId));
-				}
+				}*/
 				
 				instance.getResultSizes().clear();
 				instance.getResultSet().clear();
-				instance.getInstructionMap().clear();
+				//instance.getInstructionMap().clear();
 				instance.getChildFreqAttrs().clear();
 				instance.getChildFreqEdges().clear();//FGSpan-edgecomb
 				instance.getChildSet().clear();
@@ -350,14 +355,14 @@ public class FlowGSpanController {
 				resultSet.addAll(instance.getResultSet());
 				resultSizes.addAll(instance.getResultSizes());
 			
-				LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
+				//LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
 			
-				for(Integer patternId : tempMap.keySet()) {
+				/*for(Integer patternId : tempMap.keySet()) {
 					instructionMap.put(patternId, tempMap.get(patternId));
-				}
+				}*/
 				instance.getResultSizes().clear();
 				instance.getResultSet().clear();
-				instance.getInstructionMap().clear();
+				//instance.getInstructionMap().clear();
 				instance.getChildFreqAttrs().clear();
 				instance.getChildSet().clear();
 			}
@@ -429,15 +434,15 @@ public class FlowGSpanController {
 					//System.out.println("ChildSetSize, ResultSetSize, ResultSizes = " + instance.getChildSet().size() + " " + instance.getResultSet().size() + " " + instance.getResultSizes().size());
 					//end DEBUG
 					
-					LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
+					//LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
 				
-					for(Integer patternId : tempMap.keySet()) {
+					/*for(Integer patternId : tempMap.keySet()) {
 						instructionMap.put(patternId, tempMap.get(patternId));
-					}
+					}*/
 				
 					instance.getResultSizes().clear();
 					instance.getResultSet().clear();
-					instance.getInstructionMap().clear();
+					//instance.getInstructionMap().clear();
 					instance.getChildFreqAttrs().clear();
 					instance.getChildSet().clear();
 					count+=instance.getCount();
@@ -475,9 +480,9 @@ public class FlowGSpanController {
 				}
 				
 				for(MinerState state : prevStates) {
-					LinkedHashMap<Long, Integer> mapping = state.getWholeGraphCore();
+					LinkedHashMap<Integer, Integer> mapping = state.getWholeGraphCore();
 					
-					for(Long vertexId : mapping.keySet()) {
+					for(int vertexId : mapping.keySet()) {
 						efg.setNonDiscardableNode(vertexId);
 					}
 				}
@@ -554,7 +559,7 @@ public class FlowGSpanController {
 		//or decreasing order of their support value (which is max{Sw,Sf}), it depends on
 		//the sortOutput method. However the sort is always for those patterns that
 		//have same size in number of edges.
-		Vector<Integer> sortedIds = new Vector<Integer>();
+	/*Vector<Integer> sortedIds = new Vector<Integer>();
 		for(int i = 0; i <= maxGraphSize; ++i) {
 			MinerManager.writeOutputToFile("\n\nGraphs of size (in number of edges)" + i + ": " + numPatternsPerNumEdges.get(i));
 			for(int j = 0; j < resultSet.size(); ++j) {
@@ -579,9 +584,9 @@ public class FlowGSpanController {
 				}
 			}
 			sortedIds.clear();
-		}
+		}*/
 		
-		MinerManager.writeOutputToFile("\n\n==========Mapping between subgraphs and instructions==========\n\n");
+		/*MinerManager.writeOutputToFile("\n\n==========Mapping between subgraphs and instructions==========\n\n");
 		for(Integer subgraphIdx : instructionMap.keySet()) {
 			MinerManager.writeOutputToFile("Instances of pattern " + subgraphIdx + ":\n\n");
 			Vector<String> subgraphInstr = instructionMap.get(subgraphIdx);
@@ -589,7 +594,7 @@ public class FlowGSpanController {
 			for(String instrSet : subgraphInstr) {
 				MinerManager.writeOutputToFile(instrSet + "\n\n");
 			}
-		}
+		}*/
 		return numPatternsPerNumEdges;
 	}
 	
@@ -602,7 +607,7 @@ public class FlowGSpanController {
 	 * @param sortedIds The indices in resultSet of the patterns to be displayed in a rank,
 	 * based on their support value.
 	 */
-	private void sortOutput(Vector<Integer> sortedIds) {
+/*	private void sortOutput(Vector<Integer> sortedIds) {
 		PatternSupportComparator comp = new PatternSupportComparator(resultSet, sgMap);
 		Collections.sort(sortedIds, comp);
 	}
@@ -618,5 +623,5 @@ public class FlowGSpanController {
 			}
 		}
 		return branchAttrList;
-	}
+	}*/
 }

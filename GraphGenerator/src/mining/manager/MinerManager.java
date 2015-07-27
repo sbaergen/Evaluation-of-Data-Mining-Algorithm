@@ -65,17 +65,17 @@ public class MinerManager {
 			e.printStackTrace();
 		}
 		MinerManager pm = new MinerManager();
-		if(readFromDB) {
-			pm.readInputFromDB(args);
-		}
-		else {
+		//if(readFromDB) {
+		//	pm.readInputFromDB(args);
+		//}
+		//else {
 			info = pm.readInputFromFile(args);
 			//pm.readInputFromFile(args);
-		}
+		//}
         return info;
 	}
 	
-	private void readInputFromDB(String[] args) {
+	/*private void readInputFromDB(String[] args) {
 		// Read the configuration file
 		List<String> arguments = readFile(args[0]);
 
@@ -255,7 +255,7 @@ public class MinerManager {
 	    fgspanController.run();
 	    Long endTime = System.currentTimeMillis(); 
 	    
-	    fgspanController.writeResults();
+	   // fgspanController.writeResults();
 	    String numSubgraphs = "\n\nNumber of Frequent Subgraphs: " + FlowGSpanController.NUMBER_SUBGRAPHS;
 	    
 	    Long totalTime = endTime - startTime;
@@ -270,7 +270,7 @@ public class MinerManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	/**
 	 * Read data from the specified file
@@ -301,7 +301,6 @@ public class MinerManager {
 
 	private ReturnInfo readInputFromFile(String[] args) {
 		//if file name was provided...
-        ReturnInfo info = new ReturnInfo();
         try {
 			// Read the configuration file
 			List<String> arguments = readFile(args[0]);
@@ -340,12 +339,13 @@ public class MinerManager {
 				useBytecodes = Boolean.parseBoolean(arguments.get(5));
 				//minSupport = Double.valueOf(arguments.get(13)); //Changed from get(6)
 				//maxNodes = Double.valueOf(arguments.get(14)); //Changed from get(7)
+				arguments = null;
 			} catch (NumberFormatException e) {
 				System.err.println("Malformed configuration file");
 				System.exit(1);
 			}
-			
-			List<String> hwCounters = readFile(args[1]);
+			System.gc();
+			//List<String> hwCounters = readFile(args[1]);
 				
 			FileInputStream fstream;
 			fstream = new FileInputStream(args[3]);
@@ -358,9 +358,9 @@ public class MinerManager {
 		    
 		    //DEBUG
     		System.out.println("There is(are)  " + graphNum + " EFG(s) in this dataset."); //Changed to println from print
-		Runtime runtime = Runtime.getRuntime();
+		    //Runtime runtime = Runtime.getRuntime();
 
-                    NumberFormat format = NumberFormat.getInstance();
+            //NumberFormat format = NumberFormat.getInstance();
 
             
     		//end DEBUG
@@ -376,7 +376,7 @@ public class MinerManager {
 
 
 
-                    StringBuilder sb = new StringBuilder();
+                    /*StringBuilder sb = new StringBuilder();
                     long maxMemory = runtime.maxMemory();
                     long allocatedMemory = runtime.totalMemory();
                     long freeMemory = runtime.freeMemory();
@@ -385,9 +385,9 @@ public class MinerManager {
                     sb.append("allocated memory: " + format.format(allocatedMemory / 1024) + "\n");
                     sb.append("max memory: " + format.format(maxMemory / 1024) + "\n");
                     sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024));
-                    //System.out.println(sb);
+                    System.out.println(sb);*/
 
-		    		long vertexId = Long.valueOf(br.readLine());
+		    		int vertexId = Integer.valueOf(br.readLine());
 		    		double hotness = Double.valueOf(br.readLine());
 		    		int attrNum = Integer.valueOf(br.readLine());//number of attributes
 		    		EFGVertex v = new EFGVertex(hotness, vertexId);
@@ -399,8 +399,9 @@ public class MinerManager {
                         String[] attrValStr = tempStr.split(" "); //tuple (attribute, weight) split by space on file
 		    			//int attr = Integer.valueOf(attrValStr[0]); //1st part of string: attribute order in bitvector
 		    			double weight = Double.valueOf(attrValStr[1]); //2nd string: weight of attribute
-		    			v.setAttribute(FlowGSpanController.addAttributeToTable(attrValStr[0]), weight); //insert attr into vertex
-		    			//DEBUG
+		    			//v.setAttribute(FlowGSpanController.addAttributeToTable(attrValStr[0]), weight); //insert attr into vertex
+                        v.setAttribute(Integer.valueOf(attrValStr[0]), weight); //insert attr into vertex
+                        //DEBUG
 		    			//System.out.println("(" + attrValStr[0] + ", " + weight + ") ");// changed from attr to attrValStr[0]
 		    			//end DEBUG
 		    			--attrNum;
@@ -422,8 +423,8 @@ public class MinerManager {
 		    	while(edgeNum > 0) {
 		    		String tempStr = br.readLine();
 		    		String[] edgeStr = tempStr.split(" "); //tuple (attribute, weight) split by space on file
-		    		long fromEFGVertex = Long.valueOf(edgeStr[0]); //1st part of string: attribute order in bitvector
-		    		long toEFGVertex = Long.valueOf(edgeStr[1]); 
+		    		int fromEFGVertex = Integer.valueOf(edgeStr[0]); //1st part of string: attribute order in bitvector
+		    		int toEFGVertex = Integer.valueOf(edgeStr[1]);
 		    		double edgeFreq = Double.valueOf(edgeStr[2]);//2nd string: weight of attribute
 		    		//DEBUG
 		    		//System.out.println("( " + fromEFGVertex + ", " + toEFGVertex + ", " + edgeFreq + ") ");
@@ -448,9 +449,10 @@ public class MinerManager {
 		    		maxNodes, FlowGSpanController.NUM_FGSPAN_THREADS);
 			Long startTime = System.currentTimeMillis();
 		    int count = fgspanController.run();
-			info.setCount(count);
+            ReturnInfo info = new ReturnInfo();
+            info.setCount(count);
 		    Long endTime = System.currentTimeMillis(); 
-		    info.setNumPatternsPerNumEdges(fgspanController.writeResults());
+		    //info.setNumPatternsPerNumEdges(fgspanController.writeResults());
             System.out.println(FlowGSpanController.NUMBER_SUBGRAPHS);
 		    String numSubgraphs = "\n\nNumber of Frequent Subgraphs: " + FlowGSpanController.NUMBER_SUBGRAPHS;
 		    info.setNumHotSubgraphs(FlowGSpanController.NUMBER_SUBGRAPHS);
@@ -459,12 +461,13 @@ public class MinerManager {
 		    
 		    writeOutputToFile(numSubgraphs + timeMeasurement);
 		    FILE_WRITER.close();
+            return info;
 
 		}
 		catch(Exception e) {
 	    	e.printStackTrace();
 	    }
-        return info;
+        return null;
 	}
 	
 	private void writeOutputFileHeader(double minSupport, double maxWt, int datasetSize) {

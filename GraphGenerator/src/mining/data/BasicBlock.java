@@ -33,18 +33,18 @@ public class BasicBlock {
 	/**
 	 * All instructions in the basic block.
 	 */
-	HashMap<Long, EFGVertex> instructions;
+	HashMap<Integer, EFGVertex> instructions;
 	
 	/**
 	 * Basic block's unique identifier.
 	 */
-	long id;
+	int id;
 	
 	/**
 	 * Basic block's starting address (i.e. address of the first instruction in it).
 	 * Can also be used as an unique identifier.
 	 */
-	long startAddress;
+	int startAddress;
 	
 	/**
 	 * Frequency of the edge going into the basic block. All edges in-between
@@ -60,10 +60,10 @@ public class BasicBlock {
 	 * @param id The integer ID of this block.
 	 * @param freq The frequency with which this block was executed.
 	 */
-	public BasicBlock(long id, long startAddr, double freq, ExecutionFlowGraph parentGraph) {
+	public BasicBlock(int id, int startAddr, double freq, ExecutionFlowGraph parentGraph) {
 		this.id = id;
 		startAddress = startAddr;
-		instructions = new HashMap<Long, EFGVertex>();
+		instructions = new HashMap<Integer, EFGVertex>();
 		this.freq = freq;
 		this.parentGraph = parentGraph;
 		trueLastWasFound = false;
@@ -98,7 +98,7 @@ public class BasicBlock {
 	 * Returns the basic block's ID.
 	 * @return Basic block's ID.
 	 */
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -107,7 +107,7 @@ public class BasicBlock {
 	 * instruction).
 	 * @return The starting address of the basic block.
 	 */
-	public long getAddress() {
+	public int getAddress() {
 		return startAddress;
 	}
 	
@@ -149,7 +149,7 @@ public class BasicBlock {
 	public void addVertex(EFGVertex toAdd) {
 		instructions.put(toAdd.getId(), toAdd);
 		parentGraph.insertVertex(toAdd);
-		toAdd.setBBN(id);
+		//toAdd.setBBN(id);
 		// If there are no nodes in this BB, add this as the first and only.
 		if(first == null) {
 			first = toAdd;
@@ -169,7 +169,7 @@ public class BasicBlock {
 	 */
 	public void connect(double freq) {
 		EFGVertex iterLast = first;
-		for(Long address : instructions.keySet()) {
+		for(Integer address : instructions.keySet()) {
 			EFGVertex current = instructions.get(address);
 			EFGEdge currEdge = new EFGEdge(iterLast, current, freq);
 			parentGraph.insertEdge(currEdge);
@@ -191,7 +191,7 @@ public class BasicBlock {
 
 	public void addLastInstruction(EFGVertex toAdd) {
 		parentGraph.insertVertex(toAdd);
-		toAdd.setBBN(id);
+		//toAdd.setBBN(id);
 		last = toAdd;
 		trueLastWasFound = true;
 		
@@ -202,7 +202,7 @@ public class BasicBlock {
 
 	public void addFirstInstruction(EFGVertex toAdd) {
 		parentGraph.insertVertex(toAdd);
-		toAdd.setBBN(id);
+		//toAdd.setBBN(id);
 		first = toAdd;
 		
 		if(trueLastWasFound == false && last == null) {
@@ -210,7 +210,7 @@ public class BasicBlock {
 		}
 	}
 	
-	public void removeInstruction(long address) {
+	public void removeInstruction(int address) {
 		EFGVertex toRemove = instructions.get(address);
 		if(toRemove != null) {
 			instructions.remove(address);

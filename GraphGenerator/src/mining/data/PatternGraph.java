@@ -69,7 +69,7 @@ public class PatternGraph implements Cloneable{
 	 * Instances of this sub-graph pattern (if the Graph instance really represents
 	 * a pattern).
 	 */
-	Vector<String> mappings;
+	//Vector<String> mappings;
 	
 	/**
 	 * Indicates if Graph instance is:
@@ -470,7 +470,7 @@ public class PatternGraph implements Cloneable{
 	 * that the nodes in Graph represent, instead of the attributes.
 	 * @return All string representations of Graph instances.
 	 */
-	public Vector<String> getInstructionMappings() {
+	/*public Vector<String> getInstructionMappings() {
 		
 		if(mappings != null) {
 			return mappings;
@@ -506,7 +506,7 @@ public class PatternGraph implements Cloneable{
 			}
 		}
 		return mappings;
-	}
+	}*/
 
 	/**
 	 * Sets string representation of Graph.

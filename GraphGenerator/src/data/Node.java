@@ -1,9 +1,10 @@
 package data;
 
+import java.io.*;
 import java.util.BitSet;
 import java.util.LinkedHashMap;
 import java.util.Random;
-public class Node {
+public class Node implements Serializable{
 	/**
 	 * BitSet representing the attributes the node contains.
 	 * The node has attribute i if index i in attributes is set to 1.
@@ -39,7 +40,16 @@ public class Node {
 		this.edgeWeight = new LinkedHashMap<Integer, Double>();
 
 	}
-	
+
+    public Node(int weight, BitSet attributes, BitSet edges, LinkedHashMap<Integer, Double> attrWeight, LinkedHashMap<Integer, Double> edgeWeight){
+        this.weight = new Integer(weight);
+        this.attributes = new BitSet();
+        this.attributes = attributes;
+        this.edges = new BitSet();
+        this.edges = edges;
+        this.attrWeight = attrWeight;
+        this.edgeWeight = edgeWeight;
+    }
 
 	public void addAttribute (int attrIndex, double weightAttr){
 		attributes.set(attrIndex);
@@ -51,6 +61,21 @@ public class Node {
 		edges.set(edgeIndex);
 		edgeWeight.put(edgeIndex, weightEdge);
 	}
+//http://alvinalexander.com/java/java-deep-clone-example-source-code 30-07-2015
+    public static Object deepClone(Object object) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(object);
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return ois.readObject();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 	public BitSet getAttributes() {
 		return attributes;

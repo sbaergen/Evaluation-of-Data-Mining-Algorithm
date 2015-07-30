@@ -430,7 +430,7 @@ public class MinerManager {
 		    		//System.out.println("( " + fromEFGVertex + ", " + toEFGVertex + ", " + edgeFreq + ") ");
 		    		//end DEBUG
 		    		EFGEdge e = new EFGEdge(efg.getVertex(fromEFGVertex), efg.getVertex(toEFGVertex), edgeFreq);
-		    		efg.insertEdge(e);
+                    efg.insertEdge(e);
 		    		--edgeNum;
 		    	}
 		    	--graphNum;
@@ -452,7 +452,7 @@ public class MinerManager {
             ReturnInfo info = new ReturnInfo();
             info.setCount(count);
 		    Long endTime = System.currentTimeMillis(); 
-		    //info.setNumPatternsPerNumEdges(fgspanController.writeResults());
+		    info.setNumPatternsPerNumEdges(fgspanController.writeResults());
             System.out.println(FlowGSpanController.NUMBER_SUBGRAPHS);
 		    String numSubgraphs = "\n\nNumber of Frequent Subgraphs: " + FlowGSpanController.NUMBER_SUBGRAPHS;
 		    info.setNumHotSubgraphs(FlowGSpanController.NUMBER_SUBGRAPHS);

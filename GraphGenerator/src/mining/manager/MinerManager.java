@@ -430,6 +430,7 @@ public class MinerManager {
 		    		//System.out.println("( " + fromEFGVertex + ", " + toEFGVertex + ", " + edgeFreq + ") ");
 		    		//end DEBUG
 		    		EFGEdge e = new EFGEdge(efg.getVertex(fromEFGVertex), efg.getVertex(toEFGVertex), edgeFreq);
+                    System.out.println(fromEFGVertex + " " + toEFGVertex);
                     efg.insertEdge(e);
 		    		--edgeNum;
 		    	}

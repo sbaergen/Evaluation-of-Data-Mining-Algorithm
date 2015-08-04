@@ -30,9 +30,9 @@ public class Main {
             patternBank = m.createPatterns(args[1]);
         else if (args.length == 1){
             int size = values.size();
-            values.set(size-1, 0+"");
-            values.set(size-2, 0+"");
-            values.set(size-3, 0+"");
+            values.set(size-1, "-");
+            values.set(size-2, "-");
+            values.set(size-3, "-");
         }
         else {
             System.out.println("Usage: Main Parameters [PatternsFileName(optional)]");
@@ -45,7 +45,9 @@ public class Main {
         //System.exit(1);
         System.out.println("Creating Graph");
         m.createGraph(values, graphs, false);
+        System.out.println("Creating Graph File");
         int numEdges = m.createGraphFile(INPUT, graphs);
+        System.out.println("Creating Configuration File");
         m.createConfigFile();
         graphs = null;
         patternBank = null;
@@ -60,9 +62,10 @@ public class Main {
         long endTime = System.currentTimeMillis();
         System.out.println("Total Memory: " + rt.totalMemory());
         System.out.println("Free Memory: " + rt.freeMemory());
-        System.out.println("Consumed Memory: " + (rt.totalMemory()-rt.freeMemory()));
+        long consumedMemory = rt.totalMemory()-rt.freeMemory();
+        System.out.println("Consumed Memory: " + consumedMemory);
         System.out.println("Compiling Results");
-        m.createResultFile(endTime-startTime, info, numEdges, args.length);
+        m.createResultFile(endTime-startTime, info, numEdges, args.length, consumedMemory);
     }
 
 
@@ -146,7 +149,6 @@ public class Main {
             for (int i = 0; i < size; i++){
                 if (!isPattern && patternBank != null && i < size-1 && i > 0){
                     if (getBernoulli(Double.parseDouble(values.get(values.size() - 1)))){
-                        //System.out.println("Insert Pattern");
                         int tempPosition = position;
                         int offset = 5;
                         int valuesSize = values.size();
@@ -173,9 +175,18 @@ public class Main {
                         values.set(7, Integer.parseInt(values.get(7))+patSize-1+"");
                         e.setSize(e.getSize()+patSize - 1);
                         //System.out.println(e.getSize() + "SIZE");
+                        int tempindex = index;
                         for (int j = 0; j < patSize; j++){
                             Node node = pattern.get(j);
                             Node newNode = (Node) node.deepClone(node);
+                            BitSet newEdge = new BitSet();
+                            LinkedHashMap<Integer, Double> newEdgeWeight = new LinkedHashMap<Integer, Double>();
+                            for (int key: newNode.getEdgeWeight().keySet()){
+                                newEdgeWeight.put(key+tempindex, newNode.getEdgeWeight().get(key));
+                                newEdge.set(key+tempindex);
+                            }
+                            newNode.setEdges(newEdge);
+                            newNode.setEdgeWeight(newEdgeWeight);
                             e.addNode(index, newNode);
                             index++;
                         }
@@ -199,35 +210,7 @@ public class Main {
                         position = nodePosition;
                 }
             }
-            //System.out.println(size);
-            /*for (int i = 0; i < size; i++){
-                System.out.println(i);
-                System.out.println(e.getNodes().get(i).getEdges());
-            }*/
-            /*for (int i = 0; i < size; i++){
-                BitSet newBitSet = new BitSet(size);
-                Node node = e.getNodes().get(i);
-                BitSet edges = node.getEdges();
-                System.out.println(edges);
-                if (edges.cardinality() != 0){
-                    int next = edges.nextSetBit(0);
-                    while (next != -1){
-                        newBitSet.set(next);
-                        next = edges.nextSetBit(next+1);
-                    }
-                }
-                e.getNodes().get(i).setEdges(newBitSet);
-            }*/
-            /*for (int i = 0; i < patternBank.size(); i++){
-                System.out.println(patternBank.get(i).getNodes().size());
-                for (int j = 0; j < patternBank.get(i).getNodes().size(); j++){
-                    System.out.println(patternBank.get(i).getNodes().get(j).getEdges());}}
-            System.out.println("-----------------------------------------------------");*/
             addEdges(e, edgeProb);
-            /*for (int i = 0; i < patternBank.size(); i++){
-                System.out.println(patternBank.get(i).getNodes().size());
-                for (int j = 0; j < patternBank.get(i).getNodes().size(); j++){
-                    System.out.println(patternBank.get(i).getNodes().get(j).getEdges());}}*/
         }
     }
 
@@ -625,10 +608,9 @@ public class Main {
                 LinkedHashMap<Integer, Node> currentNodes = currentEFG.getNodes();
 				int numNodes = currentNodes.size();
 				writer.write(numNodes + "\n");
-				
 				// For each node in EFG for node information
 				for (int j = 0; j < numNodes; j++){
-					writer.write(j +"\n");
+                    writer.write(j +"\n");
 					Node currentNode = currentNodes.get(j);
 					writer.write(currentNode.getWeight()+"\n");
 					BitSet attributes = currentNode.getAttributes();
@@ -697,7 +679,7 @@ public class Main {
      * @param info All info from AFGMiner
      * @param numEdges Number of Edges in Dataset
      */
-    public void createResultFile(long time, ReturnInfo info, int numEdges, int length){
+    public void createResultFile(long time, ReturnInfo info, int numEdges, int length, long memory){
         try {
             String processor;
             Runtime rt = Runtime.getRuntime();
@@ -752,7 +734,7 @@ public class Main {
                 writer.write("\n\n--------TEST RESULTS--------\n");
                 header = " DATE ,MAXATTR, MAXFOWARD, MAXBACKWARD, GAP, MINSUPPORT, MAXNODES, EFGS, NODES, NUMATTR, ATTRBERN," +
                         " EDGEBERN, NODES/EFG, P1, P2, P3, EDGE WEIGHT, P1, P2, P3, NODE WEIGHT, P1, P2, P3, " +
-                        "ATTR WEIGHT, P1, P2, P3, PATEFG, P1, P2, P3, PATNODE, PATPROB, TIME, NUMEDGES, TOTALSUBGRAPHS, HOTSUBGRAPHS, 0-EDGE, 1-EDGE, 2-EDGE," +
+                        "ATTR WEIGHT, P1, P2, P3, PATEFG, P1, P2, P3, PATNUM, PATNODE, PATPROB, TIME, MEMORY CONSUMED, NUMEDGES, TOTALSUBGRAPHS, HOTSUBGRAPHS, 0-EDGE, 1-EDGE, 2-EDGE," +
                         " 3-EDGE, 4-EDGE, 5-EDGE\n" ;
                 writer.write(header);
             }
@@ -760,9 +742,12 @@ public class Main {
             int count = 0;
             for (int i = 0; i < numValues; i++) {
                 String current = values.get(i).toUpperCase();
-                    if (count == 4 && length == 1)
+                    if (count == 4 && length == 1) {
                         data += " -, -, -, -,";
-                    if (current.equals("E")) {
+                        i+=2;
+                        count++;
+                    }
+                    else if (current.equals("E")) {
                         data += current + "," + values.get(i + 1) + ", -, -,";
                         i++;
                         count++;
@@ -781,7 +766,7 @@ public class Main {
 
             }
 
-            data += time + "ms" + "," + numEdges + "," + info.getCount() + "," + info.getNumHotSubgraphs().toString();
+            data += time + "ms" + "," + memory + "," + numEdges + "," + info.getCount() + "," + info.getNumHotSubgraphs().toString();
 
             for (int i = 0; i < size; i++) {
                 int numGraphs = patternsPerEdge.get(i);

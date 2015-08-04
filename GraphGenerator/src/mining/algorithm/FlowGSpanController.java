@@ -91,11 +91,11 @@ public class FlowGSpanController {
 	/**
 	 * A table with all attributes that can possibly be found in the dataset.
 	 */
-	//static Vector<String> attributeNameTable = null;
+	static Vector<String> attributeNameTable = null;
 	/**
 	 * Position in attributeTable where next attribute should be placed.
 	 */
-	//static int nextAttrTableIdx = 0;
+	static int nextAttrTableIdx = 0;
 	
 	static Vector<Integer> existingAttrs;
 	public static AtomicInteger PATTERN_ID;
@@ -118,12 +118,12 @@ public class FlowGSpanController {
 
 	public static Vector<String> strMap;
 	
-	//static LinkedHashSet<Integer> branchAttrList;
+	static LinkedHashSet<Integer> branchAttrList;
 	
 	public FlowGSpanController(DataSet dataset, double totalWeight, double totalFreq, 
 			double minSupport, double maxNodes, int numThreads) {
 		//Initialization of all output-related sets.
-	//	sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>());
+		//sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>());
 		strMap = new Vector<>();
 		fgspanInstances = new Vector<FlowGSpan>();
 	
@@ -145,12 +145,12 @@ public class FlowGSpanController {
 		FlowGSpanController.NUMBER_SUBGRAPHS = new AtomicInteger(0);
 		FlowGSpanController.PATTERN_ID = new AtomicInteger(0);
 		
-		//branchAttrList = null;
+		branchAttrList = null;
 	}
 	
 	public FlowGSpanController(DataSet dataset, double minSupport, double maxNodes, int numThreads){
 		//Initialization of all output-related sets.
-	//	sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>());
+		//sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>());
 		strMap = new Vector<>();
 		fgspanInstances = new Vector<FlowGSpan>();
 	
@@ -173,14 +173,14 @@ public class FlowGSpanController {
 		FlowGSpanController.NUMBER_SUBGRAPHS = new AtomicInteger(0);
 		FlowGSpanController.PATTERN_ID = new AtomicInteger(0);
 		
-		//branchAttrList = null;
+		branchAttrList = null;
 	}
 	/**
 	 * Add a new attribute to the attribute table
 	 * @param name Attribute to add to the table
 	 * @return The index associated with that string
 	 */
-	/*public static synchronized int addAttributeToTable(String name) {
+	public static synchronized int addAttributeToTable(String name) {
 		if(attributeNameTable == null) {
 			attributeNameTable = new Vector<String>();
 		}
@@ -196,27 +196,27 @@ public class FlowGSpanController {
 		else {
 			return attributeNameTable.indexOf(name);
 		}
-	}*/
+	}
 	
 	/**
 	 * Gets attribute name from attribute table.
 	 * @param idx Index of attribute in table.
 	 * @return Attribute name.
 	 */
-	/*public static synchronized String getAttributeName(int idx) {
+	public static synchronized String getAttributeName(int idx) {
 		return attributeNameTable.get(idx);
 	}
 	
 	public static synchronized int getAttributeIndex(String name) {
 		return attributeNameTable.indexOf(name);
 	}
-	*/
+
 	public int run() {
 		int generation = 0;
 		int startIndex = 0;
-        if(existingAttrs == null) {
+       /*if(existingAttrs == null) {
             existingAttrs = new Vector<Integer>();
-        }
+        */
 		int attrsDivision = existingAttrs.size() / ((numThreads > 0)? numThreads : 1);
 		int extraAttrsBlock = existingAttrs.size() % ((numThreads > 0)? numThreads : 1);
 		int endIndex = attrsDivision + extraAttrsBlock - 1;
@@ -610,18 +610,18 @@ public class FlowGSpanController {
 /*	private void sortOutput(Vector<Integer> sortedIds) {
 		PatternSupportComparator comp = new PatternSupportComparator(resultSet, sgMap);
 		Collections.sort(sortedIds, comp);
-	}
+	}*/
 
 	public static LinkedHashSet<Integer> getBranchAttrList() {
-		if(branchAttrList == null) {
+		if (branchAttrList == null) {
 			branchAttrList = new LinkedHashSet<Integer>();
-			
-			for(String att : attributeNameTable) {
-				if(att.matches("B\\w*") || att.matches("C[a-zA-Z0-9]*J")) {
+
+			for (String att : attributeNameTable) {
+				if (att.matches("B\\w*") || att.matches("C[a-zA-Z0-9]*J")) {
 					branchAttrList.add(FlowGSpanController.getAttributeIndex(att));
 				}
 			}
 		}
 		return branchAttrList;
-	}*/
+	}
 }

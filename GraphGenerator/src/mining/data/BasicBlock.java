@@ -149,7 +149,7 @@ public class BasicBlock {
 	public void addVertex(EFGVertex toAdd) {
 		instructions.put(toAdd.getId(), toAdd);
 		parentGraph.insertVertex(toAdd);
-		//toAdd.setBBN(id);
+		toAdd.setBBN(id);
 		// If there are no nodes in this BB, add this as the first and only.
 		if(first == null) {
 			first = toAdd;
@@ -191,7 +191,7 @@ public class BasicBlock {
 
 	public void addLastInstruction(EFGVertex toAdd) {
 		parentGraph.insertVertex(toAdd);
-		//toAdd.setBBN(id);
+		toAdd.setBBN(id);
 		last = toAdd;
 		trueLastWasFound = true;
 		
@@ -202,7 +202,7 @@ public class BasicBlock {
 
 	public void addFirstInstruction(EFGVertex toAdd) {
 		parentGraph.insertVertex(toAdd);
-		//toAdd.setBBN(id);
+		toAdd.setBBN(id);
 		first = toAdd;
 		
 		if(trueLastWasFound == false && last == null) {

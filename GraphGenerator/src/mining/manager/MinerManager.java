@@ -399,7 +399,7 @@ public class MinerManager {
                         String[] attrValStr = tempStr.split(" "); //tuple (attribute, weight) split by space on file
 		    			//int attr = Integer.valueOf(attrValStr[0]); //1st part of string: attribute order in bitvector
 		    			double weight = Double.valueOf(attrValStr[1]); //2nd string: weight of attribute
-		    			//v.setAttribute(FlowGSpanController.addAttributeToTable(attrValStr[0]), weight); //insert attr into vertex
+		    			v.setAttribute(FlowGSpanController.addAttributeToTable(attrValStr[0]), weight); //insert attr into vertex
                         v.setAttribute(Integer.valueOf(attrValStr[0]), weight); //insert attr into vertex
                         //DEBUG
 		    			//System.out.println("(" + attrValStr[0] + ", " + weight + ") ");// changed from attr to attrValStr[0]

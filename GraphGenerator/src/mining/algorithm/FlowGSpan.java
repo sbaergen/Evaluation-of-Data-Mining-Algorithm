@@ -301,6 +301,7 @@ public class FlowGSpan implements Runnable{
 				resultSizes.add(0);
 				
 				//int graphInstances = (int)FlowGSpanController.sgMap.get(keyStr).get(3).floatValue();
+				//int graphInstances = Integer.valueOf(FlowGSpanController.strMap.get(3));
 				//graph.setNumInstances(graphInstances);
 				
 				//instructionMap.put(FlowGSpanController.PATTERN_ID.getAndIncrement(), graph.getInstructionMappings());
@@ -343,7 +344,7 @@ public class FlowGSpan implements Runnable{
 			
 			currWeightSupport = 0;
 			currFreqSupport = 0;
-			//currNumNodes = 0;
+			currNumNodes = 0;
 			numMatches = 0;
 			
 			for(int methodId : graphDB.keySet()) {
@@ -354,17 +355,17 @@ public class FlowGSpan implements Runnable{
 			//System.out.println("COUNT");
 			if(getMaxSupport(currWeightSupport/totalWeight, currFreqSupport/totalFreq) > minSupport) {
 				//Register supports in graph map.
-				//Vector<Double> supports = new Vector<Double>();
+				Vector<Double> supports = new Vector<Double>();
 				
-				//if(currWeightSupport/totalWeight >= 1) {
-				//	System.err.print("WEIGHT SUPPORT EXCEEDED LIMITS!!!\n");
-				//}
-				//supports.add(currWeightSupport/totalWeight);
-				//supports.add(currFreqSupport/totalFreq);
-				//currNumNodes = newG.getVertexSet().size();
-				//supports.add(currNumNodes);
-				//supports.add((double)numMatches);
-				//supports.add((double)newG.getPatternType());
+				if(currWeightSupport/totalWeight >= 1) {
+					System.err.print("WEIGHT SUPPORT EXCEEDED LIMITS!!!\n");
+				}
+				supports.add(currWeightSupport/totalWeight);
+				supports.add(currFreqSupport/totalFreq);
+				currNumNodes = newG.getVertexSet().size();
+				supports.add(currNumNodes);
+				supports.add((double)numMatches);
+				supports.add((double)newG.getPatternType());
 				
 				graphDB.addUsefulGraphs(newG.getGS());
 				
@@ -441,7 +442,7 @@ public class FlowGSpan implements Runnable{
 					//System.out.println("COUNT 22222");
 					if(getMaxSupport(currWeightSupport/totalWeight, currFreqSupport/totalFreq) > minSupport) {
 						//Register supports in graph map
-						//Vector<Double> supports = new Vector<Double>();
+						Vector<Double> supports = new Vector<Double>();
 
                         //DEBUG
 						if(currWeightSupport/totalWeight >= 1) {
@@ -449,15 +450,15 @@ public class FlowGSpan implements Runnable{
 						}
 						//end DEBUG
 						
-						//supports.add(currWeightSupport/totalWeight);
-						//supports.add(currFreqSupport/totalFreq);
-						//currNumNodes = newG.getVertexSet().size();
-						//supports.add(currNumNodes);
-						//supports.add((double)numMatches);
+						supports.add(currWeightSupport/totalWeight);
+						supports.add(currFreqSupport/totalFreq);
+						currNumNodes = newG.getVertexSet().size();
+						supports.add(currNumNodes);
+						supports.add((double)numMatches);
 
-						//System.out.println(numMatches);
+						System.out.println(numMatches);
 
-						//supports.add((double)newG.getPatternType());
+						supports.add((double)newG.getPatternType());
 						
 						graphDB.addUsefulGraphs(newG.getGS());
 						
@@ -533,7 +534,8 @@ public class FlowGSpan implements Runnable{
 				resultSizes.add(child.getEdgeSet().size());
 				
 				//int numInstances = (int)FlowGSpanController.sgMap.get(childKeyStr).get(3).floatValue();
-				//child.setNumInstances(numInstances);
+                //int numInstances = Integer.valueOf(FlowGSpanController.strMap.get(3));
+                //child.setNumInstances(numInstances);
 				
 				//instructionMap.put(FlowGSpanController.PATTERN_ID.getAndIncrement(), child.getInstructionMappings());
 			}
@@ -549,7 +551,9 @@ public class FlowGSpan implements Runnable{
 				int childGraphSize = child.getEdgeSet().size();
 				resultSizes.add(childGraphSize);
 				//child.setNumInstances((int)FlowGSpanController.sgMap.get(childKeyStr).get(3).floatValue());
-				//instructionMap.put(FlowGSpanController.PATTERN_ID.getAndIncrement(), child.getInstructionMappings());
+                //child.setNumInstances(Integer.valueOf(FlowGSpanController.strMap.get(3)));
+
+                //instructionMap.put(FlowGSpanController.PATTERN_ID.getAndIncrement(), child.getInstructionMappings());
 				
 				childFreqEdges.addAll(child.getAllDistinctEdges()); //FGSpan-edgecomb
 				childFreqAttrs.addAll(child.getAllDistinctAttributes());
@@ -728,9 +732,9 @@ public class FlowGSpan implements Runnable{
             return false;
         }
 
-        if (isFalse)
+        /*if (isFalse)
             System.err.println("--------------------SHOULD NOT RUN----------------");
-	
+	*/
 		currWeightSupport = 0;
 		currFreqSupport = 0;
 		currNumNodes = 0;
@@ -765,13 +769,13 @@ public class FlowGSpan implements Runnable{
 			//}
 		
 			//Register supports in graph map
-			/*Vector<Double> supports = new Vector<Double>();
+			Vector<Double> supports = new Vector<Double>();
 			supports.add(currWeightSupport/totalWeight);
 			supports.add(currFreqSupport/totalFreq);
 			currNumNodes = child.getVertexSet().size();
 			supports.add(currNumNodes);
 			supports.add((double)numMatches);
-			supports.add((double)child.getPatternType());*/
+			supports.add((double)child.getPatternType());
 			
 			graphDB.addUsefulGraphs(child.getGS());
 			
@@ -796,7 +800,7 @@ public class FlowGSpan implements Runnable{
 		int itemsetNum = 0;
 		int leftToGen = FlowGSpanController.MAX_ATTRIBUTES_TOTAL - currAttrNum;
 		
-		/*PatternVertex fromV = graph.getVertex(vertexIdToAttachTo);
+		PatternVertex fromV = graph.getVertex(vertexIdToAttachTo);
 		if(fromV.getChildren().size() > 0) {
         	LinkedHashSet<Integer> branchAttrs = (LinkedHashSet<Integer>) FlowGSpanController.getBranchAttrList().clone();
         	System.out.println(branchAttrs);
@@ -812,7 +816,7 @@ public class FlowGSpan implements Runnable{
         	if(hasBranchAttr == false) {
         		return;
         	}
-		}*/
+		}
     	//System.out.println("Entering DO WHILE");
         do
         {
@@ -822,7 +826,7 @@ public class FlowGSpan implements Runnable{
             //Generate candidate patterns...
 	//System.out.println("genAttributesToPermute");
             genAttributesToPermute(itemsetNum, freqAttrs, attrToPermute);
-            //ystem.out.println("calcFrequentSubGraphAttrs");
+            //System.out.println("calcFrequentSubGraphAttrs");
             //And determine and display frequent itemsets.
             calcFrequentSubGraphAttrs(graph, vertexIdToAttachTo, children, itemsetNum, attrToPermute);
         //If there are <=1 frequent items, then it is the end. 

@@ -100,7 +100,7 @@ public class FlowGSpan implements Runnable{
 	 * Map between size of patterns (in number of edges) and all the distinct
 	 * attributes contained at the patterns of that size found to be frequent.
 	 */
-	LinkedHashSet<PatternEdge> freqEdges; //FGSpan-edgecomb
+	//LinkedHashSet<PatternEdge> freqEdges; //FGSpan-edgecomb
 	LinkedHashSet<Integer> freqAttrs;
 	/**
 	 * Holds how many attributes have already been inserted into the current pattern
@@ -113,7 +113,7 @@ public class FlowGSpan implements Runnable{
 	Vector<PatternGraph> childSet;
 	
 	LinkedHashSet<Integer> childFreqAttrs;
-	LinkedHashSet<PatternEdge> childFreqEdges; //FGSpan-edgecomb
+	//LinkedHashSet<PatternEdge> childFreqEdges; //FGSpan-edgecomb
 
 	int startIndex;
 	
@@ -144,7 +144,7 @@ public class FlowGSpan implements Runnable{
 		totalWeight = datasetWeight;
 		currAttrNum = 0;
 		freqAttrs = new LinkedHashSet<Integer>();
-		freqEdges = new LinkedHashSet<PatternEdge>();
+		//freqEdges = new LinkedHashSet<PatternEdge>();
 	
 		resultSet = new Vector<String>();
 		resultSizes = new Vector<Integer>();
@@ -152,7 +152,7 @@ public class FlowGSpan implements Runnable{
 		
 		childSet = new Vector<PatternGraph>();
 		childFreqAttrs = new LinkedHashSet<Integer>();
-		childFreqEdges = new LinkedHashSet<PatternEdge>(); //FGSpan-edgecomb
+		//childFreqEdges = new LinkedHashSet<PatternEdge>(); //FGSpan-edgecomb
 		startIndex = endIndex = 0;
 		patternsToProcess = null;
 		
@@ -198,7 +198,7 @@ public class FlowGSpan implements Runnable{
 		totalWeight = graphDB.getTotalWeight();
 		currAttrNum = 0;
 		freqAttrs = new LinkedHashSet<Integer>();
-		freqEdges = new LinkedHashSet<PatternEdge>();
+		//freqEdges = new LinkedHashSet<PatternEdge>();
 		
 		resultSet = new Vector<String>();
 		resultSizes = new Vector<Integer>();
@@ -206,7 +206,7 @@ public class FlowGSpan implements Runnable{
 		
 		childSet = new Vector<PatternGraph>();
 		childFreqAttrs = new LinkedHashSet<Integer>();
-		childFreqEdges = new LinkedHashSet<PatternEdge>(); //FGSpan-edgecomb
+		//childFreqEdges = new LinkedHashSet<PatternEdge>(); //FGSpan-edgecomb
 		startIndex = endIndex = 0;
 		patternsToProcess = null;
 		
@@ -256,9 +256,9 @@ public class FlowGSpan implements Runnable{
 		return childFreqAttrs;
 	}
 	
-	public LinkedHashSet<PatternEdge> getChildFreqEdges() {
+	/*public LinkedHashSet<PatternEdge> getChildFreqEdges() {
 		return childFreqEdges;
-	}
+	}*/
 
 	/*public LinkedHashMap<Integer, Vector<String>> getInstructionMap() {
 		return instructionMap;
@@ -357,9 +357,9 @@ public class FlowGSpan implements Runnable{
 				//Register supports in graph map.
 				Vector<Double> supports = new Vector<Double>();
 				
-				if(currWeightSupport/totalWeight >= 1) {
+				/*if(currWeightSupport/totalWeight >= 1) {
 					System.err.print("WEIGHT SUPPORT EXCEEDED LIMITS!!!\n");
-				}
+				}*/
 				supports.add(currWeightSupport/totalWeight);
 				supports.add(currFreqSupport/totalFreq);
 				currNumNodes = newG.getVertexSet().size();
@@ -390,7 +390,7 @@ public class FlowGSpan implements Runnable{
 				//Increase the itemset that is being looked at...
 				//System.out.println(itemsetNum + "ITEMSETNUM");
 				itemsetNum++;
-                System.out.println(Runtime.getRuntime().freeMemory());
+                System.out.println(Runtime.getRuntime().freeMemory() + " Free Memory");
 
                 //Generate candidate patterns...
 				genAttributesToPermute(itemsetNum, childFreqAttrs, attrToPermute);
@@ -445,9 +445,9 @@ public class FlowGSpan implements Runnable{
 						Vector<Double> supports = new Vector<Double>();
 
                         //DEBUG
-						if(currWeightSupport/totalWeight >= 1) {
+						/*if(currWeightSupport/totalWeight >= 1) {
 							//System.out.println("WEIGHT SUPPORT EXCEEDED LIMITS!!!\n");
-						}
+						}*/
 						//end DEBUG
 						
 						supports.add(currWeightSupport/totalWeight);
@@ -456,7 +456,7 @@ public class FlowGSpan implements Runnable{
 						supports.add(currNumNodes);
 						supports.add((double)numMatches);
 
-						System.out.println(numMatches);
+						System.out.println(numMatches + " Matches");
 
 						supports.add((double)newG.getPatternType());
 						
@@ -555,7 +555,7 @@ public class FlowGSpan implements Runnable{
 
                 //instructionMap.put(FlowGSpanController.PATTERN_ID.getAndIncrement(), child.getInstructionMappings());
 				
-				childFreqEdges.addAll(child.getAllDistinctEdges()); //FGSpan-edgecomb
+				//childFreqEdges.addAll(child.getAllDistinctEdges()); //FGSpan-edgecomb
 				childFreqAttrs.addAll(child.getAllDistinctAttributes());
 			}
 			++start;
@@ -610,7 +610,7 @@ public class FlowGSpan implements Runnable{
 			if(graph.getEdgeSet().size() > 1) {
 				//System.out.println("COMBINE EDGES");
 
-                combineEdges(graph, pivotVertexId, freqEdges, children);
+              //  combineEdges(graph, pivotVertexId, freqEdges, children);
 			}
 			else {
 				//System.out.println("ATTACH NEW NODE");
@@ -626,7 +626,7 @@ public class FlowGSpan implements Runnable{
 					//FGSpan-edgecomb
 					if(graph.getEdgeSet().size() > 1) {
 					//System.out.println("NON-SEQ COMBINE EDGES");
-						combineEdges(graph, pivotVertexId, freqEdges, children);
+			//			combineEdges(graph, pivotVertexId, freqEdges, children);
 					}
 					else {
 					//System.out.println("NON-SEQ NEW NODE");
@@ -802,7 +802,7 @@ public class FlowGSpan implements Runnable{
 		
 		PatternVertex fromV = graph.getVertex(vertexIdToAttachTo);
 		if(fromV.getChildren().size() > 0) {
-        	LinkedHashSet<Integer> branchAttrs = (LinkedHashSet<Integer>) FlowGSpanController.getBranchAttrList().clone();
+        	/*LinkedHashSet<Integer> branchAttrs = (LinkedHashSet<Integer>) FlowGSpanController.getBranchAttrList().clone();
         	System.out.println(branchAttrs);
             boolean hasBranchAttr = false;
         	System.out.println(branchAttrs.size() + "BRANCHATTTR");
@@ -815,7 +815,8 @@ public class FlowGSpan implements Runnable{
         	
         	if(hasBranchAttr == false) {
         		return;
-        	}
+        	}*/
+            return;
 		}
     	//System.out.println("Entering DO WHILE");
         do
@@ -1007,7 +1008,7 @@ public class FlowGSpan implements Runnable{
 	}
 
 	//FGSpan-edgecomb
-	public void setFreqEdges(LinkedHashSet<PatternEdge> edges) {
+	/*public void setFreqEdges(LinkedHashSet<PatternEdge> edges) {
 		freqEdges = edges;
-	}
+	}*/
 }

@@ -103,7 +103,7 @@ public class EFGVertex {
 	
 	boolean canBeDiscarded;
 	
-	int BBN;
+	//int BBN;
 	
 	/**
 	 * Collection of instruction this Vertex is mapped to.
@@ -166,9 +166,9 @@ public class EFGVertex {
 		this(weight, id);
 		//isDummy = dummy;
 	}
-	public void setBBN(int bbn) {
+	/*public void setBBN(int bbn) {
 		BBN = bbn;
-	}
+	}*/
 	/**
 	 * Returns bytecode ID.
 	 * @return Bytecode ID in string representation.
@@ -711,7 +711,7 @@ public class EFGVertex {
 		return canBeDiscarded;
 	}
 
-	public Integer getBBN() {
+	/*public Integer getBBN() {
 		return BBN;
-	}
+	}*/
 }

@@ -33,6 +33,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import mining.algorithm.FlowGSpan;
 import mining.algorithm.FlowGSpanController;
 import mining.algorithm.ReturnInfo;
 import mining.data.DataSet;
@@ -399,7 +400,7 @@ public class MinerManager {
                         String[] attrValStr = tempStr.split(" "); //tuple (attribute, weight) split by space on file
 		    			//int attr = Integer.valueOf(attrValStr[0]); //1st part of string: attribute order in bitvector
 		    			double weight = Double.valueOf(attrValStr[1]); //2nd string: weight of attribute
-		    			v.setAttribute(FlowGSpanController.addAttributeToTable(attrValStr[0]), weight); //insert attr into vertex
+		    			v.setAttribute(FlowGSpanController.addAttributeToTable(Integer.parseInt(attrValStr[0])), weight); //insert attr into vertex
                         v.setAttribute(Integer.valueOf(attrValStr[0]), weight); //insert attr into vertex
                         //DEBUG
 		    			//System.out.println("(" + attrValStr[0] + ", " + weight + ") ");// changed from attr to attrValStr[0]
@@ -430,7 +431,7 @@ public class MinerManager {
 		    		//System.out.println("( " + fromEFGVertex + ", " + toEFGVertex + ", " + edgeFreq + ") ");
 		    		//end DEBUG
 		    		EFGEdge e = new EFGEdge(efg.getVertex(fromEFGVertex), efg.getVertex(toEFGVertex), edgeFreq);
-                    System.out.println(fromEFGVertex + " " + toEFGVertex);
+                    //System.out.println(fromEFGVertex + " " + toEFGVertex);
                     efg.insertEdge(e);
 		    		--edgeNum;
 		    	}
@@ -454,7 +455,7 @@ public class MinerManager {
             info.setCount(count);
 		    Long endTime = System.currentTimeMillis(); 
 		    info.setNumPatternsPerNumEdges(fgspanController.writeResults());
-            System.out.println(FlowGSpanController.NUMBER_SUBGRAPHS);
+            System.out.println(FlowGSpanController.NUMBER_SUBGRAPHS + " Frequent Subgraphs");
 		    String numSubgraphs = "\n\nNumber of Frequent Subgraphs: " + FlowGSpanController.NUMBER_SUBGRAPHS;
 		    info.setNumHotSubgraphs(FlowGSpanController.NUMBER_SUBGRAPHS);
 		    Long totalTime = endTime - startTime;

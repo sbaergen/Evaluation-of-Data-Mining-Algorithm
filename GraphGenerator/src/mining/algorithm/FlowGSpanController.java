@@ -91,7 +91,7 @@ public class FlowGSpanController {
 	/**
 	 * A table with all attributes that can possibly be found in the dataset.
 	 */
-	static Vector<String> attributeNameTable = null;
+	//static Vector<String> attributeNameTable = null;
 	/**
 	 * Position in attributeTable where next attribute should be placed.
 	 */
@@ -118,13 +118,13 @@ public class FlowGSpanController {
 
 	public static Vector<String> strMap;
 	
-	static LinkedHashSet<Integer> branchAttrList;
+	//static LinkedHashSet<Integer> branchAttrList;
 	
 	public FlowGSpanController(DataSet dataset, double totalWeight, double totalFreq, 
 			double minSupport, double maxNodes, int numThreads) {
 		//Initialization of all output-related sets.
 		//sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>());
-		strMap = new Vector<>();
+		strMap = new Vector<String>();
 		fgspanInstances = new Vector<FlowGSpan>();
 	
 		this.dataset = dataset;
@@ -136,7 +136,7 @@ public class FlowGSpanController {
 	
 		patternsToProcess = new Vector<PatternGraph>();
 		freqAttrs = new LinkedHashSet<Integer>();
-		freqEdges = new LinkedHashSet<PatternEdge>(); //FGSpan-edgecomb
+		//freqEdges = new LinkedHashSet<PatternEdge>(); //FGSpan-edgecomb
 		resultSet = new Vector<String>();
 		resultSizes = new Vector<Integer>();
 		//instructionMap = new LinkedHashMap<Integer, Vector<String>>();
@@ -145,13 +145,13 @@ public class FlowGSpanController {
 		FlowGSpanController.NUMBER_SUBGRAPHS = new AtomicInteger(0);
 		FlowGSpanController.PATTERN_ID = new AtomicInteger(0);
 		
-		branchAttrList = null;
+		//branchAttrList = null;
 	}
 	
 	public FlowGSpanController(DataSet dataset, double minSupport, double maxNodes, int numThreads){
 		//Initialization of all output-related sets.
 		//sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>());
-		strMap = new Vector<>();
+		strMap = new Vector<String>();
 		fgspanInstances = new Vector<FlowGSpan>();
 	
 		this.dataset = dataset;
@@ -163,7 +163,7 @@ public class FlowGSpanController {
 	
 		patternsToProcess = new Vector<PatternGraph>();
 		freqAttrs = new LinkedHashSet<Integer>();
-		freqEdges = new LinkedHashSet<PatternEdge>(); //FGSpan-edgecomb
+		//freqEdges = new LinkedHashSet<PatternEdge>(); //FGSpan-edgecomb
 		resultSet = new Vector<String>();
 		resultSizes = new Vector<Integer>();
 		//instructionMap = new LinkedHashMap<Integer, Vector<String>>();
@@ -173,22 +173,21 @@ public class FlowGSpanController {
 		FlowGSpanController.NUMBER_SUBGRAPHS = new AtomicInteger(0);
 		FlowGSpanController.PATTERN_ID = new AtomicInteger(0);
 		
-		branchAttrList = null;
+		//branchAttrList = null;
 	}
 	/**
 	 * Add a new attribute to the attribute table
 	 * @param name Attribute to add to the table
 	 * @return The index associated with that string
 	 */
-	public static synchronized int addAttributeToTable(String name) {
+	/*public static synchronized int addAttributeToTable(String name) {
 		if(attributeNameTable == null) {
 			attributeNameTable = new Vector<String>();
 		}
 		if(existingAttrs == null) {
 			existingAttrs = new Vector<Integer>();
 		}
-		if(!attributeNameTable.contains(name)) {
-			attributeNameTable.add(name);
+		if(!existingAttrs.contains(nextAttrTableIdx)) {
 			existingAttrs.add(nextAttrTableIdx);
 			//System.out.println("Symbol and idx added: " + name + "  " + nextAttrTableIdx);
 			return nextAttrTableIdx++;
@@ -196,20 +195,29 @@ public class FlowGSpanController {
 		else {
 			return attributeNameTable.indexOf(name);
 		}
+	}*/
+	public static synchronized int addAttributeToTable(int index) {
+		if(existingAttrs == null) {
+			existingAttrs = new Vector<Integer>();
+		}
+		if(!existingAttrs.contains(index)) {
+			existingAttrs.add(index);
+			//System.out.println("Symbol and idx added: " + name + "  " + nextAttrTableIdx);
+		}
+        return index;
 	}
-	
 	/**
 	 * Gets attribute name from attribute table.
 	 * @param idx Index of attribute in table.
 	 * @return Attribute name.
 	 */
-	public static synchronized String getAttributeName(int idx) {
+	/*public static synchronized String getAttributeName(int idx) {
 		return attributeNameTable.get(idx);
 	}
 	
 	public static synchronized int getAttributeIndex(String name) {
 		return attributeNameTable.indexOf(name);
-	}
+	}*/
 
 	public int run() {
 		int generation = 0;
@@ -261,7 +269,7 @@ public class FlowGSpanController {
 				endIndex = patternsToProcess.size() - 1;
 			
 				instance.setFreqAttrs(freqAttrs);
-				instance.setFreqEdges(freqEdges);//FGSpan-edgecomb
+				//instance.setFreqEdges(freqEdges);//FGSpan-edgecomb
 				//System.out.println(freqEdges +  "EDGES");
 				instance.setPatternsToProcess(patternsToProcess);
 				instance.setStartIndex(startIndex);
@@ -270,10 +278,10 @@ public class FlowGSpanController {
 				instance.run();
 				patternsToProcess.clear();
 				freqAttrs.clear();
-				freqEdges.clear(); //FGSpan-edgecomb
+				//freqEdges.clear(); //FGSpan-edgecomb
 				
 				freqAttrs.addAll(instance.getChildFreqAttrs());
-				freqEdges.addAll(instance.getChildFreqEdges()); //FGSpan-edgecomb
+				//freqEdges.addAll(instance.getChildFreqEdges()); //FGSpan-edgecomb
 				patternsToProcess.addAll(instance.getChildSet());
 				//System.out.println(patternsToProcess.size() + " PATTERNS");
 				resultSet.addAll(instance.getResultSet());
@@ -289,13 +297,13 @@ public class FlowGSpanController {
 				instance.getResultSet().clear();
 				//instance.getInstructionMap().clear();
 				instance.getChildFreqAttrs().clear();
-				instance.getChildFreqEdges().clear();//FGSpan-edgecomb
+				//instance.getChildFreqEdges().clear();//FGSpan-edgecomb
 				instance.getChildSet().clear();
 				
-				//System.out.println("[BEFORE]Total Memory = " + Runtime.getRuntime().totalMemory() + ", Free Memory = " + Runtime.getRuntime().freeMemory());
-				//dataset.updateDataset();
-				//updateDatasetElements();
-				//System.gc();
+				System.out.println("[BEFORE]Total Memory = " + Runtime.getRuntime().totalMemory() + ", Free Memory = " + Runtime.getRuntime().freeMemory());
+				dataset.updateDataset();
+				updateDatasetElements();
+				System.gc();
 				totalMemory = Runtime.getRuntime().totalMemory();
 				freeMemory = Runtime.getRuntime().freeMemory();
 				consumedMemory = totalMemory - freeMemory;
@@ -612,7 +620,7 @@ public class FlowGSpanController {
 		Collections.sort(sortedIds, comp);
 	}*/
 
-	public static LinkedHashSet<Integer> getBranchAttrList() {
+	/*public static LinkedHashSet<Integer> getBranchAttrList() {
 		if (branchAttrList == null) {
 			branchAttrList = new LinkedHashSet<Integer>();
 
@@ -623,5 +631,5 @@ public class FlowGSpanController {
 			}
 		}
 		return branchAttrList;
-	}
+	}*/
 }

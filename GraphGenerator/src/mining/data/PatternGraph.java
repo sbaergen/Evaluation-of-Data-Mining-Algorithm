@@ -260,7 +260,7 @@ public class PatternGraph implements Cloneable{
 	
 		return cloned;
 	}
-	
+
 	/**
 	 * Returns string representation of Graph.
 	 * @return String representation of Graph.

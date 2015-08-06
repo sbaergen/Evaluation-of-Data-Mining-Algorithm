@@ -26,11 +26,10 @@
       <file leaf-file-name="MinerManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mining/manager/MinerManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-241.66667">
-              <caret line="465" column="24" selection-start-line="465" selection-start-column="24" selection-end-line="465" selection-end-column="24" />
+            <state vertical-scroll-proportion="73.888885">
+              <caret line="53" column="18" selection-start-line="53" selection-start-column="18" selection-end-line="53" selection-end-column="18" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -39,8 +38,8 @@
       <file leaf-file-name="EFGVertex.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mining/data/EFGVertex.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="28.88889">
-              <caret line="37" column="45" selection-start-line="37" selection-start-column="45" selection-end-line="37" selection-end-column="45" />
+            <state vertical-scroll-proportion="-32.22222">
+              <caret line="65" column="32" selection-start-line="65" selection-start-column="32" selection-end-line="65" selection-end-column="32" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#4900#4901#0" expanded="true" />
@@ -73,35 +72,38 @@
       <file leaf-file-name="FlowGSpanController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mining/algorithm/FlowGSpanController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.4814816">
-              <caret line="232" column="22" selection-start-line="232" selection-start-column="22" selection-end-line="232" selection-end-column="22" />
+            <state vertical-scroll-proportion="-8.962963">
+              <caret line="482" column="39" selection-start-line="482" selection-start-column="39" selection-end-line="482" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#17734#17748#0" expanded="true" />
-                <element signature="e#17968#17990#0" expanded="true" />
-                <element signature="e#19035#19053#0" expanded="true" />
+                <element signature="e#17736#17750#0" expanded="true" />
+                <element signature="e#17970#17992#0" expanded="true" />
+                <element signature="e#19037#19055#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FlowGSpan.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FlowGSpan.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mining/algorithm/FlowGSpan.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.57228917">
-              <caret line="110" column="29" selection-start-line="110" selection-start-column="29" selection-end-line="110" selection-end-column="29" />
+            <state vertical-scroll-proportion="-7.2222223">
+              <caret line="111" column="4" selection-start-line="111" selection-start-column="4" selection-end-line="111" selection-end-column="4" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#7651#7652#0" expanded="true" />
                 <element signature="e#7679#7680#0" expanded="true" />
                 <element signature="e#8398#8399#0" expanded="true" />
                 <element signature="e#8421#8422#0" expanded="true" />
-                <element signature="e#11305#11313#0" expanded="true" />
-                <element signature="e#12732#12740#0" expanded="true" />
-                <element signature="e#14428#14436#0" expanded="true" />
-                <element signature="e#27171#27179#0" expanded="true" />
-                <element signature="e#36530#36531#0" expanded="true" />
-                <element signature="e#36566#36567#0" expanded="true" />
+                <element signature="e#12754#12762#0" expanded="true" />
+                <element signature="e#16822#16836#0" expanded="true" />
+                <element signature="e#16885#16899#0" expanded="true" />
+                <element signature="e#25589#25607#0" expanded="true" />
+                <element signature="e#28206#28214#0" expanded="true" />
+                <element signature="e#31939#31947#0" expanded="true" />
+                <element signature="e#34179#34187#0" expanded="true" />
+                <element signature="e#36625#36626#0" expanded="true" />
+                <element signature="e#36661#36662#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -110,21 +112,50 @@
       <file leaf-file-name="PatternGraph.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mining/data/PatternGraph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-86.77778">
-              <caret line="558" column="28" selection-start-line="558" selection-start-column="14" selection-end-line="558" selection-end-column="28" />
+            <state vertical-scroll-proportion="-9.444445">
+              <caret line="84" column="14" selection-start-line="84" selection-start-column="14" selection-end-line="84" selection-end-column="14" />
+              <folding>
+                <element signature="e#3793#3794#0" expanded="true" />
+                <element signature="e#3827#3828#0" expanded="true" />
+                <element signature="e#4001#4002#0" expanded="true" />
+                <element signature="e#4038#4039#0" expanded="true" />
+                <element signature="e#4336#4337#0" expanded="true" />
+                <element signature="e#4359#4360#0" expanded="true" />
+                <element signature="e#11207#11208#0" expanded="true" />
+                <element signature="e#11252#11253#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PatternEdge.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mining/data/PatternEdge.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="99" column="7" selection-start-line="99" selection-start-column="7" selection-end-line="99" selection-end-column="7" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PatternVertex.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PatternVertex.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mining/data/PatternVertex.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-83.333336">
+            <state vertical-scroll-proportion="2.789256">
               <caret line="205" column="0" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="0" />
               <folding>
                 <element signature="e#5963#5964#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SubgraphMiner.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mining/algorithm/SubgraphMiner.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="328" column="36" selection-start-line="328" selection-start-column="36" selection-end-line="328" selection-end-column="36" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -175,10 +206,10 @@
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/mining/data/EFGVertex.java" />
         <option value="$PROJECT_DIR$/src/mining/data/BasicBlock.java" />
-        <option value="$PROJECT_DIR$/src/mining/data/PatternGraph.java" />
         <option value="$PROJECT_DIR$/src/mining/manager/MinerManager.java" />
         <option value="$PROJECT_DIR$/src/mining/algorithm/FlowGSpan.java" />
         <option value="$PROJECT_DIR$/src/mining/algorithm/FlowGSpanController.java" />
+        <option value="$PROJECT_DIR$/src/mining/data/PatternGraph.java" />
       </list>
     </option>
   </component>
@@ -200,7 +231,6 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1586" />
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="873" />
@@ -497,7 +527,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1586" y="23" width="1440" height="873" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="873" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -516,7 +546,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297568" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17167382" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29193342" sideWeight="0.49713877" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29193342" sideWeight="0.49713877" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290653" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -721,13 +751,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mining/data/PatternEdge.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.25896415">
-          <caret line="23" column="18" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/src.zip!/java/lang/String.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.35325366">
@@ -793,18 +816,6 @@
             <element signature="e#5754#5755#0" expanded="false" />
             <element signature="e#5939#5940#0" expanded="false" />
             <element signature="e#5961#5962#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mining/algorithm/SubgraphMiner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-153.88889">
-          <caret line="301" column="15" selection-start-line="301" selection-start-column="15" selection-end-line="301" selection-end-column="15" />
-          <folding>
-            <element signature="e#6928#6937#0" expanded="false" />
-            <element signature="e#10229#10238#0" expanded="false" />
-            <element signature="e#12174#12183#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -937,29 +948,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mining/manager/MinerManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-241.66667">
-          <caret line="465" column="24" selection-start-line="465" selection-start-column="24" selection-end-line="465" selection-end-column="24" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mining/data/EFGVertex.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="28.88889">
-          <caret line="37" column="45" selection-start-line="37" selection-start-column="45" selection-end-line="37" selection-end-column="45" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#4900#4901#0" expanded="true" />
-            <element signature="e#4925#4926#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/mining/data/BasicBlock.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-97.77778">
@@ -968,12 +956,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mining/data/PatternVertex.java">
+    <entry file="file://$PROJECT_DIR$/src/mining/data/EFGVertex.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-83.333336">
-          <caret line="205" column="0" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="0" />
+        <state vertical-scroll-proportion="-32.22222">
+          <caret line="65" column="32" selection-start-line="65" selection-start-column="32" selection-end-line="65" selection-end-column="32" />
           <folding>
-            <element signature="e#5963#5964#0" expanded="true" />
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#4900#4901#0" expanded="true" />
+            <element signature="e#4925#4926#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -986,43 +976,91 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mining/algorithm/FlowGSpanController.java">
+    <entry file="file://$PROJECT_DIR$/src/mining/data/PatternEdge.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.4814816">
-          <caret line="232" column="22" selection-start-line="232" selection-start-column="22" selection-end-line="232" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="99" column="7" selection-start-line="99" selection-start-column="7" selection-end-line="99" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mining/manager/MinerManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="73.888885">
+          <caret line="53" column="18" selection-start-line="53" selection-start-column="18" selection-end-line="53" selection-end-column="18" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#17734#17748#0" expanded="true" />
-            <element signature="e#17968#17990#0" expanded="true" />
-            <element signature="e#19035#19053#0" expanded="true" />
+            <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mining/data/PatternGraph.java">
+    <entry file="file://$PROJECT_DIR$/src/mining/algorithm/FlowGSpanController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-86.77778">
-          <caret line="558" column="28" selection-start-line="558" selection-start-column="14" selection-end-line="558" selection-end-column="28" />
-          <folding />
+        <state vertical-scroll-proportion="-8.962963">
+          <caret line="482" column="39" selection-start-line="482" selection-start-column="39" selection-end-line="482" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#17736#17750#0" expanded="true" />
+            <element signature="e#17970#17992#0" expanded="true" />
+            <element signature="e#19037#19055#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mining/algorithm/FlowGSpan.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.57228917">
-          <caret line="110" column="29" selection-start-line="110" selection-start-column="29" selection-end-line="110" selection-end-column="29" />
+        <state vertical-scroll-proportion="-7.2222223">
+          <caret line="111" column="4" selection-start-line="111" selection-start-column="4" selection-end-line="111" selection-end-column="4" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#7651#7652#0" expanded="true" />
             <element signature="e#7679#7680#0" expanded="true" />
             <element signature="e#8398#8399#0" expanded="true" />
             <element signature="e#8421#8422#0" expanded="true" />
-            <element signature="e#11305#11313#0" expanded="true" />
-            <element signature="e#12732#12740#0" expanded="true" />
-            <element signature="e#14428#14436#0" expanded="true" />
-            <element signature="e#27171#27179#0" expanded="true" />
-            <element signature="e#36530#36531#0" expanded="true" />
-            <element signature="e#36566#36567#0" expanded="true" />
+            <element signature="e#12754#12762#0" expanded="true" />
+            <element signature="e#16822#16836#0" expanded="true" />
+            <element signature="e#16885#16899#0" expanded="true" />
+            <element signature="e#25589#25607#0" expanded="true" />
+            <element signature="e#28206#28214#0" expanded="true" />
+            <element signature="e#31939#31947#0" expanded="true" />
+            <element signature="e#34179#34187#0" expanded="true" />
+            <element signature="e#36625#36626#0" expanded="true" />
+            <element signature="e#36661#36662#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mining/data/PatternGraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.444445">
+          <caret line="84" column="14" selection-start-line="84" selection-start-column="14" selection-end-line="84" selection-end-column="14" />
+          <folding>
+            <element signature="e#3793#3794#0" expanded="true" />
+            <element signature="e#3827#3828#0" expanded="true" />
+            <element signature="e#4001#4002#0" expanded="true" />
+            <element signature="e#4038#4039#0" expanded="true" />
+            <element signature="e#4336#4337#0" expanded="true" />
+            <element signature="e#4359#4360#0" expanded="true" />
+            <element signature="e#11207#11208#0" expanded="true" />
+            <element signature="e#11252#11253#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mining/algorithm/SubgraphMiner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="328" column="36" selection-start-line="328" selection-start-column="36" selection-end-line="328" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mining/data/PatternVertex.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.789256">
+          <caret line="205" column="0" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="0" />
+          <folding>
+            <element signature="e#5963#5964#0" expanded="true" />
           </folding>
         </state>
       </provider>

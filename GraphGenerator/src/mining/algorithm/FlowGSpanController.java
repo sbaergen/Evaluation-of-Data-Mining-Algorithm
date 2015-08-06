@@ -95,7 +95,7 @@ public class FlowGSpanController {
 	/**
 	 * Position in attributeTable where next attribute should be placed.
 	 */
-	static int nextAttrTableIdx = 0;
+	//static int nextAttrTableIdx = 0;
 	
 	static Vector<Integer> existingAttrs;
 	public static AtomicInteger PATTERN_ID;

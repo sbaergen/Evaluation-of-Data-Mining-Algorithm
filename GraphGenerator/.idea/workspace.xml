@@ -141,9 +141,10 @@
       <file leaf-file-name="PatternVertex.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mining/data/PatternVertex.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.789256">
-              <caret line="205" column="0" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="0" />
+            <state vertical-scroll-proportion="5.371901">
+              <caret line="335" column="26" selection-start-line="335" selection-start-column="26" selection-end-line="335" selection-end-column="26" />
               <folding>
+                <element signature="e#5898#5899#0" expanded="true" />
                 <element signature="e#5963#5964#0" expanded="true" />
               </folding>
             </state>
@@ -585,6 +586,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="416" column="28" selection-start-line="416" selection-start-column="28" selection-end-line="416" selection-end-column="28" />
           <folding>
+            <element signature="e#5898#5899#0" expanded="true" />
             <element signature="e#5963#5964#0" expanded="true" />
           </folding>
         </state>
@@ -1057,9 +1059,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mining/data/PatternVertex.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.789256">
-          <caret line="205" column="0" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="0" />
+        <state vertical-scroll-proportion="5.371901">
+          <caret line="335" column="26" selection-start-line="335" selection-start-column="26" selection-end-line="335" selection-end-column="26" />
           <folding>
+            <element signature="e#5898#5899#0" expanded="true" />
             <element signature="e#5963#5964#0" expanded="true" />
           </folding>
         </state>

@@ -12,7 +12,7 @@ public class exploration {
         final int[] MAXNODES = { 10, 100 };
         final int[] EFGS = { 10, 100 };
         final int[] NODES = { 100, 1000 };
-        final int[] ATTR = { 10, 100 };
+        final int[] ATTR = { 10, 50 };
         final double[] APROB = { 0, 1 };
         final double[] EPROB = { 0, 1 };
         final char[] DIST = { 'U', 'E', 'G' };

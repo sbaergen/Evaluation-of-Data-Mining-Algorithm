@@ -227,6 +227,7 @@ public class FlowGSpanController {
         */
 		int attrsDivision = existingAttrs.size() / ((numThreads > 0)? numThreads : 1);
 		int extraAttrsBlock = existingAttrs.size() % ((numThreads > 0)? numThreads : 1);
+        System.out.println(extraAttrsBlock + " " + attrsDivision);
 		int endIndex = attrsDivision + extraAttrsBlock - 1;
 		
 		if(numThreads == 0) {

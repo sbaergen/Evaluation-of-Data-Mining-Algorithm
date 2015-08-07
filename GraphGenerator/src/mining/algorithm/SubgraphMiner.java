@@ -237,7 +237,7 @@ public class SubgraphMiner {
 	    int i = 0;
 	    while (i < candNodes.size()) {
 	    	int candVertexId = candNodes.get(i);
-	    	if (s.isFeasiblePair(targetVertexId, candVertexId) == true) { 
+	    	if (s.isFeasiblePair(targetVertexId, candVertexId) == true) {
 	    		MinerState sDerived = new MinerState(s);
 	            sDerived.addPair(pivotVertexId, targetVertexId, candVertexId);
 	            if(sDerived.isGoal()) {

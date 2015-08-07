@@ -285,8 +285,8 @@ public class FlowGSpan implements Runnable{
 		//System.out.println("New Run");
 		if(patternsToProcess == null) {
 			//Mines for 0-edge frequent subgraphs (i.e. frequent nodes).
-			findFrequentNodes(childSet, startIndex, endIndex);
-			//System.out.println("FOUND FREQUENT");
+            findFrequentNodes(childSet, startIndex, endIndex);
+            //System.out.println("FOUND FREQUENT");
 			for(PatternGraph graph: childSet) {
 				//System.out.println("CHILD");
 				String keyStr = graph.getKeyString();
@@ -307,17 +307,17 @@ public class FlowGSpan implements Runnable{
 				//instructionMap.put(FlowGSpanController.PATTERN_ID.getAndIncrement(), graph.getInstructionMappings());
 				childFreqAttrs.addAll(graph.getAllDistinctAttributes());
 			}
-			
-			//DEBUG
+            //DEBUG
 			//System.out.println("Existing attributes: " + GSpan.attributeTable + "\n\n" + GSpan.existingAttrs);
 			//System.out.println(childSet.toString());
 			//System.out.println("Num of graphs: " + childSet.size());
 			//end DEBUG
+
 		}
 		else {
 			//Starts mining of n-edge subgraphs, with n > 0.
 			//System.out.println("SUBGRAPH");
-			mineSubGraph(patternsToProcess, startIndex, endIndex);
+            mineSubGraph(patternsToProcess, startIndex, endIndex);
 		}
 	}
 
@@ -329,7 +329,6 @@ public class FlowGSpan implements Runnable{
 		Vector<String> attrToPermute = new Vector<String>();
 		int count = 0;
 		while(start <= end) {
-
 			int attr = existingAttrs.get(start);
 			++start;
 			
@@ -337,7 +336,7 @@ public class FlowGSpan implements Runnable{
 			PatternVertex v = new PatternVertex((double)0, 0); 
 			v.setAttribute(attr, 0);
 			PatternGraph newG = new PatternGraph();
-			newG.insertVertex(v);
+			newG.insertVertex(v.getId());
 			newG.setEntryVertex(v);
 			newG.setExitVertex(v);
 			newG.setPatternType(0);
@@ -353,7 +352,9 @@ public class FlowGSpan implements Runnable{
 			}
             count++;
 			//System.out.println("COUNT");
+            System.out.println(currWeightSupport + " " + totalWeight);
 			if(getMaxSupport(currWeightSupport/totalWeight, currFreqSupport/totalFreq) > minSupport) {
+
 				//Register supports in graph map.
 				/*Vector<Double> supports = new Vector<Double>();
 				
@@ -366,7 +367,7 @@ public class FlowGSpan implements Runnable{
 				supports.add((double)numMatches);
 				supports.add((double)newG.getPatternType());*/
 
-                currNumNodes = newG.getVertexSet().size();
+                currNumNodes = newG.createVertexSet().size();
                 graphDB.addUsefulGraphs(newG.getGS());
 				
 				//FlowGSpanController.sgMap.put(newG.getKeyString(), supports);
@@ -421,7 +422,7 @@ public class FlowGSpan implements Runnable{
 						v.setAttribute(val, 0f);
 					}
     			
-					newG.insertVertex(v);
+					newG.insertVertex(v.getId());
 					newG.setEntryVertex(v);
 					newG.setExitVertex(v);
 					newG.setPatternType(0);
@@ -456,9 +457,9 @@ public class FlowGSpan implements Runnable{
 						supports.add((double)numMatches);
 						supports.add((double)newG.getPatternType());*/
 
-                        System.out.println(numMatches + " Matches");
+                        //System.out.println(numMatches + " Matches");
 
-                        currNumNodes = newG.getVertexSet().size();
+                        currNumNodes = newG.createVertexSet().size();
 
                         graphDB.addUsefulGraphs(newG.getGS());
 						
@@ -494,7 +495,7 @@ public class FlowGSpan implements Runnable{
 	 */
 	@SuppressWarnings("unchecked")
 	private void mineSubGraph(Vector<PatternGraph> queueToProcess, int start, int end) {
-		while(start<= end) {
+        while(start<= end) {
 			//System.out.println(Runtime.getRuntime().freeMemory());
 			PatternGraph graph = queueToProcess.get(start);
 	
@@ -512,7 +513,6 @@ public class FlowGSpan implements Runnable{
 			
 			Vector<PatternGraph> edgeOnlyChildren = new Vector<PatternGraph>();
 			Vector<PatternGraph> children = new Vector<PatternGraph>();
-
 			expandGraph(graph, children, edgeOnlyChildren);
 
 			childSet.addAll(children);
@@ -583,6 +583,7 @@ public class FlowGSpan implements Runnable{
 				targetVertexId, oldNewIdCorrespondence);
 
 		int numMatches = miner.getNumMatches();
+        System.out.println(numMatches + "-----------------------------------");
 		if(numMatches > 0) {
 			subGraph.addToGS(graphIdx);
 			currFreqSupport += miner.getFreqSupport();
@@ -602,7 +603,6 @@ public class FlowGSpan implements Runnable{
 	 */
 	private void expandGraph(PatternGraph graph, Vector<PatternGraph> children, Vector<PatternGraph> edgeOnlyChildren) {
 		int maxAdditions = 0;
-		
 		//Handles case where we only want to find sequential patterns.
 		if(FlowGSpanController.LIMIT_FWD_EDGE_ADDITIONS == true && FlowGSpanController.MAX_NEW_FWD_EDGE_ADDITIONS == 1) {
 			int pivotVertexId = graph.getExitVertex().getId();
@@ -619,7 +619,7 @@ public class FlowGSpan implements Runnable{
 		}
 		
 		else {
-			for(int pivotVertexId : graph.getVertexSet().keySet()) {
+			for(int pivotVertexId : graph.createVertexSet().keySet()) {
 				//System.out.println("PIVOT VERTEX");
 				PatternVertex pivotVertex = graph.getVertex(pivotVertexId);
 				if(pivotVertex.getForwardOutEdgeCount() < 2) {
@@ -687,7 +687,7 @@ public class FlowGSpan implements Runnable{
 				PatternGraph childGraph = graph.clone();
 				PatternVertex childPivot = childGraph.getVertex(pivotVertexId);
 				PatternVertex target = e.getToVertex();
-				PatternVertex childTarget = new PatternVertex(0f, childGraph.getVertexSet().size());
+				PatternVertex childTarget = new PatternVertex(0f, childGraph.createVertexSet().size());
 				
 				childTarget.setAttributes(target.getAttributes());
 				childTarget.setAttrWeights(target.getAttrWeights());
@@ -777,7 +777,7 @@ public class FlowGSpan implements Runnable{
 			supports.add((double)child.getPatternType());*/
 			
 			graphDB.addUsefulGraphs(child.getGS());
-            currNumNodes = child.getVertexSet().size();
+            currNumNodes = child.createVertexSet().size();
 
             //FlowGSpanController.sgMap.put(keyStr, supports);
             FlowGSpanController.strMap.add(keyStr);
@@ -799,7 +799,6 @@ public class FlowGSpan implements Runnable{
 		Vector<String> attrToPermute = new Vector<String>();
 		int itemsetNum = 0;
 		int leftToGen = FlowGSpanController.MAX_ATTRIBUTES_TOTAL - currAttrNum;
-		
 		PatternVertex fromV = graph.getVertex(vertexIdToAttachTo);
 		if(fromV.getChildren().size() > 0) {
         	/*LinkedHashSet<Integer> branchAttrs = (LinkedHashSet<Integer>) FlowGSpanController.getBranchAttrList().clone();
@@ -876,10 +875,9 @@ public class FlowGSpan implements Runnable{
 			                               int itemsetNum, Vector<String> attrToPermute) {
 		boolean isFrequent = false;
 		Vector<String> attrToRemove = new Vector<String>();
-		
 		for(int i = 0; i < attrToPermute.size(); ++i) {
 			PatternGraph childGraph = graph.clone();
-			PatternVertex newV = new PatternVertex(0f, childGraph.getVertexSet().size());
+			PatternVertex newV = new PatternVertex(0f, childGraph.createVertexSet().size());
 			//System.out.println(i + "I");
 			for(int j = 0; j < attrToPermute.get(i).length();) {
 				String substr;
@@ -899,7 +897,7 @@ public class FlowGSpan implements Runnable{
 				newV.setAttribute(val, 0f);
 			}
 			
-			childGraph.insertVertex(newV);
+			childGraph.insertVertex(newV.getId());
 			PatternVertex fromV = childGraph.getVertex(vertexIdToAttachTo);
 			PatternEdge newE = new PatternEdge(fromV, newV, 0f);
 			childGraph.insertEdge(newE);

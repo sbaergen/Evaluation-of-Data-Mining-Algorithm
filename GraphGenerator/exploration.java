@@ -7,12 +7,12 @@ public class exploration {
         final int[] MAXATTR = { 10, 100 };
         final int[] MAXFORWARD = { 0, 50 };
         final int[] MAXBACKARD = { 0, 50 };
-        final int[] GAP = { 0, 20 };
+        final int[] GAP = { 0, 2 };
         final double[] MINSUPPORT = { 0.0, 0.0 };
         final int[] MAXNODES = { 10, 100 };
         final int[] EFGS = { 10, 100 };
-        final int[] NODES = { 100, 1000 };
-        final int[] ATTR = { 10, 50 };
+        final int[] NODES = { 10, 1000 };
+        final int[] ATTR = { 10, 10 };
         final double[] APROB = { 0, 1 };
         final double[] EPROB = { 0, 1 };
         final char[] DIST = { 'U', 'E', 'G' };

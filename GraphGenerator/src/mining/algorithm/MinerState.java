@@ -84,7 +84,7 @@ public class MinerState {
 		 this.subGraph = subGraph;
 		 this.wholeGraph = wholeGraph;
 		 
-		 sgSize = subGraph.getVertexSet().size();
+		 sgSize = subGraph.createVertexSet().size();
 		 wgSize = wholeGraph.getVertexSet().size();
 		 
 		 currMatchLength = 0;
@@ -125,7 +125,7 @@ public class MinerState {
 			LinkedHashMap<Integer, Integer> oldNewIdCorrespondence) {
 		 subGraph = newSubGraph;
 		 wholeGraph = prevWholeGraph;
-		 sgSize = newSubGraph.getVertexSet().size();
+		 sgSize = newSubGraph.createVertexSet().size();
 		 wgSize = prevState.getWholeGraphSize();
 		 currMatchLength = prevState.getCurrMatchLength();
 

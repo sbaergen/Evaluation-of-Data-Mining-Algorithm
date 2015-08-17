@@ -13,7 +13,7 @@ Available Processors: 8
 
 --------TEST RESULTS--------
 
-Total Time: 3750ms
-Total Edges: 679595
+Total Time: 0ms
+Total Edges: 236
 Total Subgraphs Tested: 0
 Number of Hot Subgraphs: 0

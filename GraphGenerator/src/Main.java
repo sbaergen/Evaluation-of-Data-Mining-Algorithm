@@ -57,8 +57,8 @@ public class Main {
         System.out.println("Total Memory: " + rt.totalMemory());
         System.out.println("Free Memory: " + rt.freeMemory());
         long startTime = System.currentTimeMillis();
-        //ReturnInfo info = new ReturnInfo();
-        ReturnInfo info = mining.manager.MinerManager.main(arguments);
+        ReturnInfo info = new ReturnInfo();
+        //ReturnInfo info = mining.manager.MinerManager.main(arguments);
         long endTime = System.currentTimeMillis();
         System.out.println("Total Memory: " + rt.totalMemory());
         System.out.println("Free Memory: " + rt.freeMemory());

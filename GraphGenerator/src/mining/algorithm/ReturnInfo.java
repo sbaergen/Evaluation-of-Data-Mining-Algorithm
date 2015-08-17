@@ -13,7 +13,8 @@ public class ReturnInfo {
     private int count;
 
     public ReturnInfo() {
-
+        numPatternsPerNumEdges = new LinkedHashMap<Integer, Integer>();
+        numHotSubgraphs = new AtomicInteger();
     }
 
     public int getCount() {

@@ -4,15 +4,15 @@ import java.util.Random;
 public class exploration {
 
 	public static void main(String[] args) {
-        final int[] MAXATTR = { 10, 100 };
-        final int[] MAXFORWARD = { 0, 50 };
-        final int[] MAXBACKARD = { 0, 50 };
-        final int[] GAP = { 0, 20 };
-        final double[] MINSUPPORT = { 0.0, 0.0 };
+        final int[] MAXATTR = { 10, 10};
+        final int[] MAXFORWARD = { 5, 5 };
+        final int[] MAXBACKARD = { 5, 5 };
+        final int[] GAP = { 0, 0 };
+        final double[] MINSUPPORT = { 0.0, 0.1 };
         final int[] MAXNODES = { 10, 100 };
         final int[] EFGS = { 10, 100 };
-        final int[] NODES = { 100, 1000 };
-        final int[] ATTR = { 10, 50 };
+        final int[] NODES = { 100, 100 };
+        final int[] ATTR = { 10, 10 };
         final double[] APROB = { 0, 1 };
         final double[] EPROB = { 0, 1 };
         final char[] DIST = { 'U', 'E', 'G' };
@@ -22,8 +22,8 @@ public class exploration {
         final double[] HEIGHT = { 1, 10 };
         final int[] CENTRE = { 1, 10 };
         final int[] WIDTH = { 1, 10 };
-        final int[] PATEFGS = { 1, 10 };
-        final int[] PATNODE = { 10, 100 };
+        final int[] PATEFGS = { 1, 10};
+        final int[] PATNODE = { 10, 10 };
         final double[] PATPROB = { 0, 1 };
         
         try {

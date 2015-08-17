@@ -22,8 +22,8 @@ public class exploration {
         final double[] HEIGHT = { 1, 10 };
         final int[] CENTRE = { 1, 10 };
         final int[] WIDTH = { 1, 10 };
-        final int[] PATEFGS = { 1, 10 };
-        final int[] PATNODE = { 10, 100 };
+        final int[] PATEFGS = { 1, 10};
+        final int[] PATNODE = { 10, 10 };
         final double[] PATPROB = { 0, 1 };
         
         try {

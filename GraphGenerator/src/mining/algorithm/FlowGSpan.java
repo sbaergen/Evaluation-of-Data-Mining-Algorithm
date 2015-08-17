@@ -391,7 +391,7 @@ public class FlowGSpan implements Runnable{
 				//Increase the itemset that is being looked at...
 				//System.out.println(itemsetNum + "ITEMSETNUM");
 				itemsetNum++;
-                System.out.println(Runtime.getRuntime().freeMemory() + " Free Memory");
+                //System.out.println(Runtime.getRuntime().freeMemory() + " Free Memory");
 
                 //Generate candidate patterns...
 				genAttributesToPermute(itemsetNum, childFreqAttrs, attrToPermute);
@@ -831,7 +831,7 @@ public class FlowGSpan implements Runnable{
             calcFrequentSubGraphAttrs(graph, vertexIdToAttachTo, children, itemsetNum, attrToPermute);
         //If there are <=1 frequent items, then it is the end. 
         //This prevents reading through the database again, when there is only one frequent itemset.
-	System.out.println(attrToPermute.size() + " " + itemsetNum + " " + leftToGen + "NEWNODE");
+	//System.out.println(attrToPermute.size() + " " + itemsetNum + " " + leftToGen + "NEWNODE");
         }while(attrToPermute.size() > 1 && itemsetNum < leftToGen);
 	}
 

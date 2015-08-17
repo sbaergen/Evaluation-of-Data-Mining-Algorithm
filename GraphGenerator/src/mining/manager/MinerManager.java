@@ -53,8 +53,8 @@ public class MinerManager {
 	/**
 	 * @param args
 	 */
-	public static ReturnInfo main(String[] args) {
-	//public static void main(String[] args) {
+	//public static ReturnInfo main(String[] args) {
+	public static void main(String[] args) {
 		FileOutputStream fstream;
 		ReturnInfo info = new ReturnInfo();
         try {
@@ -73,7 +73,7 @@ public class MinerManager {
 			info = pm.readInputFromFile(args);
 			//pm.readInputFromFile(args);
 		//}
-        return info;
+        //return info;
 	}
 	
 	/*private void readInputFromDB(String[] args) {

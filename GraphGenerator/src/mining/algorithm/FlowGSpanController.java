@@ -301,7 +301,6 @@ public class FlowGSpanController {
 				//instance.getChildFreqEdges().clear();//FGSpan-edgecomb
 				instance.getChildSet().clear();
 				
-				System.out.println("[BEFORE]Total Memory = " + Runtime.getRuntime().totalMemory() + ", Free Memory = " + Runtime.getRuntime().freeMemory());
 				dataset.updateDataset();
 				updateDatasetElements();
 				System.gc();

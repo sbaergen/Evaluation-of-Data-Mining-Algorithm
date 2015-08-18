@@ -107,7 +107,7 @@ public class FlowGSpanController {
 	
 	Vector<String> resultSet;
 	Vector<Integer> resultSizes;
-	LinkedHashMap<Integer, Vector<String>> instructionMap;
+	//LinkedHashMap<Integer, Vector<String>> instructionMap;
 	
 	/**
 	 * Map between pattern encoding and statistics of that pattern, i.e. 
@@ -138,7 +138,7 @@ public class FlowGSpanController {
 		freqEdges = new LinkedHashSet<PatternEdge>(); //FGSpan-edgecomb
 		resultSet = new Vector<String>();
 		resultSizes = new Vector<Integer>();
-		instructionMap = new LinkedHashMap<Integer, Vector<String>>();
+		//instructionMap = new LinkedHashMap<Integer, Vector<String>>();
 		
 		usingDB = true;
 		FlowGSpanController.NUMBER_SUBGRAPHS = new AtomicInteger(0);
@@ -166,7 +166,7 @@ public class FlowGSpanController {
 		freqEdges = new LinkedHashSet<PatternEdge>(); //FGSpan-edgecomb
 		resultSet = new Vector<String>();
 		resultSizes = new Vector<Integer>();
-		instructionMap = new LinkedHashMap<Integer, Vector<String>>();
+		//instructionMap = new LinkedHashMap<Integer, Vector<String>>();
 	
 		usingDB = false;
 		
@@ -583,7 +583,7 @@ public class FlowGSpanController {
 			sortedIds.clear();*/
 		}
 		
-		MinerManager.writeOutputToFile("\n\n==========Mapping between subgraphs and instructions==========\n\n");
+		/*MinerManager.writeOutputToFile("\n\n==========Mapping between subgraphs and instructions==========\n\n");
 		for(Integer subgraphIdx : instructionMap.keySet()) {
 			MinerManager.writeOutputToFile("Instances of pattern " + subgraphIdx + ":\n\n");
 			Vector<String> subgraphInstr = instructionMap.get(subgraphIdx);
@@ -591,7 +591,7 @@ public class FlowGSpanController {
 			for(String instrSet : subgraphInstr) {
 				MinerManager.writeOutputToFile(instrSet + "\n\n");
 			}
-		}
+		}*/
 		return numPatternsPerNumEdges;
 	}
 	

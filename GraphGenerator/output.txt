@@ -1,4 +1,4 @@
-Results for Data Mining on 2015/08/18 10:46:17
+Results for Data Mining on 2015/08/18 10:54:19
 	Support Threshold:		0.2
 	Max Number of Nodes (Wt):		10
 	Max Number of Attributes Allowed:		5
@@ -16,10 +16,6 @@ Graphs of size (in number of edges)3: 3
 
 Graphs of size (in number of edges)4: 7
 
-==========Mapping between subgraphs and instructions==========
-
-
-
 Number of Frequent Subgraphs: 13
 
-Total runtime: 1082
+Total runtime: 987

@@ -80,7 +80,7 @@ public class EFGVertex {
 	 * in the EFG, the ID means the instruction address. If Vertex represents a sub-graph
 	 * pattern node, the ID means the depth-first-like order of the Vertex in the pattern.
 	 */
-	long id;
+	int id;
 	
 	/**
 	 * ID of the EFG this Vertex comes from, if the Vertex represents an EFG node. 
@@ -103,7 +103,7 @@ public class EFGVertex {
 	
 	boolean canBeDiscarded;
 	
-	long BBN;
+	int BBN;
 	
 	/**
 	 * Collection of instruction this Vertex is mapped to.
@@ -119,7 +119,7 @@ public class EFGVertex {
 	 * @param weight Vertex weight.
 	 * @param id Vertex ID.
 	 */
-	public EFGVertex(double weight, long id) {
+	public EFGVertex(double weight, int id) {
 		this.weight = weight;
 		this.id = id;
 		isDummy = false;
@@ -151,7 +151,7 @@ public class EFGVertex {
 	 * @param id Vertex ID.
 	 * @param bytecodeId Bytecode ID represented by Vertex.
 	 */
-	public EFGVertex(double weight, long id, String bytecodeId) {
+	public EFGVertex(double weight, int id, String bytecodeId) {
 		this(weight, id);
 		this.bytecodeId = bytecodeId;
 	}
@@ -162,11 +162,11 @@ public class EFGVertex {
 	 * @param id ID of dummy node.
 	 * @param dummy Whether node is really dummy or not.
 	 */
-	public EFGVertex(double weight, long id, boolean dummy) {
+	public EFGVertex(double weight, int id, boolean dummy) {
 		this(weight, id);
 		isDummy = dummy;
 	}
-	public void setBBN(long bbn) {
+	public void setBBN(int bbn) {
 		BBN = bbn;
 	}
 	/**
@@ -188,7 +188,7 @@ public class EFGVertex {
 	 * Sets node ID.
 	 * @param vertexId Node ID.
 	 */
-	public void setId(long vertexId) {
+	public void setId(int vertexId) {
 		this.id = vertexId;
 	}
 	
@@ -196,7 +196,7 @@ public class EFGVertex {
 	 * Returns node ID.
 	 * @return Node ID.
 	 */
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	
@@ -477,7 +477,7 @@ public class EFGVertex {
 	 * @return String representation of node.
 	 */
 	public String toString() {
-		String str = String.valueOf(Long.toHexString(this.id))+ ": ";
+		String str = String.valueOf(Integer.toHexString(this.id))+ ": ";
 		for (int idx = attribute.nextSetBit(0); idx >= 0; idx = attribute.nextSetBit(idx+1)) {
 			str += "(" + FlowGSpanController.getAttributeName(idx)+ ")";	
 		 }
@@ -712,7 +712,7 @@ public class EFGVertex {
 		return canBeDiscarded;
 	}
 
-	public long getBBN() {
+	public int getBBN() {
 		return BBN;
 	}
 }

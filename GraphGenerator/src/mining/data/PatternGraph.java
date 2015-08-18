@@ -282,7 +282,7 @@ public class PatternGraph implements Cloneable{
 		else {
 			keyStr += "( ";
 			for(PatternVertex v : vertexSet.values()) {
-				keyStr += "[ " + Long.toHexString(v.getId()) + ": " + v.toCode() + " ] ";
+				keyStr += "[ " + Integer.toHexString(v.getId()) + ": " + v.toCode() + " ] ";
 			}
 			keyStr += ")\n";
 		}

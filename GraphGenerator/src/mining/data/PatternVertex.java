@@ -137,7 +137,7 @@ public class PatternVertex {
 	 */
 	public String toMapping(int instanceIdx) {
 		if(instructions != null && instanceIdx < instructions.size()) {
-			String str = Long.toHexString(this.id)+ ": ";
+			String str = Integer.toHexString(this.id)+ ": ";
 			str += "(" + addresses.get(instanceIdx) + " => " + instructions.get(instanceIdx)+ ")";
 			return str;
 		}
@@ -412,7 +412,7 @@ public class PatternVertex {
 	 * @return String representation of node.
 	 */
 	public String toString() {
-		String str = String.valueOf(Long.toHexString(this.id))+ ": ";
+		String str = String.valueOf(Integer.toHexString(this.id))+ ": ";
 		for (int idx = attribute.nextSetBit(0); idx >= 0; idx = attribute.nextSetBit(idx+1)) {
 			str += "(" + FlowGSpanController.getAttributeName(idx)+ ")";	
 		 }

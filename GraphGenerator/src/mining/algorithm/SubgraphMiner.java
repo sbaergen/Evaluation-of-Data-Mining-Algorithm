@@ -161,11 +161,11 @@ public class SubgraphMiner {
 	 * @param targetVertexId ID of subGraph's target node.
 	 */
 	private void matchEdgeOnly(MinerState s, Vector<MinerState> endStates, 
-			long pivotVertexId, long targetVertexId) {
-		LinkedHashMap<Integer, Long> sgCore = s.getSubGraphCore();
+			int pivotVertexId, int targetVertexId) {
+		LinkedHashMap<Integer, Integer> sgCore = s.getSubGraphCore();
 		
-		long toVertexId = sgCore.get(targetVertexId);
-		long fromVertexId = sgCore.get(pivotVertexId);
+		int toVertexId = sgCore.get(targetVertexId);
+		int fromVertexId = sgCore.get(pivotVertexId);
 		
 		//Uncomment if skipping dummy nodes when looking for pattern instances.
 		//double freq = wholeGraph.findEdge(fromVertexId, toVertexId);
@@ -180,7 +180,7 @@ public class SubgraphMiner {
 		//Should work for both dummy node cases...
 		if(freq > 0) {
 			Vector<Integer> sgCoreSet = new Vector<Integer>();
-			Vector<Long> wgCoreSet = new Vector<Long>();
+			Vector<Integer> wgCoreSet = new Vector<Integer>();
 			s.getCoreSet(sgCoreSet, wgCoreSet);
 			
 			++numMatches;
@@ -199,7 +199,7 @@ public class SubgraphMiner {
 	 * @param sgCoreSet Nodes in subGraph.
 	 * @return Weight support of pattern instance.
 	 */
-	private double calcWeightSupport(Vector<Long> wgCoreSet, Vector<Integer> sgCoreSet) {
+	private double calcWeightSupport(Vector<Integer> wgCoreSet, Vector<Integer> sgCoreSet) {
 		/**
 		 * Weight support of an instance is the minimum attribute weight found in this 
 		 * instance.
@@ -233,10 +233,10 @@ public class SubgraphMiner {
 	 * @param targetVertexId ID of subGraph's target node.
 	 */
 	void match(MinerState s, Vector<MinerState> endStates, int pivotVertexId, int targetVertexId) {
-		Vector<Long> candNodes = findCandidateNodes(s, pivotVertexId);
+		Vector<Integer> candNodes = findCandidateNodes(s, pivotVertexId);
 	    int i = 0;
 	    while (i < candNodes.size()) {
-	    	long candVertexId = candNodes.get(i);
+	    	int candVertexId = candNodes.get(i);
 	    	if (s.isFeasiblePair(targetVertexId, candVertexId) == true) { 
 	    		MinerState sDerived = new MinerState(s);
 	            sDerived.addPair(pivotVertexId, targetVertexId, candVertexId);
@@ -260,7 +260,7 @@ public class SubgraphMiner {
 	 */
 	private void handleGoalFound(MinerState s, Vector<MinerState> endStates) {
 		Vector<Integer> sgCoreSet = new Vector<Integer>();
-		Vector<Long> wgCoreSet = new Vector<Long>();
+		Vector<Integer> wgCoreSet = new Vector<Integer>();
 		s.getCoreSet(sgCoreSet, wgCoreSet);
 		//DEBUG
 		//System.out.println("sgCoreSet: ");
@@ -287,7 +287,7 @@ public class SubgraphMiner {
 		for(int i = 0; i < sgCoreSet.size(); ++i) {
 			int sgId = sgCoreSet.get(i);
 			PatternVertex sgV = subGraph.getVertex(sgId);
-			long wgId = wgCoreSet.get(i); 
+			int wgId = wgCoreSet.get(i);
 			EFGVertex wgV = wholeGraph.getVertex(wgId);
 			
 			if(wgV.getInstructions() != null) {
@@ -317,14 +317,14 @@ public class SubgraphMiner {
 	 * @param pivotVertexId Pivot node, used to restrict which nodes are returned as candidates.
 	 * @return Candidate nodes in wholeGraph to be compared against subGraph's target node.
 	 */
-	private Vector<Long> findCandidateNodes(MinerState s, int pivotVertexId) {
-		Vector<Long> possibleNodes = new Vector<Long>();
+	private Vector<Integer> findCandidateNodes(MinerState s, int pivotVertexId) {
+		Vector<Integer> possibleNodes = new Vector<Integer>();
 		if(s.getWholeGraphCore().size() == 0) {
 			possibleNodes.addAll(s.getWholeGraph().getVertexSet().keySet());
 			return possibleNodes;
 		}
 		
-		long wgVertexId = s.getSubGraphCore().get(pivotVertexId);
+		int wgVertexId = s.getSubGraphCore().get(pivotVertexId);
 		EFGVertex currVertex = wholeGraph.getVertex(wgVertexId);
 		int remainingGap = subGraph.getAllowedGap();
 		Vector<EFGVertex> children = currVertex.getForwardChildren();

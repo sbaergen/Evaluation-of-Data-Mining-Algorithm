@@ -22,12 +22,12 @@ public class ExecutionFlowGraph {
 	 * identified by a pair of IDs, which are the IDs of the two nodes
 	 * the Edge connects.
 	 */
-    LinkedHashMap<Pair<Long, Long>, EFGEdge> edgeSet;
+    LinkedHashMap<Pair<Integer, Integer>, EFGEdge> edgeSet;
     /**
      * Set of nodes contained in the graph. They are identified by
      * their unique ID.
      */
-	LinkedHashMap<Long, EFGVertex> vertexSet;
+	LinkedHashMap<Integer, EFGVertex> vertexSet;
 	
 	/**
 	 * Graph's entry node.
@@ -82,8 +82,8 @@ public class ExecutionFlowGraph {
 	 * Graph constructor. Just variable initialization.
 	 */
 	public ExecutionFlowGraph() {
-		edgeSet = new LinkedHashMap<Pair<Long, Long>, EFGEdge>();
-		vertexSet = new LinkedHashMap<Long, EFGVertex>();
+		edgeSet = new LinkedHashMap<Pair<Integer, Integer>, EFGEdge>();
+		vertexSet = new LinkedHashMap<Integer, EFGVertex>();
 		maxAttrNum = 0;
 		freq = 0f;
 		entryVertex = null;
@@ -105,9 +105,9 @@ public class ExecutionFlowGraph {
 	 */
 	
 	public void insertEdge(EFGEdge e) {
-		Long fromId = e.getFromVertex().getId();
-		Long toId = e.getToVertex().getId();
-		edgeSet.put(new Pair<Long, Long>(fromId, toId), e);
+		int fromId = e.getFromVertex().getId();
+		int toId = e.getToVertex().getId();
+		edgeSet.put(new Pair<Integer, Integer>(fromId, toId), e);
 		e.getFromVertex().setOutEdge(e);
 		e.getToVertex().setIncEdge(e);
 	}
@@ -129,7 +129,7 @@ public class ExecutionFlowGraph {
 	 * @param vertexId ID of node to be returned.
 	 * @return Returned node.
 	 */
-	public EFGVertex getVertex(long vertexId) {
+	public EFGVertex getVertex(int vertexId) {
 		return vertexSet.get(vertexId);
 	}
 	
@@ -137,7 +137,7 @@ public class ExecutionFlowGraph {
 	 * Returns edge set.
 	 * @return Edge set of this Graph.
 	 */
-	public LinkedHashMap<Pair<Long, Long>, EFGEdge> getEdgeSet() {
+	public LinkedHashMap<Pair<Integer, Integer>, EFGEdge> getEdgeSet() {
 		return edgeSet;
 	}
 	
@@ -145,7 +145,7 @@ public class ExecutionFlowGraph {
 	 * Returns node set.
 	 * @return Node set of this Graph.
 	 */
-	public LinkedHashMap<Long, EFGVertex> getVertexSet() {
+	public LinkedHashMap<Integer, EFGVertex> getVertexSet() {
 		return vertexSet;
 	}
 	
@@ -210,7 +210,7 @@ public class ExecutionFlowGraph {
 	 * @param idx ID of node.
 	 * @return Minimum attribute weight of node.
 	 */
-	public double getMinAttrWeight(long idx) {
+	public double getMinAttrWeight(int idx) {
 		return vertexSet.get(idx).getMinAttrWeight();
 	}
 	
@@ -237,12 +237,12 @@ public class ExecutionFlowGraph {
 		String str = "";
 		
 		if(edgeSet.size() > 0) {
-			List<Pair<Long, Long>> keyList = new Vector<Pair<Long, Long>>();
+			List<Pair<Integer, Integer>> keyList = new Vector<Pair<Integer, Integer>>();
 			keyList.addAll(edgeSet.keySet());
-			PairComparator<Long, Long> pairComp = new PairComparator<Long, Long>();
+			PairComparator<Integer, Integer> pairComp = new PairComparator<Integer, Integer>();
 			Collections.sort(keyList, pairComp);
 			
-			for(Pair<Long, Long> pair : keyList) {
+			for(Pair<Integer, Integer> pair : keyList) {
 				EFGEdge e = edgeSet.get(pair);
 				str += e.toString() + "\n";
 			}
@@ -250,7 +250,7 @@ public class ExecutionFlowGraph {
 		else {
 			str += "( ";
 			for(EFGVertex v : vertexSet.values()) {
-				str += "[ " + Long.toHexString(v.getId()) + ": " + v.toCode() + " ] ";
+				str += "[ " + Integer.toHexString(v.getId()) + ": " + v.toCode() + " ] ";
 			}
 			str += ")\n";
 		}
@@ -287,7 +287,7 @@ public class ExecutionFlowGraph {
 	 * @param toVertexId The ID of to-node.
 	 * @return Edge that goes from from-node to to-node, or null if edge not found.
 	 */
-	public EFGEdge hasEdge(long fromVertexId, long toVertexId) {
+	public EFGEdge hasEdge(int fromVertexId, int toVertexId) {
 		for(EFGEdge e : edgeSet.values()) {
 			if(e.getFromVertex().getId() == fromVertexId && e.getToVertex().getId() == toVertexId) {
 				return e;
@@ -386,7 +386,7 @@ public class ExecutionFlowGraph {
 		}
 	}
 
-	public void setNonDiscardableNode(Long vertexId) {
+	public void setNonDiscardableNode(int vertexId) {
 		vertexSet.get(vertexId).updateDiscardableRoot();
 	}
 
@@ -397,11 +397,11 @@ public class ExecutionFlowGraph {
 	}
 
 	public void removeDiscardableEdges() {
-		Vector<Pair<Long, Long>> allEdgeKeys = new Vector<Pair<Long,Long>>(edgeSet.keySet());
+		Vector<Pair<Integer, Integer>> allEdgeKeys = new Vector<Pair<Integer,Integer>>(edgeSet.keySet());
 		//DEBUG
 		int count = 0;
 		//end DEBUG
-		for(Pair<Long, Long> keyPair : allEdgeKeys) {
+		for(Pair<Integer, Integer> keyPair : allEdgeKeys) {
 			EFGEdge e = edgeSet.get(keyPair);
 			
 			if(e.isDiscardable() == true) {
@@ -417,11 +417,11 @@ public class ExecutionFlowGraph {
 	}
 
 	public void removeDiscardableNodes() {
-		Vector<Long> allVertexKeys = new Vector<Long>(vertexSet.keySet());
+		Vector<Integer> allVertexKeys = new Vector<Integer>(vertexSet.keySet());
 		//DEBUG
 		int count = 0;
 		//end DEBUG
-		for(Long vertexId : allVertexKeys) {
+		for(Integer vertexId : allVertexKeys) {
 			EFGVertex v = vertexSet.get(vertexId);
 			
 			if(v.isDiscardable() == true) {

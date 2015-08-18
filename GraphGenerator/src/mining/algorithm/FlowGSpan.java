@@ -60,7 +60,7 @@ public class FlowGSpan implements Runnable{
 	/**
 	 * Number of nodes of pattern currently analyzed.
 	 */
-	double currNumNodes;
+	//double currNumNodes;
 	/**
 	 * Number of matched found of a pattern in the dataset.
 	 */
@@ -138,7 +138,7 @@ public class FlowGSpan implements Runnable{
 		resultSet = null;
 		currFreqSupport = 0f;
 		currWeightSupport = 0f;
-		currNumNodes = 0f;
+		//currNumNodes = 0f;
 		numMatches = 0;
 		totalFreq = datasetFreq;
 		totalWeight = datasetWeight;
@@ -192,7 +192,7 @@ public class FlowGSpan implements Runnable{
 		resultSet = null;
 		currFreqSupport = 0f;
 		currWeightSupport = 0f;
-		currNumNodes = 0f;
+		//currNumNodes = 0f;
 		numMatches = 0;
 		totalFreq = graphDB.getTotalFreq();
 		totalWeight = graphDB.getTotalWeight();
@@ -343,7 +343,7 @@ public class FlowGSpan implements Runnable{
 			
 			currWeightSupport = 0;
 			currFreqSupport = 0;
-			currNumNodes = 0;
+			//currNumNodes = 0;
 			numMatches = 0;
 			
 			for(int methodId : graphDB.keySet()) {
@@ -354,23 +354,24 @@ public class FlowGSpan implements Runnable{
 			//System.out.println("COUNT");
 			if(getMaxSupport(currWeightSupport/totalWeight, currFreqSupport/totalFreq) > minSupport) {
 				//Register supports in graph map.
-				Vector<Double> supports = new Vector<Double>();
+				//Vector<Double> supports = new Vector<Double>();
 				
 				//if(currWeightSupport/totalWeight >= 1) {
 				//	System.err.print("WEIGHT SUPPORT EXCEEDED LIMITS!!!\n");
 				//}
-				supports.add(currWeightSupport/totalWeight);
+				/*supports.add(currWeightSupport/totalWeight);
 				supports.add(currFreqSupport/totalFreq);
-				currNumNodes = newG.getVertexSet().size();
-				supports.add(currNumNodes);
+				//currNumNodes = newG.getVertexSet().size();
+				//supports.add(currNumNodes);
 				supports.add((double)numMatches);
 				supports.add((double)newG.getPatternType());
-				
+				*/
 				graphDB.addUsefulGraphs(newG.getGS());
 				
-				FlowGSpanController.sgMap.put(newG.getKeyString(), supports);
-				
-				nodeSet.add(newG);
+				//FlowGSpanController.sgMap.put(newG.getKeyString(), supports);
+                FlowGSpanController.strMap.add(newG.getKeyString());
+
+                nodeSet.add(newG);
 				attrToPermute.add(String.valueOf(attr));
 				childFreqAttrs.add(attr);
 			}
@@ -425,7 +426,7 @@ public class FlowGSpan implements Runnable{
 					
 					currWeightSupport = 0;
 					currFreqSupport = 0;
-					currNumNodes = 0;
+					//currNumNodes = 0;
 					numMatches = 0;
 					
 					boolean shouldRemove = true;
@@ -439,7 +440,7 @@ public class FlowGSpan implements Runnable{
 					//System.out.println("COUNT 22222");
 					if(getMaxSupport(currWeightSupport/totalWeight, currFreqSupport/totalFreq) > minSupport) {
 						//Register supports in graph map
-						Vector<Double> supports = new Vector<Double>();
+						/*Vector<Double> supports = new Vector<Double>();
 
                         //DEBUG
 						if(currWeightSupport/totalWeight >= 1) {
@@ -449,19 +450,20 @@ public class FlowGSpan implements Runnable{
 						
 						supports.add(currWeightSupport/totalWeight);
 						supports.add(currFreqSupport/totalFreq);
-						currNumNodes = newG.getVertexSet().size();
-						supports.add(currNumNodes);
+						//currNumNodes = newG.getVertexSet().size();
+						//supports.add(currNumNodes);
 						supports.add((double)numMatches);
 
 						//System.out.println(numMatches);
 
-						supports.add((double)newG.getPatternType());
-						
+						supports.add((double)newG.getPatternType());*/
+
 						graphDB.addUsefulGraphs(newG.getGS());
 						
-						FlowGSpanController.sgMap.put(newG.getKeyString(), supports);
-						
-						nodeSet.add(newG);
+						//FlowGSpanController.sgMap.put(newG.getKeyString(), supports);
+                        FlowGSpanController.strMap.add(newG.getKeyString());
+
+                        nodeSet.add(newG);
 						shouldRemove = false;
 					}
     		
@@ -529,8 +531,8 @@ public class FlowGSpan implements Runnable{
 
 				resultSizes.add(child.getEdgeSet().size());
 				
-				int numInstances = (int)FlowGSpanController.sgMap.get(childKeyStr).get(3).floatValue();
-				child.setNumInstances(numInstances);
+				//int numInstances = (int)FlowGSpanController.sgMap.get(childKeyStr).get(3).floatValue();
+				//child.setNumInstances(numInstances);
 				
 				//instructionMap.put(FlowGSpanController.PATTERN_ID.getAndIncrement(), child.getInstructionMappings());
 			}
@@ -545,7 +547,7 @@ public class FlowGSpan implements Runnable{
 				resultSet.add(childKeyStr);
 				int childGraphSize = child.getEdgeSet().size();
 				resultSizes.add(childGraphSize);
-				child.setNumInstances((int)FlowGSpanController.sgMap.get(childKeyStr).get(3).floatValue());
+				//child.setNumInstances((int)FlowGSpanController.sgMap.get(childKeyStr).get(3).floatValue());
 				//instructionMap.put(FlowGSpanController.PATTERN_ID.getAndIncrement(), child.getInstructionMappings());
 				
 				childFreqEdges.addAll(child.getAllDistinctEdges()); //FGSpan-edgecomb
@@ -715,14 +717,17 @@ public class FlowGSpan implements Runnable{
 		targetVertexId = oldNewIdCorrespondence.get(targetVertexId);
 		
 		String keyStr = child.getKeyString();
-		
-		if(FlowGSpanController.sgMap.containsKey(keyStr)) {
+
+		/*if(FlowGSpanController.sgMap.containsKey(keyStr)) {
 			return false;
-		}
-	
+		}*/
+
+        if (FlowGSpanController.strMap.contains(keyStr)) {
+            return false;
+        }
 		currWeightSupport = 0;
 		currFreqSupport = 0;
-		currNumNodes = 0;
+		//currNumNodes = 0;
 		numMatches = 0;
 		
 		int sizeGS = parent.getGS().size();
@@ -754,19 +759,20 @@ public class FlowGSpan implements Runnable{
 			//}
 		
 			//Register supports in graph map
-			Vector<Double> supports = new Vector<Double>();
+			/*Vector<Double> supports = new Vector<Double>();
 			supports.add(currWeightSupport/totalWeight);
 			supports.add(currFreqSupport/totalFreq);
-			currNumNodes = child.getVertexSet().size();
-			supports.add(currNumNodes);
+			//currNumNodes = child.getVertexSet().size();
+			//supports.add(currNumNodes);
 			supports.add((double)numMatches);
-			supports.add((double)child.getPatternType());
-			
+			supports.add((double)child.getPatternType());*/
+
 			graphDB.addUsefulGraphs(child.getGS());
 			
-			FlowGSpanController.sgMap.put(keyStr, supports);
-			
-			return true;
+			//FlowGSpanController.sgMap.put(keyStr, supports);
+            FlowGSpanController.strMap.add(keyStr);
+
+            return true;
 		}
 		
 		return false;

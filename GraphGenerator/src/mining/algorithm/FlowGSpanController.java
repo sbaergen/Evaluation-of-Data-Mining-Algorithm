@@ -114,15 +114,16 @@ public class FlowGSpanController {
 	 * tick count, edge frequency info, number of instances of the pattern 
 	 * in dataset.
 	 */
-	public static Map<String, Vector<Double>> sgMap;
-	
+	//public static Map<String, Vector<Double>> sgMap;
+
+    public static Vector<String> strMap;
 	static LinkedHashSet<Integer> branchAttrList; 
 	
 	public FlowGSpanController(DataSet dataset, double totalWeight, double totalFreq, 
 			double minSupport, double maxNodes, int numThreads) {
 		//Initialization of all output-related sets.
-		sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>()); 
-		
+		//sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>());
+		strMap = new Vector<>();
 		fgspanInstances = new Vector<FlowGSpan>();
 	
 		this.dataset = dataset;
@@ -148,9 +149,10 @@ public class FlowGSpanController {
 	
 	public FlowGSpanController(DataSet dataset, double minSupport, double maxNodes, int numThreads){
 		//Initialization of all output-related sets.
-		sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>()); 
-		
-		fgspanInstances = new Vector<FlowGSpan>();
+		//sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>());
+        strMap = new Vector<>();
+
+        fgspanInstances = new Vector<FlowGSpan>();
 	
 		this.dataset = dataset;
 		this.totalWeight = dataset.getTotalWeight();
@@ -475,9 +477,9 @@ public class FlowGSpanController {
 				}
 				
 				for(MinerState state : prevStates) {
-					LinkedHashMap<Long, Integer> mapping = state.getWholeGraphCore();
+					LinkedHashMap<Integer, Integer> mapping = state.getWholeGraphCore();
 					
-					for(Long vertexId : mapping.keySet()) {
+					for(Integer vertexId : mapping.keySet()) {
 						efg.setNonDiscardableNode(vertexId);
 					}
 				}
@@ -562,7 +564,7 @@ public class FlowGSpanController {
 					sortedIds.add(j);
 				}
 			}
-			sortOutput(sortedIds);
+			/*sortOutput(sortedIds);
 			for(Integer id : sortedIds) {
 				Vector<Double> supports = sgMap.get(resultSet.get(id));
 				if(supports.get(4) == 0) {
@@ -578,7 +580,7 @@ public class FlowGSpanController {
 					MinerManager.writeOutputToFile("\n\n Subgraph " + id + ":\n" + resultSet.get(id) + supports.toString());
 				}
 			}
-			sortedIds.clear();
+			sortedIds.clear();*/
 		}
 		
 		MinerManager.writeOutputToFile("\n\n==========Mapping between subgraphs and instructions==========\n\n");
@@ -602,10 +604,10 @@ public class FlowGSpanController {
 	 * @param sortedIds The indices in resultSet of the patterns to be displayed in a rank,
 	 * based on their support value.
 	 */
-	private void sortOutput(Vector<Integer> sortedIds) {
+	/*private void sortOutput(Vector<Integer> sortedIds) {
 		PatternSupportComparator comp = new PatternSupportComparator(resultSet, sgMap);
 		Collections.sort(sortedIds, comp);
-	}
+	}*/
 
 	public static LinkedHashSet<Integer> getBranchAttrList() {
 		if(branchAttrList == null) {

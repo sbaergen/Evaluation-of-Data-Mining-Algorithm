@@ -387,7 +387,7 @@ public class MinerManager {
                     sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024));
                     //System.out.println(sb);
 
-		    		long vertexId = Long.valueOf(br.readLine());
+		    		int vertexId = Integer.valueOf(br.readLine());
 		    		double hotness = Double.valueOf(br.readLine());
 		    		int attrNum = Integer.valueOf(br.readLine());//number of attributes
 		    		EFGVertex v = new EFGVertex(hotness, vertexId);
@@ -422,8 +422,8 @@ public class MinerManager {
 		    	while(edgeNum > 0) {
 		    		String tempStr = br.readLine();
 		    		String[] edgeStr = tempStr.split(" "); //tuple (attribute, weight) split by space on file
-		    		long fromEFGVertex = Long.valueOf(edgeStr[0]); //1st part of string: attribute order in bitvector
-		    		long toEFGVertex = Long.valueOf(edgeStr[1]); 
+		    		int fromEFGVertex = Integer.valueOf(edgeStr[0]); //1st part of string: attribute order in bitvector
+		    		int toEFGVertex = Integer.valueOf(edgeStr[1]);
 		    		double edgeFreq = Double.valueOf(edgeStr[2]);//2nd string: weight of attribute
 		    		//DEBUG
 		    		//System.out.println("( " + fromEFGVertex + ", " + toEFGVertex + ", " + edgeFreq + ") ");

@@ -36,12 +36,12 @@ public class MinerState {
 	 * Mapping between nodes in subGraph and nodes of wholeGraph (that belong to an
 	 * instance of subGraph in wholeGraph).
 	 */
-	LinkedHashMap<Integer, Long> sgCore;
+	LinkedHashMap<Integer, Integer> sgCore;
 	/**
 	 * Mapping between nodes in wholeGraph (that belong to an instance of subGraph in 
 	 * wholeGraph) and nodes in subGraph.
 	 */
-	LinkedHashMap<Long, Integer> wgCore;
+	LinkedHashMap<Integer, Integer> wgCore;
 	
 	/**
 	 * Sub-graph to be mined for.
@@ -89,8 +89,8 @@ public class MinerState {
 		 
 		 currMatchLength = 0;
 		 
-		 sgCore = new LinkedHashMap<Integer, Long>();
-		 wgCore = new LinkedHashMap<Long, Integer>();
+		 sgCore = new LinkedHashMap<Integer, Integer>();
+		 wgCore = new LinkedHashMap<Integer, Integer>();
 		 
 		 totalFreq = 0f;
 		 minFreq = Double.MAX_VALUE;
@@ -109,8 +109,8 @@ public class MinerState {
 		 wgSize = otherState.getWholeGraphSize();
 		 currMatchLength = otherState.getCurrMatchLength();
 
-		 sgCore = (LinkedHashMap<Integer, Long>) otherState.getSubGraphCore().clone();
-		 wgCore = (LinkedHashMap<Long, Integer>) otherState.getWholeGraphCore().clone();
+		 sgCore = (LinkedHashMap<Integer, Integer>) otherState.getSubGraphCore().clone();
+		 wgCore = (LinkedHashMap<Integer, Integer>) otherState.getWholeGraphCore().clone();
 		    
 		 totalFreq = otherState.getTotalFreq();
 		 minFreq = otherState.getMinFreq();
@@ -130,20 +130,20 @@ public class MinerState {
 		 currMatchLength = prevState.getCurrMatchLength();
 
 		 if(oldNewIdCorrespondence == null) {
-			 sgCore = (LinkedHashMap<Integer, Long>)prevState.getSubGraphCore().clone();
-			 wgCore = (LinkedHashMap<Long, Integer>)prevState.getWholeGraphCore().clone();
+			 sgCore = (LinkedHashMap<Integer, Integer>)prevState.getSubGraphCore().clone();
+			 wgCore = (LinkedHashMap<Integer, Integer>)prevState.getWholeGraphCore().clone();
 		 }
 		 else {
-			 LinkedHashMap<Integer, Long> prevSgCore = prevState.getSubGraphCore();
-			 sgCore = new LinkedHashMap<Integer, Long>();
+			 LinkedHashMap<Integer, Integer> prevSgCore = prevState.getSubGraphCore();
+			 sgCore = new LinkedHashMap<Integer, Integer>();
 			 for(Integer key : prevSgCore.keySet()) {
 				 int newKey = oldNewIdCorrespondence.get(key);
 				 sgCore.put(newKey, prevSgCore.get(key));
 			 }
 			 
-			 LinkedHashMap<Long, Integer> prevWgCore = prevState.getWholeGraphCore();
-			 wgCore = new LinkedHashMap<Long, Integer>();
-			 for(Long key : prevWgCore.keySet()) {
+			 LinkedHashMap<Integer, Integer> prevWgCore = prevState.getWholeGraphCore();
+			 wgCore = new LinkedHashMap<Integer, Integer>();
+			 for(Integer key : prevWgCore.keySet()) {
 				 int newValue = oldNewIdCorrespondence.get(prevWgCore.get(key));
 				 wgCore.put(key, newValue);
 			 }
@@ -197,7 +197,7 @@ public class MinerState {
 	  * Returns sgCore mapping.
 	  * @return Mapping of nodes in subGraph and instance nodes in wholeGraph.
 	  */
-	 public LinkedHashMap<Integer, Long> getSubGraphCore() {
+	 public LinkedHashMap<Integer, Integer> getSubGraphCore() {
 		 return sgCore;
 	 }
 	 
@@ -205,7 +205,7 @@ public class MinerState {
 	  * Returns wgCore mapping. 
 	  * @return Mapping of instance nodes in wholeGraph and nodes in subGraph.
 	  */
-	 public LinkedHashMap<Long, Integer> getWholeGraphCore() {
+	 public LinkedHashMap<Integer, Integer> getWholeGraphCore() {
 		 return wgCore;
 	 }
 	 
@@ -249,7 +249,7 @@ public class MinerState {
 	  * @param sgCoreSet Where subGraph's nodes are stored.
 	  * @param wgCoreSet Where corresponding wholeGraph's nodes are stored.
 	  */
-	 void getCoreSet(Vector<Integer> sgCoreSet, Vector<Long> wgCoreSet) {
+	 void getCoreSet(Vector<Integer> sgCoreSet, Vector<Integer> wgCoreSet) {
 		 for (int i : sgCore.keySet()) {
 			 sgCoreSet.add(i);
 			 wgCoreSet.add(sgCore.get(i));
@@ -263,7 +263,7 @@ public class MinerState {
 	  * @param wgVertexId The ID of node from wholeGraph.
 	  * @return
 	  */
-	 boolean isFeasiblePair(int sgVertexId, long wgVertexId) {
+	 boolean isFeasiblePair(int sgVertexId, int wgVertexId) {
 		 PatternVertex sgVertex = subGraph.getVertex(sgVertexId);
 		 EFGVertex wgVertex = wholeGraph.getVertex(wgVertexId);
 		 
@@ -277,11 +277,11 @@ public class MinerState {
 	  * @param sgChildVertexId The new subGraph node that is to be paired up.
 	  * @param wgChildVertexId The wholeGraph node to be paired up with the subGraph node.
 	  */
-	 void addPair(int sgParentVertexId, int sgChildVertexId, long wgChildVertexId) {
+	 void addPair(int sgParentVertexId, int sgChildVertexId, int wgChildVertexId) {
 		 sgCore.put(sgChildVertexId, wgChildVertexId);
 		 wgCore.put(wgChildVertexId, sgChildVertexId);
 		 
-		 long wgParentVertexId = sgCore.get(sgParentVertexId);
+		 int wgParentVertexId = sgCore.get(sgParentVertexId);
 		 double freq = 0;
 		 
 		 //Comment if skipping dummy nodes when mining.

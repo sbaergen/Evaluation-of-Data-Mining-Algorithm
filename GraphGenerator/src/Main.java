@@ -49,7 +49,7 @@ public class Main {
         ReturnInfo info = mining.manager.MinerManager.main(arguments);
         long endTime = System.currentTimeMillis();
         System.out.println("Compiling Results");
-        m.createResultFile(endTime-startTime, info, numEdges);
+        m.createResultFile(endTime-startTime, info, numEdges, args.length);
     }
 
 
@@ -124,6 +124,7 @@ public class Main {
         double edgeProb = Double.parseDouble(params.get(10));
         addEFG(numEFG, data, params, isPattern); // Create EFGs with number of nodes,
         nodePosition = position;
+        int count = 0;
         for (EFG e: data){
             position = nodePosition;
             int size = e.getSize();
@@ -142,7 +143,6 @@ public class Main {
                             }
                             offset++;
                         }
-                        System.out.println("Selecting Pattern");
                         double patternSelect = patternSelection();
                         double interval = 1.0/patternBank.size();
                         double sum = 0;
@@ -155,10 +155,12 @@ public class Main {
                         position = tempPosition;
                         LinkedHashMap<Integer, Node> pattern = pat.getNodes();
                         int patSize = pat.getSize();
-                        values.set(7, Integer.parseInt(values.get(7))+patSize+"");
+                        values.set(7, Integer.parseInt(values.get(7))+patSize-1+"");
                         e.setSize(e.getSize()+patSize - 1);
                         for (int j = 0; j < patSize; j++){
-                            e.addNode(index, pattern.get(j));
+                            Node node = pattern.get(j);
+                            Node newNode = (Node) node.deepClone(node);
+                            e.addNode(index, newNode);
                             index++;
                         }
                     } else {
@@ -180,11 +182,11 @@ public class Main {
                         position = nodePosition;
                 }
             }
-            size = e.getSize();
+            /*size = e.getSize();
             for (int i = 0; i < size; i++){
                 BitSet newBitSet = new BitSet(size);
                 e.getNodes().get(i).setEdges(newBitSet);
-            }
+            }*/
             addEdges(e, edgeProb);
         }
     }
@@ -334,10 +336,9 @@ public class Main {
         double weight;
         int numNodes = efg.getSize();
         BitSet sourceCheck = new BitSet(numNodes);
-        Node node;
         Node source = efg.getNodes().get(0);
         for (int i = 1; i < numNodes-1; i++) {
-            node = efg.getNodes().get(i);
+            Node node = efg.getNodes().get(i);
             for (int j = i; j < numNodes - 1; j++) {
                 insertEdge = getBernoulli(edgeProb);
                 if (insertEdge) {
@@ -351,8 +352,8 @@ public class Main {
                     insertEdge = getBernoulli(edgeProb);
                     if (insertEdge) {
                             weight = getDistributedWeight();
-                            node = efg.getNodes().get(j);
-                            node.addEdge(i, weight);
+                            Node reverseNode = efg.getNodes().get(j);
+                            reverseNode.addEdge(i, weight);
                             sourceCheck.set(i);
                         }
                     }
@@ -394,7 +395,7 @@ public class Main {
         if (!validSink && numNodes != 1) {
             position = edgePosition;
             weight = getDistributedWeight();
-            efg.getNodes().get(numNodes-1).addEdge(numNodes-2, weight);
+            efg.getNodes().get(numNodes-2).addEdge(numNodes-1, weight);
         }
 
     }
@@ -464,7 +465,6 @@ public class Main {
                     input = input.replaceAll("//.*", " ");
                     arguments += input.replaceAll("\\s+", " ");
                 }
-		        System.out.println("Arguments: " + arguments);
                 String[] params = arguments.split(" ");
                 for (String c : params) {
                     values.add(c);
@@ -651,7 +651,7 @@ public class Main {
      * @param info All info from AFGMiner
      * @param numEdges Number of Edges in Dataset
      */
-    public void createResultFile(long time, ReturnInfo info, int numEdges){
+    public void createResultFile(long time, ReturnInfo info, int numEdges, int length){
         try {
             String processor;
             Runtime rt = Runtime.getRuntime();
@@ -706,26 +706,36 @@ public class Main {
                 writer.write("\n\n--------TEST RESULTS--------\n");
                 header = " DATE ,MAXATTR, MAXFOWARD, MAXBACKWARD, GAP, MINSUPPORT, MAXNODES, EFGS, NODES, NUMATTR, ATTRBERN," +
                         " EDGEBERN, NODES/EFG, P1, P2, P3, EDGE WEIGHT, P1, P2, P3, NODE WEIGHT, P1, P2, P3, " +
-                        "ATTR WEIGHT, P1, P2, P3, PATEFG, PATNODE, PATPROB, TIME, NUMEDGES, TOTALSUBGRAPHS, HOTSUBGRAPHS, 0-EDGE, 1-EDGE, 2-EDGE," +
+                        "ATTR WEIGHT, P1, P2, P3, PATEFG, P1, P2, P3, PATNODE, PATPROB, TIME, NUMEDGES, TOTALSUBGRAPHS," +
+                        " HOTSUBGRAPHS, 0-EDGE, 1-EDGE, 2-EDGE," +
                         " 3-EDGE, 4-EDGE, 5-EDGE\n" ;
                 writer.write(header);
             }
             int numValues = values.size();
+            int count = 0;
             for (int i = 0; i < numValues; i++) {
                 String current = values.get(i).toUpperCase();
-                    if (current.equals("E")) {
-                        data += current + "," + values.get(i + 1) + ", -, -,";
-                        i++;
-                    }
-                    else if (current.equals("U")) {
-                        data += current + "," + values.get(i + 1) + "," + values.get(i + 2) + ", -,";
-                        i += 2;
-                    }
-                    else
-                        data += values.get(i) + ",";
+                if (count == 4 && length == 1)
+                    data += " -, -, -, -,";
+                if (current.equals("E")) {
+                    data += current + "," + values.get(i + 1) + ", -, -,";
+                    i++;
+                    count++;
+                }
+                else if (current.equals("U")) {
+                    data += current + "," + values.get(i + 1) + "," + values.get(i + 2) + ", -,";
+                    i += 2;
+                    count++;
+                }
+                else if (current.equals("G")) {
+                    data += values.get(i) + ",";
+                    count++;
+                }
+                else
+                    data += values.get(i) + ",";
             }
 
-            data += time + "," + numEdges + "," + info.getCount() + "," + info.getNumHotSubgraphs().toString();
+            data += time + "ms," + numEdges + "," + info.getCount() + "," + info.getNumHotSubgraphs().toString();
 
             for (int i = 0; i < size; i++) {
                 int numGraphs = patternsPerEdge.get(i);

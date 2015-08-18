@@ -1,0 +1,15 @@
+localhost
+EFG_ZSys
+50000
+username
+DT120524
+0
+5
+0
+5
+5
+0
+0
+0
+0.2
+10

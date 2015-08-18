@@ -230,17 +230,17 @@ public class FlowGSpanController {
 			resultSet.addAll(instance.getResultSet());
 			resultSizes.addAll(instance.getResultSizes());
 			
-			LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
+			/*LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
 			for(Integer patternId : tempMap.keySet()) {
 				instructionMap.put(patternId, tempMap.get(patternId));
-			}
+			}*/
 			//System.out.println(instructionMap.size());
 			instance.getResultSizes().clear();
 			instance.getResultSet().clear();
 
 			//System.out.println("Elements = " + instance.getResultSet().toString());
 
-			instance.getInstructionMap().clear();
+			//instance.getInstructionMap().clear();
 			instance.getChildFreqAttrs().clear();
 			instance.getChildSet().clear();
 			
@@ -257,7 +257,7 @@ public class FlowGSpanController {
 			
 				instance.setFreqAttrs(freqAttrs);
 				instance.setFreqEdges(freqEdges);//FGSpan-edgecomb
-				System.out.println(freqEdges +  "EDGES");
+				//System.out.println(freqEdges +  "EDGES");
 				instance.setPatternsToProcess(patternsToProcess);
 				instance.setStartIndex(startIndex);
 				instance.setEndIndex(endIndex);
@@ -274,15 +274,15 @@ public class FlowGSpanController {
 				resultSet.addAll(instance.getResultSet());
 				resultSizes.addAll(instance.getResultSizes());
 				
-				tempMap = instance.getInstructionMap();
+				/*tempMap = instance.getInstructionMap();
 				
 				for(Integer patternId : tempMap.keySet()) {
 					instructionMap.put(patternId, tempMap.get(patternId));
-				}
+				}*/
 				
 				instance.getResultSizes().clear();
 				instance.getResultSet().clear();
-				instance.getInstructionMap().clear();
+				//instance.getInstructionMap().clear();
 				instance.getChildFreqAttrs().clear();
 				instance.getChildFreqEdges().clear();//FGSpan-edgecomb
 				instance.getChildSet().clear();
@@ -350,14 +350,14 @@ public class FlowGSpanController {
 				resultSet.addAll(instance.getResultSet());
 				resultSizes.addAll(instance.getResultSizes());
 			
-				LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
+				/*LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
 			
 				for(Integer patternId : tempMap.keySet()) {
 					instructionMap.put(patternId, tempMap.get(patternId));
-				}
+				}*/
 				instance.getResultSizes().clear();
 				instance.getResultSet().clear();
-				instance.getInstructionMap().clear();
+				//instance.getInstructionMap().clear();
 				instance.getChildFreqAttrs().clear();
 				instance.getChildSet().clear();
 			}
@@ -429,15 +429,15 @@ public class FlowGSpanController {
 					//System.out.println("ChildSetSize, ResultSetSize, ResultSizes = " + instance.getChildSet().size() + " " + instance.getResultSet().size() + " " + instance.getResultSizes().size());
 					//end DEBUG
 					
-					LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
+					/*LinkedHashMap<Integer, Vector<String>> tempMap = instance.getInstructionMap();
 				
 					for(Integer patternId : tempMap.keySet()) {
 						instructionMap.put(patternId, tempMap.get(patternId));
-					}
+					}*/
 				
 					instance.getResultSizes().clear();
 					instance.getResultSet().clear();
-					instance.getInstructionMap().clear();
+					//instance.getInstructionMap().clear();
 					instance.getChildFreqAttrs().clear();
 					instance.getChildSet().clear();
 					count+=instance.getCount();

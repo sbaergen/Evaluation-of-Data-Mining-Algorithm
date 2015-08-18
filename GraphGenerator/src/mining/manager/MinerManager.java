@@ -55,7 +55,7 @@ public class MinerManager {
 	public static ReturnInfo main(String[] args) {
 	//public static void main(String[] args) {
 		FileOutputStream fstream;
-		ReturnInfo info = new ReturnInfo();
+		ReturnInfo info;
         try {
 			fstream = new FileOutputStream(args[2]);
 			DataOutputStream outputStream = new DataOutputStream(fstream);
@@ -65,17 +65,17 @@ public class MinerManager {
 			e.printStackTrace();
 		}
 		MinerManager pm = new MinerManager();
-		if(readFromDB) {
+		/*if(readFromDB) {
 			pm.readInputFromDB(args);
 		}
-		else {
+		else {*/
 			info = pm.readInputFromFile(args);
 			//pm.readInputFromFile(args);
-		}
+		//}
         return info;
 	}
 	
-	private void readInputFromDB(String[] args) {
+	/*private void readInputFromDB(String[] args) {
 		// Read the configuration file
 		List<String> arguments = readFile(args[0]);
 
@@ -270,7 +270,7 @@ public class MinerManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	/**
 	 * Read data from the specified file

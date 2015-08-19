@@ -46,10 +46,10 @@ public class Main {
         String arguments[] = {CONFIG, COUNTERS, OUTPUT, INPUT};
         System.out.println("Starting AFGMiner");
         long startTime = System.currentTimeMillis();
-        //ReturnInfo info = mining.manager.MinerManager.main(arguments);
+        ReturnInfo info = mining.manager.MinerManager.main(arguments);
         long endTime = System.currentTimeMillis();
         System.out.println("Compiling Results");
-        //m.createResultFile(endTime-startTime, info, numEdges, args.length);
+        m.createResultFile(endTime-startTime, info, numEdges, args.length);
     }
 
 

@@ -56,7 +56,7 @@ public class Main {
     public Vector<EFG> createPatterns(String filename){
         File file = new File(filename);
         Vector<EFG> patterns = new Vector<EFG>();
-        if (file.exists()){
+        /*if (file.exists()){
             System.out.println("Reading Patterns");
             try {
                 Node node;
@@ -94,7 +94,7 @@ public class Main {
                 e.printStackTrace();
             }
             return patterns;
-        }
+        }*/
         System.out.println("Creating Patterns");
         Random rd = new Random();
         Vector<String> patternValues = new Vector<String>();

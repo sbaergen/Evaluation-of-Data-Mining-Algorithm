@@ -1,13 +1,10 @@
 package data;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.BitSet;
 import java.util.LinkedHashMap;
 import java.util.Random;
-public class Node {
+public class Node implements Serializable {
 	/**
 	 * BitSet representing the attributes the node contains.
 	 * The node has attribute i if index i in attributes is set to 1.

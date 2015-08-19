@@ -41,15 +41,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PatternGraph.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PatternGraph.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mining/data/PatternGraph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6">
+            <state vertical-scroll-proportion="0.0">
               <caret line="628" column="127" selection-start-line="628" selection-start-column="127" selection-end-line="628" selection-end-column="127" />
               <folding>
                 <element signature="e#17102#17126#0" expanded="true" />
                 <element signature="e#17776#17813#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Node.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/data/Node.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.08571429">
+              <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -185,7 +195,6 @@
         <option value="$PROJECT_DIR$/src/mining/data/ExecutionFlowGraph.java" />
         <option value="$PROJECT_DIR$/src/mining/data/EFGVertex.java" />
         <option value="$PROJECT_DIR$/src/mining/data/BasicBlock.java" />
-        <option value="$PROJECT_DIR$/src/data/Node.java" />
         <option value="$PROJECT_DIR$/src/mining/algorithm/MinerState.java" />
         <option value="$PROJECT_DIR$/src/mining/algorithm/FlowGSpan.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
@@ -194,6 +203,7 @@
         <option value="$PROJECT_DIR$/src/mining/algorithm/SubgraphMiner.java" />
         <option value="$PROJECT_DIR$/src/mining/algorithm/FlowGSpanController.java" />
         <option value="$PROJECT_DIR$/src/mining/data/PatternGraph.java" />
+        <option value="$PROJECT_DIR$/src/data/Node.java" />
       </list>
     </option>
   </component>
@@ -901,13 +911,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="77" column="32" selection-start-line="77" selection-start-column="32" selection-end-line="77" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/mining/data/Pair.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1058,12 +1061,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mining/data/PatternGraph.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6">
+        <state vertical-scroll-proportion="0.0">
           <caret line="628" column="127" selection-start-line="628" selection-start-column="127" selection-end-line="628" selection-end-column="127" />
           <folding>
             <element signature="e#17102#17126#0" expanded="true" />
             <element signature="e#17776#17813#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.08571429">
+          <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
+          <folding />
         </state>
       </provider>
     </entry>

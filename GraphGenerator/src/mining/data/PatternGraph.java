@@ -612,7 +612,7 @@ public class PatternGraph implements Cloneable{
 	}
 
 	public LinkedHashMap<Integer, PatternVertex> createVertexSet() {
-		LinkedHashMap<Integer, PatternVertex> vertexSet = new LinkedHashMap<>();
+		LinkedHashMap<Integer, PatternVertex> vertexSet = new LinkedHashMap<Integer, PatternVertex>();
 		vertexSet.put(entryVertex.getId(), entryVertex);
         if (exitVertex != null && exitVertex.getId() != -1)
 		    vertexSet.put(exitVertex.getId(), exitVertex);
@@ -626,7 +626,7 @@ public class PatternGraph implements Cloneable{
 	}
 
     public LinkedHashMap<Pair<Integer, Integer>, PatternEdge> removeDummyEdges() {
-        LinkedHashMap<Pair<Integer, Integer>, PatternEdge> newEdgeSet = new LinkedHashMap<>();
+        LinkedHashMap<Pair<Integer, Integer>, PatternEdge> newEdgeSet = new LinkedHashMap<Pair<Integer, Integer>, PatternEdge>();
         for (Pair<Integer, Integer> p: edgeSet.keySet()){
             PatternEdge e = edgeSet.get(p);
             if (e.getToVertex().getId() != -1)

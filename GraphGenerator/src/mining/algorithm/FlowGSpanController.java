@@ -123,7 +123,7 @@ public class FlowGSpanController {
 			double minSupport, double maxNodes, int numThreads) {
 		//Initialization of all output-related sets.
 		//sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>());
-		strMap = new Vector<>();
+		strMap = new Vector<String>();
 		fgspanInstances = new Vector<FlowGSpan>();
 	
 		this.dataset = dataset;
@@ -150,7 +150,7 @@ public class FlowGSpanController {
 	public FlowGSpanController(DataSet dataset, double minSupport, double maxNodes, int numThreads){
 		//Initialization of all output-related sets.
 		//sgMap = Collections.synchronizedMap(new LinkedHashMap<String, Vector<Double>>());
-        strMap = new Vector<>();
+        strMap = new Vector<String>();
 
         fgspanInstances = new Vector<FlowGSpan>();
 	

@@ -112,8 +112,9 @@ public class SubgraphMiner {
 		Vector<MinerState> endStates = new Vector<MinerState>();
 		//If there are previous MinerStates available (i.e, this mining run is a pattern expansion
 		//of a previously found pattern)...
-
-		if(prevStates != null) {
+//        RuntimeException e = new RuntimeException();
+//        e.printStackTrace();
+        if(prevStates != null) {
 			//System.out.println("Starter states:\n");
 			for(int i = 0; i < prevStates.size(); ++i) {
 				MinerState newStartState = new MinerState(prevStates.get(i), subGraph, wholeGraph, oldNewIdCorrespondence);
@@ -127,7 +128,7 @@ public class SubgraphMiner {
 				//If typeOfAddition is 0, a forward edge and a new node have been added to the
 				//parent pattern, in order to form the child pattern.
 				else {
-					match(newStartState, endStates, pivotVertexId, targetVertexId);
+                    match(newStartState, endStates, pivotVertexId, targetVertexId);
 				}
 				//System.out.println("State " + i + ":" + prevStates.get(i).getWholeGraphCore().toString() + "\n");
 			}
@@ -246,7 +247,7 @@ public class SubgraphMiner {
 	        }
 	    	++i;
 	    }
-	    
+
 	    return;
 	  }
 

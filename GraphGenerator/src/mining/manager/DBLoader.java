@@ -312,7 +312,6 @@
 //			String bc = current.getBytecodeId();
 //			if(bc == null || bc.equals("")) {
 //				/*
-//				 * TODO: what about instructions with no bytecode information?
 //				 * they do exist, after all
 //				 *
 //				 * For now, continue without them
@@ -1293,7 +1292,6 @@
 //			// Outgoing edges + exception outgoing edges.
 //			if(type.equals("OUT") || type.equals("EX_OUT")) {
 //				if(!blocks.containsKey(from) || !blocks.containsKey(to)) {
-//					// TODO: This probably won't happen, what to do if it does?
 //					System.out.println("Bid not found");
 //					continue;
 //				}

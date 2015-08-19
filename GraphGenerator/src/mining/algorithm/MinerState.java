@@ -266,7 +266,7 @@ public class MinerState {
 	 boolean isFeasiblePair(int sgVertexId, int wgVertexId) {
 		 PatternVertex sgVertex = subGraph.getVertex(sgVertexId);
 		 EFGVertex wgVertex = wholeGraph.getVertex(wgVertexId);
-		 
+		 //System.out.println(subGraph.isCompatibleVertex(sgVertex, wgVertex));
 		 return subGraph.isCompatibleVertex(sgVertex, wgVertex);
 	 }
 	 

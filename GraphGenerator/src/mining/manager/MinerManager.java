@@ -52,8 +52,8 @@ public class MinerManager {
 	/**
 	 * @param args
 	 */
-	public static ReturnInfo main(String[] args) {
-	//public static void main(String[] args) {
+	//public static ReturnInfo main(String[] args) {
+	public static void main(String[] args) {
 		FileOutputStream fstream;
 		ReturnInfo info;
         try {
@@ -61,7 +61,6 @@ public class MinerManager {
 			DataOutputStream outputStream = new DataOutputStream(fstream);
 			FILE_WRITER = new BufferedWriter(new OutputStreamWriter(outputStream));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		MinerManager pm = new MinerManager();
@@ -72,7 +71,7 @@ public class MinerManager {
 			info = pm.readInputFromFile(args);
 			//pm.readInputFromFile(args);
 		//}
-        return info;
+        //return info;
 	}
 	
 	/*private void readInputFromDB(String[] args) {
@@ -218,7 +217,6 @@ public class MinerManager {
 					Runnable worker = db;
 					executor.execute(worker);
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -229,7 +227,6 @@ public class MinerManager {
 			try {
 				executor.awaitTermination(24, TimeUnit.HOURS);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
@@ -267,7 +264,6 @@ public class MinerManager {
 	    try {
 			FILE_WRITER.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}*/

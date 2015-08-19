@@ -327,8 +327,7 @@ public class FlowGSpan implements Runnable{
 	private void findFrequentNodes(Vector<PatternGraph> nodeSet, int start, int end) {
 		Vector<String> attrToPermute = new Vector<String>();
 		int count = 0;
-		while(start <= end) {
-
+        while(start <= end) {
 			int attr = existingAttrs.get(start);
 			++start;
 			

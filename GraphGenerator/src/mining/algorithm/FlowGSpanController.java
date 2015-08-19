@@ -250,7 +250,6 @@ public class FlowGSpanController {
 			long freeMemory = Runtime.getRuntime().freeMemory();
 			long consumedMemory = totalMemory - freeMemory;
 		    System.out.println("Total Memory = " + totalMemory  + ", Free Memory = " + freeMemory + ", Consumed Memory = " + consumedMemory);
-			
 		    ++generation;
 			
 			while(generation < maxNodes) {
@@ -340,7 +339,6 @@ public class FlowGSpanController {
 			try {
 				executor.awaitTermination(24, TimeUnit.HOURS);
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
@@ -412,7 +410,6 @@ public class FlowGSpanController {
 				try {
 					executor.awaitTermination(24, TimeUnit.HOURS);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			

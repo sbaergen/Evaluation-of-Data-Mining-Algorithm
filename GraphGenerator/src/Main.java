@@ -706,7 +706,7 @@ public class Main {
                 writer.write("\n\n--------TEST RESULTS--------\n");
                 header = " DATE ,MAXATTR, MAXFOWARD, MAXBACKWARD, GAP, MINSUPPORT, MAXNODES, EFGS, NODES, NUMATTR, ATTRBERN," +
                         " EDGEBERN, NODES/EFG, P1, P2, P3, EDGE WEIGHT, P1, P2, P3, NODE WEIGHT, P1, P2, P3, " +
-                        "ATTR WEIGHT, P1, P2, P3, PATEFG, P1, P2, P3, PATNODE, PATPROB, TIME, NUMEDGES, TOTALSUBGRAPHS," +
+                        "ATTR WEIGHT, P1, P2, P3, PATNODE/EFG, P1, P2, P3, PATEFG, PATNODE, PATPROB, TIME, NUMEDGES, TOTALSUBGRAPHS," +
                         " HOTSUBGRAPHS, 0-EDGE, 1-EDGE, 2-EDGE," +
                         " 3-EDGE, 4-EDGE, 5-EDGE\n" ;
                 writer.write(header);

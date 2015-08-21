@@ -242,7 +242,7 @@ public class ExecutionFlowGraph {
 		String str = "";
 		//LinkedHashMap<Integer, EFGVertex> vertexSet = createVertexSet();
 
-		if(removeDummyEdges().size() > 0) {
+		if(edgeSet.size() > 0) {
 			List<Pair<Integer, Integer>> keyList = new Vector<Pair<Integer, Integer>>();
 			keyList.addAll(edgeSet.keySet());
 			PairComparator<Integer, Integer> pairComp = new PairComparator<Integer, Integer>();
@@ -294,7 +294,7 @@ public class ExecutionFlowGraph {
 	 * @return Edge that goes from from-node to to-node, or null if edge not found.
 	 */
 	public EFGEdge hasEdge(int fromVertexId, int toVertexId) {
-		for(EFGEdge e : removeDummyEdges().values()) {
+		for(EFGEdge e : edgeSet.values()) {
 			if(e.getFromVertex().getId() == fromVertexId && e.getToVertex().getId() == toVertexId) {
 				return e;
 			}
@@ -408,7 +408,7 @@ public class ExecutionFlowGraph {
 	}
 
 	public void removeDiscardableEdges() {
-		Vector<Pair<Integer, Integer>> allEdgeKeys = new Vector<Pair<Integer,Integer>>(removeDummyEdges().keySet());
+		Vector<Pair<Integer, Integer>> allEdgeKeys = new Vector<Pair<Integer,Integer>>(edgeSet.keySet());
 		//DEBUG
 		int count = 0;
 		//end DEBUG

@@ -54,7 +54,8 @@ public class MinerManager {
 	 */
 	public static ReturnInfo main(String[] args) {
 	//public static void main(String[] args) {
-		FileOutputStream fstream;
+        long startTime = System.currentTimeMillis();
+        FileOutputStream fstream;
 		ReturnInfo info;
         try {
 			fstream = new FileOutputStream(args[2]);
@@ -71,6 +72,8 @@ public class MinerManager {
 			info = pm.readInputFromFile(args);
 			//pm.readInputFromFile(args);
 		//}
+        long endTime = System.currentTimeMillis();
+        System.out.println(endTime-startTime + "ms");
         return info;
 	}
 	
@@ -341,7 +344,7 @@ public class MinerManager {
 				System.exit(1);
 			}
 			
-			List<String> hwCounters = readFile(args[1]);
+			//List<String> hwCounters = readFile(args[1]);
 				
 			FileInputStream fstream;
 			fstream = new FileInputStream(args[3]);
@@ -372,7 +375,7 @@ public class MinerManager {
 
 
 
-                    StringBuilder sb = new StringBuilder();
+                    /*StringBuilder sb = new StringBuilder();
                     long maxMemory = runtime.maxMemory();
                     long allocatedMemory = runtime.totalMemory();
                     long freeMemory = runtime.freeMemory();
@@ -382,7 +385,7 @@ public class MinerManager {
                     sb.append("max memory: " + format.format(maxMemory / 1024) + "\n");
                     sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024));
                     //System.out.println(sb);
-
+                       */
 		    		int vertexId = Integer.valueOf(br.readLine());
 		    		double hotness = Double.valueOf(br.readLine());
 		    		int attrNum = Integer.valueOf(br.readLine());//number of attributes

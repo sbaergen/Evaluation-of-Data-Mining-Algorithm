@@ -32,7 +32,7 @@ public class PatternGraph implements Cloneable{
      * Set of nodes contained in the graph. They are identified by
      * their unique ID.
      */
-	//LinkedHashMap<Integer, PatternVertex> vertexSet;
+	LinkedHashMap<Integer, PatternVertex> vertexSet;
 	
 	/**
 	 * Graph's entry node.
@@ -91,7 +91,7 @@ public class PatternGraph implements Cloneable{
 	 */
 	public PatternGraph() {
 		edgeSet = new LinkedHashMap<Pair<Integer,Integer>, PatternEdge>();
-		//vertexSet = new LinkedHashMap<Integer, PatternVertex>();
+		vertexSet = new LinkedHashMap<Integer, PatternVertex>();
 		GS = new Vector<Integer>();
 	    dummy = new PatternVertex(0, -1);
 		entryVertex = null;
@@ -156,8 +156,8 @@ public class PatternGraph implements Cloneable{
 	 */
 	public void insertVertex(PatternVertex v) {
         //System.out.println("insertVertex");
-        insertEdge(new PatternEdge(v, dummy, 0));
-		//vertexSet.put(v.getId(), v);
+        //insertEdge(new PatternEdge(v, dummy, 0));
+		vertexSet.put(v.getId(), v);
 	}
 	
 	/**
@@ -170,8 +170,8 @@ public class PatternGraph implements Cloneable{
         //System.out.println(vertexSet);
         //System.out.println(createVertexSet() + " NEW");
         //System.out.println(edgeSet);
-        //return vertexSet.get(vertexId);
-        return createVertexSet().get(vertexId);
+        return vertexSet.get(vertexId);
+        //return createVertexSet().get(vertexId);
         /*if (entryVertex.getId() == vertexId)
             return entryVertex;
         if (exitVertex != null && exitVertex.getId() == vertexId)
@@ -191,7 +191,7 @@ public class PatternGraph implements Cloneable{
 	 */
 	public LinkedHashMap<Pair<Integer, Integer>, PatternEdge> getEdgeSet() {
         //System.out.println("getEdgeSet");
-		return removeDummyEdges();
+		return edgeSet;
 	}
 	
 	/**
@@ -199,7 +199,7 @@ public class PatternGraph implements Cloneable{
 	 * @return Node set of this Graph.
 	 */
 	public LinkedHashMap<Integer, PatternVertex> getVertexSet() {
-		return createVertexSet();
+		return vertexSet;
 	}
 	
 	/**
@@ -263,7 +263,7 @@ public class PatternGraph implements Cloneable{
 		PatternGraph cloned = new PatternGraph();
 		//System.out.println(createVertexSet());
         //System.out.println(vertexSet + " Original");
-        LinkedHashMap<Integer, PatternVertex> vertexSet = createVertexSet();
+        //LinkedHashMap<Integer, PatternVertex> vertexSet = createVertexSet();
         for(PatternVertex origV : vertexSet.values()) {
 			PatternVertex v = new PatternVertex(origV.getWeight(), origV.getId());
 			v.setAttributes(origV.getAttributes());
@@ -276,7 +276,7 @@ public class PatternGraph implements Cloneable{
     		}
 			cloned.insertVertex(v);
 		}
-		for(PatternEdge origE : removeDummyEdges().values()) {
+		for(PatternEdge origE : edgeSet.values()) {
 			int fromId = origE.getFromVertex().getId();
 			int toId = origE.getToVertex().getId();
 			PatternVertex fromV = cloned.getVertex(fromId);
@@ -286,6 +286,28 @@ public class PatternGraph implements Cloneable{
 		}
 	
 		return cloned;
+
+		/*for(PatternEdge origE : edgeSet.values()) {
+			PatternVertex old = origE.getFromVertex();
+			PatternVertex fromV = new PatternVertex(old.getWeight(), old.getId());
+			fromV.setAttributes(old.getAttributes());
+			fromV.setAttrWeights(old.getAttrWeights());
+            if (old.equals(entryVertex))
+                cloned.setEntryVertex(fromV);
+            else if (old.equals(exitVertex))
+                cloned.setExitVertex(fromV);
+			old = origE.getToVertex();
+			PatternVertex toV = new PatternVertex(old.getWeight(), old.getId());
+			toV.setAttributes(old.getAttributes());
+			toV.setAttrWeights(old.getAttrWeights());
+            if (old.equals(entryVertex))
+                cloned.setEntryVertex(toV);
+            else if (old.equals(exitVertex))
+                cloned.setExitVertex(toV);
+			PatternEdge e = new PatternEdge(fromV, toV, origE.getFrequency());
+			cloned.insertEdge(e);
+		}
+		return cloned;*/
 	}
 	
 	/**
@@ -294,9 +316,9 @@ public class PatternGraph implements Cloneable{
 	 */
 	public String toString() {
 		keyStr = "";
-        LinkedHashMap<Integer, PatternVertex> vertexSet = createVertexSet();
+        //LinkedHashMap<Integer, PatternVertex> vertexSet = createVertexSet();
 
-        if(removeDummyEdges().size() > 0) {
+        if(edgeSet.size() > 0) {
 			List<Pair<Integer, Integer>> keyList = new Vector<Pair<Integer, Integer>>();
 			keyList.addAll(edgeSet.keySet());
 			PairComparator<Integer, Integer> pairComp = new PairComparator<Integer, Integer>();
@@ -322,7 +344,7 @@ public class PatternGraph implements Cloneable{
 	 */
 	public void findEntryExitVertices() {
         //System.out.println("ENTER");
-        LinkedHashMap<Integer, PatternVertex> vertexSet = createVertexSet();
+        //LinkedHashMap<Integer, PatternVertex> vertexSet = createVertexSet();
 
         for(PatternVertex v : vertexSet.values()) {
 			if(v.getInEdgeCount() == 0) {
@@ -346,7 +368,7 @@ public class PatternGraph implements Cloneable{
 	 * @return Edge that goes from from-node to to-node, or null if edge not found.
 	 */
 	public PatternEdge hasEdge(int fromVertexId, int toVertexId) {
-		for(PatternEdge e : removeDummyEdges().values()) {
+		for(PatternEdge e : edgeSet.values()) {
 			if(e.getFromVertex().getId() == fromVertexId && e.getToVertex().getId() == toVertexId) {
 				return e;
 			}
@@ -398,12 +420,12 @@ public class PatternGraph implements Cloneable{
 			}
 		}
 		
-		//vertexSet.clear();
-		//vertexSet.putAll(newVertexSet);
+		vertexSet.clear();
+		vertexSet.putAll(newVertexSet);
 		
 		LinkedHashMap<Pair<Integer, Integer>, PatternEdge> newEdgeSet = new LinkedHashMap<Pair<Integer, Integer>, PatternEdge>();
 		
-		for(Pair<Integer, Integer> origPair : removeDummyEdges().keySet()) {
+		for(Pair<Integer, Integer> origPair : edgeSet.keySet()) {
 			int firstId = origPair.getFirst();
 			int secondId = origPair.getSecond();
 			int newFirstId = oldNewIdCorrespondence.get(firstId);
@@ -468,7 +490,7 @@ public class PatternGraph implements Cloneable{
 	 */
 	public Vector<Integer> getAllAttributes() {
 		Vector<Integer> allAttrs = new Vector<Integer>();
-        LinkedHashMap<Integer, PatternVertex> vertexSet = createVertexSet();
+        //LinkedHashMap<Integer, PatternVertex> vertexSet = createVertexSet();
 
         for(PatternVertex v : vertexSet.values()) {
 			allAttrs.addAll(v.getAttrWeights().keySet());
@@ -483,7 +505,7 @@ public class PatternGraph implements Cloneable{
 	 */
 	public LinkedHashSet<Integer> getAllDistinctAttributes() {
 		LinkedHashSet<Integer> allAttrs = new LinkedHashSet<Integer>();
-        LinkedHashMap<Integer, PatternVertex> vertexSet = createVertexSet();
+        //LinkedHashMap<Integer, PatternVertex> vertexSet = createVertexSet();
 
         for(PatternVertex v : vertexSet.values()) {
 			allAttrs.addAll(v.getAttrWeights().keySet());
@@ -495,7 +517,7 @@ public class PatternGraph implements Cloneable{
 	public LinkedHashSet<PatternEdge> getAllDistinctEdges() {
 		LinkedHashSet<PatternEdge> allEdges = new LinkedHashSet<PatternEdge>();
 		
-		for(PatternEdge e : removeDummyEdges().values()) {
+		for(PatternEdge e : edgeSet.values()) {
 			allEdges.add(e);
 		}
 		
@@ -600,7 +622,7 @@ public class PatternGraph implements Cloneable{
 		if(attributesToLookFor.isEmpty() == true) {
 			return false;
 		}
-        LinkedHashMap<Integer, PatternVertex> vertexSet = createVertexSet();
+        //LinkedHashMap<Integer, PatternVertex> vertexSet = createVertexSet();
 		for(PatternVertex v : vertexSet.values()) {
 			for(Integer attr : attributesToLookFor) {
 				if(v.getAttribute(attr)) {

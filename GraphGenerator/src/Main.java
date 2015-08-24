@@ -39,11 +39,13 @@ public class Main {
         }
         System.out.println("Creating Graph");
         m.createGraph(values, graphs, false);
+        m.createResultFile(0, null, 0, args.length);
         int numEdges = m.createGraphFile(INPUT, graphs);
         m.createConfigFile();
         graphs = null;
         patternBank = null;
         String arguments[] = {CONFIG, COUNTERS, OUTPUT, INPUT};
+        System.out.println(values);
         System.out.println("Starting AFGMiner");
         long startTime = System.currentTimeMillis();
         ReturnInfo info = mining.manager.MinerManager.main(arguments);
@@ -653,37 +655,40 @@ public class Main {
      */
     public void createResultFile(long time, ReturnInfo info, int numEdges, int length){
         try {
+            BufferedWriter writer;
             String processor;
             Runtime rt = Runtime.getRuntime();
             Process p = rt.exec("sysctl -n machdep.cpu.brand_string");
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             processor = br.readLine();
-            BufferedWriter writer = new BufferedWriter(new FileWriter(RESULT));
-            //System.getProperties().list(System.out);
-            writer.write("--------MACHINE INFORMATION--------\n\n");
-            writer.write("Processor: " + processor);
-            writer.write("\nJava.vm.version: " + System.getProperties().getProperty("java.vm.version"));
-            writer.write("\nJava.runtime.version: " + System.getProperties().getProperty("java.runtime.version"));
-            writer.write("\nJava.class.version: " + System.getProperties().getProperty("java.class.version"));
-            writer.write("\nSun.management.compiler: " + System.getProperties().getProperty("sun.management.compiler"));
-            writer.write("\nJava.vm.specification.version: " + System.getProperties().getProperty("java.vm.specification.version"));
-            writer.write("\nOS Name: " + System.getProperties().getProperty("os.name"));
-            writer.write("\nOS Version: " + System.getProperties().getProperty("os.ver" +
-                    "sion"));
-            writer.write("\nOS Arch: " + System.getProperties().getProperty("os.arch"));
-            writer.write("\nAvailable Processors: " + Runtime.getRuntime().availableProcessors());
-            writer.write("\n\n--------TEST RESULTS--------\n");
-            writer.write("\nTotal Time: " + time + "ms");
-            writer.write("\nTotal Edges: " + numEdges);
-            writer.write("\nTotal Subgraphs Tested: " + info.getCount());
-            writer.write("\nNumber of Hot Subgraphs: " + info.getNumHotSubgraphs());
-            LinkedHashMap<Integer, Integer> patternsPerEdge = info.getNumPatternsPerNumEdges();
-            int size = patternsPerEdge.size();
-            for (int i = 0; i < size; i++){
-                int numGraphs = patternsPerEdge.get(i);
-                writer.write("\nNumber of Hot " + i + "-Edge Subgraphs: " + numGraphs);
+            if (info != null) {
+                writer = new BufferedWriter(new FileWriter(RESULT));
+                //System.getProperties().list(System.out);
+                writer.write("--------MACHINE INFORMATION--------\n\n");
+                writer.write("Processor: " + processor);
+                writer.write("\nJava.vm.version: " + System.getProperties().getProperty("java.vm.version"));
+                writer.write("\nJava.runtime.version: " + System.getProperties().getProperty("java.runtime.version"));
+                writer.write("\nJava.class.version: " + System.getProperties().getProperty("java.class.version"));
+                writer.write("\nSun.management.compiler: " + System.getProperties().getProperty("sun.management.compiler"));
+                writer.write("\nJava.vm.specification.version: " + System.getProperties().getProperty("java.vm.specification.version"));
+                writer.write("\nOS Name: " + System.getProperties().getProperty("os.name"));
+                writer.write("\nOS Version: " + System.getProperties().getProperty("os.ver" +
+                        "sion"));
+                writer.write("\nOS Arch: " + System.getProperties().getProperty("os.arch"));
+                writer.write("\nAvailable Processors: " + Runtime.getRuntime().availableProcessors());
+                writer.write("\n\n--------TEST RESULTS--------\n");
+                writer.write("\nTotal Time: " + time + "ms");
+                writer.write("\nTotal Edges: " + numEdges);
+                writer.write("\nTotal Subgraphs Tested: " + info.getCount());
+                writer.write("\nNumber of Hot Subgraphs: " + info.getNumHotSubgraphs());
+                LinkedHashMap<Integer, Integer> patternsPerEdge = info.getNumPatternsPerNumEdges();
+                int size = patternsPerEdge.size();
+                for (int i = 0; i < size; i++) {
+                    int numGraphs = patternsPerEdge.get(i);
+                    writer.write("\nNumber of Hot " + i + "-Edge Subgraphs: " + numGraphs);
+                }
+                writer.close();
             }
-            writer.close();
             String header = "";
             String data = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(new Date()) + ",";
             File f = new File(CSV);
@@ -734,14 +739,17 @@ public class Main {
                 else
                     data += values.get(i) + ",";
             }
-
-            data += time + "ms," + numEdges + "," + info.getCount() + "," + info.getNumHotSubgraphs().toString();
-
-            for (int i = 0; i < size; i++) {
-                int numGraphs = patternsPerEdge.get(i);
-                data+= "," + numGraphs;
+            if (info == null)
+                data += "ERROR";
+            else {
+                data += time + "ms," + numEdges + "," + info.getCount() + "," + info.getNumHotSubgraphs().toString();
+                LinkedHashMap<Integer, Integer> patternsPerEdge = info.getNumPatternsPerNumEdges();
+                int size = patternsPerEdge.size();
+                for (int i = 0; i < size; i++) {
+                    int numGraphs = patternsPerEdge.get(i);
+                    data += "," + numGraphs;
+                }
             }
-
             writer.write(data+'\n');
             writer.close();
 

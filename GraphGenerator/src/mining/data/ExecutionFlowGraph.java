@@ -142,7 +142,7 @@ public class ExecutionFlowGraph {
 	 * @return Edge set of this Graph.
 	 */
 	public LinkedHashMap<Pair<Integer, Integer>, EFGEdge> getEdgeSet() {
-		return removeDummyEdges();
+		return edgeSet;
 	}
 	
 	/**
@@ -266,7 +266,7 @@ public class ExecutionFlowGraph {
 	/**
 	 * Finds entry and exist nodes of a Graph, in case they exist.
 	 */
-	/*public void findEntryExitVertices() {
+	public void findEntryExitVertices() {
 		if(entryEdge != null) {
 			setEntryVertex(entryEdge.getToVertex());
 		}
@@ -284,7 +284,7 @@ public class ExecutionFlowGraph {
 				break;
 			}
 		}
-	}*/
+	}
 	
 	/**
 	 * Finds the edge between 2 nodes with given IDs, but only if there are no dummy nodes 
@@ -461,7 +461,7 @@ public class ExecutionFlowGraph {
 		return vertexSet;
 	}
 
-	public LinkedHashMap<Pair<Integer, Integer>, EFGEdge> removeDummyEdges() {
+	/*public LinkedHashMap<Pair<Integer, Integer>, EFGEdge> removeDummyEdges() {
 		LinkedHashMap<Pair<Integer, Integer>, EFGEdge> newEdgeSet = new LinkedHashMap<Pair<Integer, Integer>, EFGEdge>();
 		for (Pair<Integer, Integer> p: edgeSet.keySet()){
 			EFGEdge e = edgeSet.get(p);
@@ -473,5 +473,5 @@ public class ExecutionFlowGraph {
 		//System.out.println(edgeSet);
 		//System.out.println(newEdgeSet);
 		return newEdgeSet;
-	}
+	}*/
 }

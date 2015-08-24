@@ -275,12 +275,9 @@ public class PatternGraph implements Cloneable{
 		PatternGraph cloned = new PatternGraph();
 		//System.out.println(createVertexSet());
         //System.out.println(vertexSet + " Original");
-        LinkedHashMap<Integer, PatternVertex> vertexSeta;
         if (!memorize)
-            vertexSeta = createVertexSet();
-        else
-            vertexSeta = vertexSet;
-        for(PatternVertex origV : vertexSeta.values()) {
+            vertexSet = createVertexSet();
+        for(PatternVertex origV : vertexSet.values()) {
 			PatternVertex v = new PatternVertex(origV.getWeight(), origV.getId());
 			v.setAttributes(origV.getAttributes());
 			v.setAttrWeights(origV.getAttrWeights());

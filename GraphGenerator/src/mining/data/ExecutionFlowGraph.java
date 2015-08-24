@@ -79,12 +79,16 @@ public class ExecutionFlowGraph {
 	double sumAttrWeights;
 
 	EFGVertex dummy;
+
+	boolean memorize;
 	/**
 	 * Graph constructor. Just variable initialization.
 	 */
 	public ExecutionFlowGraph() {
 		edgeSet = new LinkedHashMap<Pair<Integer, Integer>, EFGEdge>();
-		vertexSet = new LinkedHashMap<Integer, EFGVertex>();
+        memorize = false;
+        if (memorize)
+		    vertexSet = new LinkedHashMap<Integer, EFGVertex>();
 		maxAttrNum = 0;
 		freq = 0f;
 		entryVertex = null;
@@ -120,8 +124,10 @@ public class ExecutionFlowGraph {
 	 * @param v Node to be inserted.
 	 */
 	public void insertVertex(EFGVertex v) {
-		vertexSet.put(v.getId(), v);
-		insertEdge(new EFGEdge(v, dummy, 0));
+        if (memorize)
+		    vertexSet.put(v.getId(), v);
+        else
+		    insertEdge(new EFGEdge(v, dummy, 0));
 		if(maxAttrNum < v.getAttrWeights().size()) {
 			maxAttrNum = v.getAttrWeights().size(); 
 		}
@@ -133,8 +139,9 @@ public class ExecutionFlowGraph {
 	 * @return Returned node.
 	 */
 	public EFGVertex getVertex(int vertexId) {
-		return vertexSet.get(vertexId);
-		//return createVertexSet().get(vertexId);
+        if (memorize)
+		    return vertexSet.get(vertexId);
+		return createVertexSet().get(vertexId);
 	}
 	
 	/**
@@ -142,7 +149,9 @@ public class ExecutionFlowGraph {
 	 * @return Edge set of this Graph.
 	 */
 	public LinkedHashMap<Pair<Integer, Integer>, EFGEdge> getEdgeSet() {
-		return edgeSet;
+		if (memorize)
+            return edgeSet;
+        return removeDummyEdges();
 	}
 	
 	/**
@@ -150,8 +159,9 @@ public class ExecutionFlowGraph {
 	 * @return Node set of this Graph.
 	 */
 	public LinkedHashMap<Integer, EFGVertex> getVertexSet() {
-		return vertexSet;
-		//return createVertexSet();
+        if (memorize)
+		    return vertexSet;
+		return createVertexSet();
 	}
 	
 	/**
@@ -240,7 +250,8 @@ public class ExecutionFlowGraph {
 	 */
 	public String toString() {
 		String str = "";
-		//LinkedHashMap<Integer, EFGVertex> vertexSet = createVertexSet();
+        if (!memorize)
+		    vertexSet = createVertexSet();
 
 		if(edgeSet.size() > 0) {
 			List<Pair<Integer, Integer>> keyList = new Vector<Pair<Integer, Integer>>();
@@ -294,13 +305,23 @@ public class ExecutionFlowGraph {
 	 * @return Edge that goes from from-node to to-node, or null if edge not found.
 	 */
 	public EFGEdge hasEdge(int fromVertexId, int toVertexId) {
-		for(EFGEdge e : edgeSet.values()) {
-			if(e.getFromVertex().getId() == fromVertexId && e.getToVertex().getId() == toVertexId) {
-				return e;
-			}
-		}
-		
-		return null;
+        if (memorize) {
+            for (EFGEdge e : edgeSet.values()) {
+                if (e.getFromVertex().getId() == fromVertexId && e.getToVertex().getId() == toVertexId) {
+                    return e;
+                }
+            }
+
+            return null;
+        } else {
+            for (EFGEdge e : removeDummyEdges().values()) {
+                if (e.getFromVertex().getId() == fromVertexId && e.getToVertex().getId() == toVertexId) {
+                    return e;
+                }
+            }
+
+            return null;
+        }
 	}
 	
 	/**
@@ -364,9 +385,15 @@ public class ExecutionFlowGraph {
 		if(freq > 0) {
 			return freq;
 		}
-		for(EFGEdge e : edgeSet.values()) {
-			freq += e.getFrequency();
-		}
+        if (memorize) {
+            for (EFGEdge e : edgeSet.values()) {
+                freq += e.getFrequency();
+            }
+        } else {
+            for (EFGEdge e : removeDummyEdges().values()) {
+                freq += e.getFrequency();
+            }
+        }
 		
 		if(entryEdge != null) {
 			freq += entryEdge.getFrequency();
@@ -380,7 +407,8 @@ public class ExecutionFlowGraph {
 	 */
 	public double getTotalWeight() {
 		double hotness = 0;
-		//LinkedHashMap<Integer, EFGVertex> vertexSet = createVertexSet();
+        if (!memorize)
+		    vertexSet = createVertexSet();
 
 		for(EFGVertex v : vertexSet.values()) {
 			hotness += v.getWeight();
@@ -389,7 +417,8 @@ public class ExecutionFlowGraph {
 	}
 
 	public void setAllNodesDiscardable() {
-		//LinkedHashMap<Integer, EFGVertex> vertexSet = createVertexSet();
+        if (!memorize)
+            vertexSet = createVertexSet();
 
 		for(EFGVertex v : vertexSet.values()) {
 			v.setDiscardable(true);
@@ -397,14 +426,21 @@ public class ExecutionFlowGraph {
 	}
 
 	public void setNonDiscardableNode(int vertexId) {
-		//LinkedHashMap<Integer, EFGVertex> vertexSet = createVertexSet();
+        if (!memorize)
+            vertexSet = createVertexSet();
 		vertexSet.get(vertexId).updateDiscardableRoot();
 	}
 
 	public void setAllEdgesDiscardable() {
-		for(EFGEdge e : edgeSet.values()) {
-			e.setDiscardable(true);
-		}
+        if (memorize) {
+            for (EFGEdge e : edgeSet.values()) {
+                e.setDiscardable(true);
+            }
+        } else {
+            for (EFGEdge e : removeDummyEdges().values()) {
+                e.setDiscardable(true);
+            }
+        }
 	}
 
 	public void removeDiscardableEdges() {
@@ -428,7 +464,8 @@ public class ExecutionFlowGraph {
 	}
 
 	public void removeDiscardableNodes() {
-		//LinkedHashMap<Integer, EFGVertex> vertexSet = createVertexSet();
+        if (!memorize)
+            vertexSet = createVertexSet();
 		Vector<Integer> allVertexKeys = new Vector<Integer>(vertexSet.keySet());
 		//DEBUG
 		int count = 0;
@@ -461,7 +498,7 @@ public class ExecutionFlowGraph {
 		return vertexSet;
 	}
 
-	/*public LinkedHashMap<Pair<Integer, Integer>, EFGEdge> removeDummyEdges() {
+	public LinkedHashMap<Pair<Integer, Integer>, EFGEdge> removeDummyEdges() {
 		LinkedHashMap<Pair<Integer, Integer>, EFGEdge> newEdgeSet = new LinkedHashMap<Pair<Integer, Integer>, EFGEdge>();
 		for (Pair<Integer, Integer> p: edgeSet.keySet()){
 			EFGEdge e = edgeSet.get(p);
@@ -473,5 +510,5 @@ public class ExecutionFlowGraph {
 		//System.out.println(edgeSet);
 		//System.out.println(newEdgeSet);
 		return newEdgeSet;
-	}*/
+	}
 }

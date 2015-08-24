@@ -86,7 +86,7 @@ public class ExecutionFlowGraph {
 	 */
 	public ExecutionFlowGraph() {
 		edgeSet = new LinkedHashMap<Pair<Integer, Integer>, EFGEdge>();
-        memorize = false;
+        memorize = true;
         if (memorize)
 		    vertexSet = new LinkedHashMap<Integer, EFGVertex>();
 		maxAttrNum = 0;

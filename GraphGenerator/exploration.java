@@ -24,7 +24,7 @@ public class exploration {
         final int[] WIDTH = { 10, 10 };
         final int[] PATEFGS = { 1, 10 };
         final int[] PATNODE = { 1, 10 };
-        final double[] PATPROB = { 0, .1 };
+        final double[] PATPROB = { 0.20, 0.20 };
         
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(args[0]));

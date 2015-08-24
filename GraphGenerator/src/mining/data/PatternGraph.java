@@ -94,7 +94,7 @@ public class PatternGraph implements Cloneable{
 
 	public PatternGraph() {
 		edgeSet = new LinkedHashMap<Pair<Integer,Integer>, PatternEdge>();
-        memorize = false;
+        memorize = true;
         if (memorize)
             vertexSet = new LinkedHashMap<Integer, PatternVertex>();
 		GS = new Vector<Integer>();

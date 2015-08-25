@@ -14,13 +14,11 @@ do
 for o in {0,5}
 do
 sed "s|final int\[\] PATNODE = .*|final int\[\] PATNODE = { $n$o, $n$o };|g" exploration.java > explorationa.java
-for l in {0..7}
+for l in {2,..7}
 do
 for m in {0,5}
 do
 sed "s|final double\[\] PATPROB = .*|final double\[\] PATPROB = { 0.$l$m, 0.$l$m };|g" exploration.java > explorationa.java
-rm exploration.java
-mv explorationa.java exploration.java
 ./generate.sh explore.txt patterns.txt
 done
 done

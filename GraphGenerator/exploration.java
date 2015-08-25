@@ -13,7 +13,7 @@ public class exploration {
         final int[] EFGS = { 1, 1 };
         final int[] NODES = { 10, 10 };
         final int[] ATTR = { 5, 5 };
-        final double[] APROB = { 0, 1 };
+        final double[] APROB = { 0, .5 };
         final double[] EPROB = { 0, .1 };
         final char[] DIST = { 'U', 'E', 'G' };
         final double[] RATE = { 1, 1 };
@@ -24,7 +24,7 @@ public class exploration {
         final int[] WIDTH = { 10, 10 };
         final int[] PATEFGS = { 1, 10 };
         final int[] PATNODE = { 1, 10 };
-        final double[] PATPROB = { 0.20, 0.20 };
+        final double[] PATPROB = { 0.35, 0.35 };
         
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(args[0]));

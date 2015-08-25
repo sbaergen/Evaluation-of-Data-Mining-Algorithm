@@ -14,7 +14,7 @@ do
 for o in {0,5}
 do
 sed "s|final int\[\] PATNODE = .*|final int\[\] PATNODE = { $n$o, $n$o };|g" exploration.java > explorationa.java
-for l in {0..7}
+for l in {0,..7}
 do
 for m in {0,5}
 do

@@ -23,8 +23,8 @@ public class exploration {
         final int[] CENTRE = { 10, 10 };
         final int[] WIDTH = { 10, 10 };
         final int[] PATEFGS = { 1, 10 };
-        final int[] PATNODE = { 10, 10 };
-        final double[] PATPROB = { 0.55, 0.55 };
+        final int[] PATNODE = { 30, 30 };
+        final double[] PATPROB = { 0.60, 0.60 };
         
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(args[0]));

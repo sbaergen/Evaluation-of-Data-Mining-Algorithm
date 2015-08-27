@@ -332,6 +332,7 @@ public class Main {
      * @param edgeProb The probability used for the bernoulli test
      */
     public void addEdges(EFG efg, double edgeProb){
+        boolean limit = true;
         int edgePosition = position;
         boolean insertEdge;
         boolean validSink = false;
@@ -341,9 +342,11 @@ public class Main {
         Node source = efg.getNodes().get(0);
         for (int i = 1; i < numNodes-1; i++) {
             Node node = efg.getNodes().get(i);
+            int count = 0;
             for (int j = i; j < numNodes - 1; j++) {
                 insertEdge = getBernoulli(edgeProb);
-                if (insertEdge) {
+                if (insertEdge && (count < 2 || !limit)) {
+                    count++;
                     weight = getDistributedWeight();
                     node.addEdge(j, weight);
                     if (i!=j)
@@ -352,7 +355,8 @@ public class Main {
                 position = edgePosition;
                 if (i != j) {
                     insertEdge = getBernoulli(edgeProb);
-                    if (insertEdge) {
+                    if (insertEdge && (count < 2 || !limit)) {
+                            count++;
                             weight = getDistributedWeight();
                             Node reverseNode = efg.getNodes().get(j);
                             reverseNode.addEdge(i, weight);

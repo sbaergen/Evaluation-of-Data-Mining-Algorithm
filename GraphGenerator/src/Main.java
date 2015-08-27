@@ -715,7 +715,7 @@ public class Main {
                 writer.write("\n\n--------TEST RESULTS--------\n");
                 header = " DATE ,MAXATTR, MAXFOWARD, MAXBACKWARD, GAP, MINSUPPORT, MAXNODES, EFGS, NODES, NUMATTR, ATTRBERN," +
                         " EDGEBERN, NODES/EFG, P1, P2, P3, EDGE WEIGHT, P1, P2, P3, NODE WEIGHT, P1, P2, P3, " +
-                        "ATTR WEIGHT, P1, P2, P3, PATNODE/EFG, P1, P2, P3, PATEFG, PATNODE, PATPROB, TIME, NUMEDGES, TOTALSUBGRAPHS," +
+                        "ATTR WEIGHT, P1, P2, P3, PATNODE/EFG, P1, P2, P3, PATEFG, PATNODE, PATPROB, TIME(ms), NUMEDGES, TOTALSUBGRAPHS," +
                         " HOTSUBGRAPHS, 0-EDGE, 1-EDGE, 2-EDGE," +
                         " 3-EDGE, 4-EDGE, 5-EDGE\n" ;
                 writer.write(header);
@@ -746,7 +746,7 @@ public class Main {
             if (info == null)
                 data += "ERROR";
             else {
-                data += time + "ms," + numEdges + "," + info.getCount() + "," + info.getNumHotSubgraphs().toString();
+                data += time + "," + numEdges + "," + info.getCount() + "," + info.getNumHotSubgraphs().toString();
                 LinkedHashMap<Integer, Integer> patternsPerEdge = info.getNumPatternsPerNumEdges();
                 int size = patternsPerEdge.size();
                 for (int i = 0; i < size; i++) {

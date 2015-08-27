@@ -124,10 +124,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FlowGSpanController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FlowGSpanController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mining/algorithm/FlowGSpanController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.11288181">
+            <state vertical-scroll-proportion="0.0">
               <caret line="535" column="43" selection-start-line="535" selection-start-column="43" selection-end-line="535" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -158,11 +158,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.518518">
-              <caret line="357" column="60" selection-start-line="357" selection-start-column="60" selection-end-line="357" selection-end-column="60" />
+            <state vertical-scroll-proportion="0.6432507">
+              <caret line="748" column="32" selection-start-line="748" selection-start-column="32" selection-end-line="748" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -1282,14 +1282,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.518518">
-          <caret line="357" column="60" selection-start-line="357" selection-start-column="60" selection-end-line="357" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/mining/data/ExecutionFlowGraph.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1310,11 +1302,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mining/algorithm/FlowGSpanController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11288181">
+        <state vertical-scroll-proportion="0.0">
           <caret line="535" column="43" selection-start-line="535" selection-start-column="43" selection-end-line="535" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6432507">
+          <caret line="748" column="32" selection-start-line="748" selection-start-column="32" selection-end-line="748" selection-end-column="32" />
+          <folding />
         </state>
       </provider>
     </entry>

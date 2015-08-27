@@ -1,13 +1,21 @@
 
 
-for p in {2,1}
+for p in {2,1,0}
 do
+<<<<<<< HEAD
 for i in {1..5}
 do
     sed "s|final double\[\] MINSUPPORT = .*|final double\[\] MINSUPPORT = { 0.$p$i, 0.$p$i };|" exploration.java > explorationa.java
 rm exploration.java
 mv explorationa.java exploration.java
 for j in {1..5}
+=======
+    sed "s|final double\[\] MINSUPPORT = .*|final double\[\] MINSUPPORT = { 0.$i0, 0.$i0 };|" exploration.java > explorationa.java
+rm exploration.java
+mv explorationa.java exploration.java
+
+for j in {0..5}
+>>>>>>> 9afb3397ddd86b1d5e68bd0b0b6930f2249d8e89
 do
 for k in {0,5}
 do

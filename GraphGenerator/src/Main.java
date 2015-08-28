@@ -332,7 +332,7 @@ public class Main {
      * @param edgeProb The probability used for the bernoulli test
      */
     public void addEdges(EFG efg, double edgeProb){
-        boolean limit = true;
+        boolean limit = false;
         int edgePosition = position;
         boolean insertEdge;
         boolean validSink = false;

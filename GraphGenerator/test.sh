@@ -1,12 +1,3 @@
-
-
-for p in {2,1,0}
-do
-for i in {1..5}
-do
-    sed "s|final double\[\] MINSUPPORT = .*|final double\[\] MINSUPPORT = { 0.$p$i, 0.$p$i };|" exploration.java > explorationa.java
-rm exploration.java
-mv explorationa.java exploration.java
 for j in {1..5}
 do
 for k in {0,5}
@@ -26,6 +17,13 @@ do
 for m in {0,5}
 do
 sed "s|final double\[\] PATPROB = .*|final double\[\] PATPROB = { 0.$l$m, 0.$l$m };|g" exploration.java > explorationa.java
+rm exploration.java
+mv explorationa.java exploration.java
+for p in {2,1,0}
+do
+for i in {1..5}
+do
+    sed "s|final double\[\] MINSUPPORT = .*|final double\[\] MINSUPPORT = { 0.$p$i, 0.$p$i };|" exploration.java > explorationa.java
 rm exploration.java
 mv explorationa.java exploration.java
 ./generate.sh explore.txt patterns.txt

@@ -332,6 +332,7 @@ public class Main {
      * @param edgeProb The probability used for the bernoulli test
      */
     public void addEdges(EFG efg, double edgeProb){
+        boolean limit = true;
         int edgePosition = position;
         boolean insertEdge;
         boolean validSink = false;
@@ -341,9 +342,11 @@ public class Main {
         Node source = efg.getNodes().get(0);
         for (int i = 1; i < numNodes-1; i++) {
             Node node = efg.getNodes().get(i);
+            int count = 0;
             for (int j = i; j < numNodes - 1; j++) {
                 insertEdge = getBernoulli(edgeProb);
-                if (insertEdge) {
+                if (insertEdge && (count < 2 || !limit)) {
+                    count++;
                     weight = getDistributedWeight();
                     node.addEdge(j, weight);
                     if (i!=j)
@@ -352,7 +355,8 @@ public class Main {
                 position = edgePosition;
                 if (i != j) {
                     insertEdge = getBernoulli(edgeProb);
-                    if (insertEdge) {
+                    if (insertEdge && (count < 2 || !limit)) {
+                            count++;
                             weight = getDistributedWeight();
                             Node reverseNode = efg.getNodes().get(j);
                             reverseNode.addEdge(i, weight);
@@ -711,7 +715,7 @@ public class Main {
                 writer.write("\n\n--------TEST RESULTS--------\n");
                 header = " DATE ,MAXATTR, MAXFOWARD, MAXBACKWARD, GAP, MINSUPPORT, MAXNODES, EFGS, NODES, NUMATTR, ATTRBERN," +
                         " EDGEBERN, NODES/EFG, P1, P2, P3, EDGE WEIGHT, P1, P2, P3, NODE WEIGHT, P1, P2, P3, " +
-                        "ATTR WEIGHT, P1, P2, P3, PATNODE/EFG, P1, P2, P3, PATEFG, PATNODE, PATPROB, TIME, NUMEDGES, TOTALSUBGRAPHS," +
+                        "ATTR WEIGHT, P1, P2, P3, PATNODE/EFG, P1, P2, P3, PATEFG, PATNODE, PATPROB, TIME(ms), NUMEDGES, TOTALSUBGRAPHS," +
                         " HOTSUBGRAPHS, 0-EDGE, 1-EDGE, 2-EDGE," +
                         " 3-EDGE, 4-EDGE, 5-EDGE\n" ;
                 writer.write(header);
@@ -742,7 +746,7 @@ public class Main {
             if (info == null)
                 data += "ERROR";
             else {
-                data += time + "ms," + numEdges + "," + info.getCount() + "," + info.getNumHotSubgraphs().toString();
+                data += time + "," + numEdges + "," + info.getCount() + "," + info.getNumHotSubgraphs().toString();
                 LinkedHashMap<Integer, Integer> patternsPerEdge = info.getNumPatternsPerNumEdges();
                 int size = patternsPerEdge.size();
                 for (int i = 0; i < size; i++) {

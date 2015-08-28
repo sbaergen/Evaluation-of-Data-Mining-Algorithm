@@ -8,7 +8,7 @@ public class exploration {
         final int[] MAXFORWARD = { 0, 5 };
         final int[] MAXBACKARD = { 0, 5 };
         final int[] GAP = { 0, 0 };
-        final double[] MINSUPPORT = { 0.{0..51, 0.{0..51 };
+        final double[] MINSUPPORT = { 0.21, 0.21 };
         final int[] MAXNODES = { 10, 10 };
         final int[] EFGS = { 10, 100 };
         final int[] NODES = { 1000, 1000 };
@@ -23,8 +23,8 @@ public class exploration {
         final int[] CENTRE = { 10, 10 };
         final int[] WIDTH = { 10, 10 };
         final int[] PATEFGS = { 1, 10 };
-        final int[] PATNODE = { 10, 10 };
-        final double[] PATPROB = { 0.00, 0.00 };
+        final int[] PATNODE = { 30, 30 };
+        final double[] PATPROB = { 0.60, 0.60 };
         
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(args[0]));

@@ -1,7 +1,7 @@
 echo Compiling
 javac exploration.java
 javac -sourcepath src/ -d bin src/*.java src/data/*.java src/mining/**/*.java
-for i in {1..10}
+for i in {1..1}
 do
 	echo Run $i	
 	echo Creating Parameters

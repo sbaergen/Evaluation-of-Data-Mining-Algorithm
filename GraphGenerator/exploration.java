@@ -8,23 +8,23 @@ public class exploration {
         final int[] MAXFORWARD = { 5, 5 };
         final int[] MAXBACKARD = { 5, 5 };
         final int[] GAP = { 0, 0 };
-        final double[] MINSUPPORT = { 0.01, 0.01 };
+        final double[] MINSUPPORT = { 0.11, 0.11 };
         final int[] MAXNODES = { 10, 10 };
         final int[] EFGS = { 10, 10 };
         final int[] NODES = { 1000, 1000 };
         final int[] ATTR = { 10, 10 };
-        final double[] APROB = { 0, .1 };
+        final double[] APROB = { 0.30, 0.30 };
         final double[] EPROB = { .1, .1 };
-        final char[] DIST = { 'U', 'E', 'G' };
+        final char[] DIST = { 'U' };
         final double[] RATE = { 1, 1 };
         final int[] MIN = { 10, 10 };
         final int MAX = MIN[1];
         final double[] HEIGHT = { 1, 1 };
         final int[] CENTRE = { 10, 10 };
         final int[] WIDTH = { 10, 10 };
-        final int[] PATEFGS = { 1, 10 };
+        final int[] PATEFGS = { 1, 1 };
         final int[] PATNODE = { 10, 10 };
-        final double[] PATPROB = { 0.00, 0.00 };
+        final double[] PATPROB = { 0., 0. };
         
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(args[0]));
@@ -46,7 +46,7 @@ public class exploration {
             writer.write("\n"+randomDouble(APROB[0], APROB[1]));
             writer.write("\n"+randomDouble(EPROB[0], EPROB[1]));
             for (int i = 0; i < 5; i++){
-                char distribution = DIST[randomInt(0,2)];
+                char distribution = DIST[randomInt(0, 0)];
                 writer.write("\n"+distribution);
                 switch(distribution) {
                     case('U'):

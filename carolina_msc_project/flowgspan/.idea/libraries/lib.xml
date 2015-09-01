@@ -1,0 +1,24 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/db2policy.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/db2jcc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/db2jcc_license_cu.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/ib6core.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/db2umplugin.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/us.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/ib6js.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/db2qgjava.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/ib6util.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/db2dbgm.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/itmagent.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/ib6swing.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/Common.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/ib6extra.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/IBMUpdateUtil.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/db2jcc4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

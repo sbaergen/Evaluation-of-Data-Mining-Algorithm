@@ -8,12 +8,12 @@ public class exploration {
         final int[] MAXFORWARD = { 5, 5 };
         final int[] MAXBACKARD = { 5, 5 };
         final int[] GAP = { 0, 0 };
-        final double[] MINSUPPORT = { 0.11, 0.11 };
+        final double[] MINSUPPORT = { 0.01, 0.01 };
         final int[] MAXNODES = { 10, 10 };
         final int[] EFGS = { 10, 10 };
-        final int[] NODES = { 1000, 1000 };
+        final int[] NODES = { 10000, 10000 };
         final int[] ATTR = { 10, 10 };
-        final double[] APROB = { 0.30, 0.30 };
+        final double[] APROB = { 0.22, 0.22 };
         final double[] EPROB = { .1, .1 };
         final char[] DIST = { 'U' };
         final double[] RATE = { 1, 1 };
@@ -46,7 +46,7 @@ public class exploration {
             writer.write("\n"+randomDouble(APROB[0], APROB[1]));
             writer.write("\n"+randomDouble(EPROB[0], EPROB[1]));
             for (int i = 0; i < 5; i++){
-                char distribution = DIST[randomInt(0, 0)];
+                char distribution = DIST[randomInt(0,0)];
                 writer.write("\n"+distribution);
                 switch(distribution) {
                     case('U'):

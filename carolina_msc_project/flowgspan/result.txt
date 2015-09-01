@@ -1,0 +1,24 @@
+--------MACHINE INFORMATION--------
+
+Processor: Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz
+Java.vm.version: 25.45-b02
+Java.runtime.version: 1.8.0_45-b14
+Java.class.version: 52.0
+Sun.management.compiler: HotSpot 64-Bit Tiered Compilers
+Java.vm.specification.version: 1.8
+OS Name: Mac OS X
+OS Version: 10.10.5
+OS Arch: x86_64
+Available Processors: 8
+
+--------TEST RESULTS--------
+
+Total Time: 190824ms
+Total Edges: 21141
+Total Subgraphs Tested: 0
+Number of Hot Subgraphs: 10597
+Number of Hot 0-Edge Subgraphs: 57
+Number of Hot 1-Edge Subgraphs: 563
+Number of Hot 2-Edge Subgraphs: 78
+Number of Hot 3-Edge Subgraphs: 642
+Number of Hot 4-Edge Subgraphs: 9257

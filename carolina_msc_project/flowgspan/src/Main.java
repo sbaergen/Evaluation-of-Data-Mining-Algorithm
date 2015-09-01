@@ -112,7 +112,7 @@ public class Main {
         for (String s: values)
             patternValues.add(s);
         int size = patternValues.size();
-        int numEFG = Integer.parseInt(patternValues.get(size - 3));
+        int numEFG = Integer.parseInt(patternValues.get(size-3));
         patternValues.set(6,  numEFG + "");
         int numNodes = Integer.parseInt(patternValues.get(size - 2));
         if (numNodes < numEFG)
@@ -266,7 +266,7 @@ public class Main {
             }
             position += 3;
         }
-        //Exponential
+            //Exponential
         else if (dist.equals("E")) {
             for (int i = 0; i < numEFG; i++) {
                 double rate = Double.parseDouble(params.get(12));
@@ -296,7 +296,7 @@ public class Main {
             }
             position++;
         }
-        //Uniform
+            //Uniform
         else {
             for (int i = 0; i < numEFG; i++) {
                 if (numNodes % numEFG < (i + 1))
@@ -379,15 +379,15 @@ public class Main {
                 if (i != out && !limit) {
                     insertEdge = getBernoulli(edgeProb);
                     if (insertEdge && (count < edgeLimit || !limit)) {
-                        count++;
-                        weight = getDistributedWeight();
-                        Node reverseNode = efg.getNodes().get(j);
-                        reverseNode.addEdge(i, weight);
-                        sourceCheck.set(i);
+                            count++;
+                            weight = getDistributedWeight();
+                            Node reverseNode = efg.getNodes().get(j);
+                            reverseNode.addEdge(i, weight);
+                            sourceCheck.set(i);
+                        }
                     }
+                    position = edgePosition;
                 }
-                position = edgePosition;
-            }
             // Sink Node
             node = efg.getNodes().get(i);
             int card = node.getEdges().cardinality();
@@ -436,33 +436,33 @@ public class Main {
     public double getDistributedWeight(){
         double weight = 0;
         String dist = values.get(position).toUpperCase();
-        //Uniform
-        if (dist.equals("U")) {
-            int min = Integer.parseInt(values.get(position + 1));
-            int max = Integer.parseInt(values.get(position + 2));
-            weight = getUniformWeight(min, max);
-            position += 3;
-        }
-        //Exponential
-        else if (dist.equals("E")) {
-            double rate = Double.parseDouble(values.get(position + 1));
-            weight = getExponentialWeight(rate);
-            position += 2;
-        }
-        //Gaussian
-        else if (dist.equals("G")) {
-            double height = Double.parseDouble(values.get(position + 1));
-            int center = Integer.parseInt(values.get(position + 2));
-            int width = Integer.parseInt(values.get(position + 3));
-            weight = getGaussianWeight(height, center, width);
-            position += 4;
-        }
-        //Poisson
-        else {
-            double mean = Double.parseDouble(values.get(position + 1));
-            weight = getPoissonNumber(mean);
-            position += 2;
-        }
+            //Uniform
+            if (dist.equals("U")) {
+                int min = Integer.parseInt(values.get(position + 1));
+                int max = Integer.parseInt(values.get(position + 2));
+                weight = getUniformWeight(min, max);
+                position += 3;
+            }
+            //Exponential
+            else if (dist.equals("E")) {
+                double rate = Double.parseDouble(values.get(position + 1));
+                weight = getExponentialWeight(rate);
+                position += 2;
+            }
+            //Gaussian
+            else if (dist.equals("G")) {
+                double height = Double.parseDouble(values.get(position + 1));
+                int center = Integer.parseInt(values.get(position + 2));
+                int width = Integer.parseInt(values.get(position + 3));
+                weight = getGaussianWeight(height, center, width);
+                position += 4;
+            }
+            //Poisson
+            else {
+                double mean = Double.parseDouble(values.get(position + 1));
+                weight = getPoissonNumber(mean);
+                position += 2;
+            }
         return weight;
     }
 
@@ -484,26 +484,26 @@ public class Main {
      * @return String vector with parameters
      */
     public Vector<String> manualParse(String filename){
-        Vector<String> values = new Vector<String>();
-        try {
-            BufferedReader stream = new BufferedReader(new FileReader(filename));
-            String arguments = "";
-            String input;
-            while ((input = stream.readLine()) != null) {
-                input = input + " ";
-                input = input.replaceAll("//.*", " ");
-                arguments += input.replaceAll("\\s+", " ");
+            Vector<String> values = new Vector<String>();
+            try {
+                BufferedReader stream = new BufferedReader(new FileReader(filename));
+                String arguments = "";
+                String input;
+                while ((input = stream.readLine()) != null) {
+                    input = input + " ";
+                    input = input.replaceAll("//.*", " ");
+                    arguments += input.replaceAll("\\s+", " ");
+                }
+                String[] params = arguments.split(" ");
+                for (String c : params) {
+                    values.add(c);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            String[] params = arguments.split(" ");
-            for (String c : params) {
-                values.add(c);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        return values;
-    }
+            return values;
+        }
 
     /**
      * Selects pattern to use
@@ -598,66 +598,66 @@ public class Main {
      * Creates the graph file to be inputted into AFGMiner
      * @return the total Edges in the dataset
      */
-    public int createGraphFile(String file, Vector<EFG> data){
-        int size = data.size();
+	public int createGraphFile(String file, Vector<EFG> data){
+		int size = data.size();
         int totalEdges = 0;
-        //http://stackoverflow.com/questions/2885173/java-how-to-create-a-file-and-write-to-a-file 25/05/2015 for PrintWriter lines
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(size+"\n");
-            // For each EFG
-            for (EFG currentEFG: data){
+		//http://stackoverflow.com/questions/2885173/java-how-to-create-a-file-and-write-to-a-file 25/05/2015 for PrintWriter lines
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+			writer.write(size+"\n");
+			// For each EFG
+			for (EFG currentEFG: data){
                 int numEdges = 0;
                 String edgeString = "";
                 LinkedHashMap<Integer, Node> currentNodes = currentEFG.getNodes();
-                int numNodes = currentNodes.size();
-                writer.write(numNodes + "\n");
-
-                // For each node in EFG for node information
-                for (int j = 0; j < numNodes; j++){
-                    writer.write(j +"\n");
-                    Node currentNode = currentNodes.get(j);
-                    writer.write(currentNode.getWeight()+"\n");
-                    BitSet attributes = currentNode.getAttributes();
-                    int numAttr = attributes.cardinality();
-                    writer.write(numAttr+"\n");
-                    LinkedHashMap<Integer, Double> currentAttributes = currentNode.getAttrWeight();
-
-                    // For each attribute in Node
-                    int attrIndex = attributes.nextSetBit(0);
-                    while (attrIndex != -1){
-                        double attrWeight = currentAttributes.get(attrIndex);
-                        writer.write(attrIndex + " " + attrWeight+"\n");
-                        attrIndex = attributes.nextSetBit(attrIndex+1);
-                    }
-
-                    //Edge info
-                    BitSet edges = currentNode.getEdges();
-                    numEdges += edges.cardinality();
-                    LinkedHashMap<Integer, Double> currentEdges = currentNode.getEdgeWeight();
-                    int edgeIndex = edges.nextSetBit(0);
+				int numNodes = currentNodes.size();
+				writer.write(numNodes + "\n");
+				
+				// For each node in EFG for node information
+				for (int j = 0; j < numNodes; j++){
+					writer.write(j +"\n");
+					Node currentNode = currentNodes.get(j);
+					writer.write(currentNode.getWeight()+"\n");
+					BitSet attributes = currentNode.getAttributes();
+					int numAttr = attributes.cardinality();
+					writer.write(numAttr+"\n");
+					LinkedHashMap<Integer, Double> currentAttributes = currentNode.getAttrWeight();
+					
+					// For each attribute in Node
+					int attrIndex = attributes.nextSetBit(0);
+					while (attrIndex != -1){
+						double attrWeight = currentAttributes.get(attrIndex);
+						writer.write(attrIndex + " " + attrWeight+"\n");
+						attrIndex = attributes.nextSetBit(attrIndex+1);
+					}
+					
+					//Edge info
+					BitSet edges = currentNode.getEdges();
+					numEdges += edges.cardinality();
+					LinkedHashMap<Integer, Double> currentEdges = currentNode.getEdgeWeight();
+					int edgeIndex = edges.nextSetBit(0);
                     if (edgeIndex != -1 && edgeString != "")
                         edgeString += '\n';
-                    while (edgeIndex != -1){
-                        double edgeWeight = currentEdges.get(edgeIndex);
-                        edgeString += j + " " + edgeIndex + " " + edgeWeight;
-                        edgeIndex = edges.nextSetBit(edgeIndex+1);
+					while (edgeIndex != -1){
+						double edgeWeight = currentEdges.get(edgeIndex);
+						edgeString += j + " " + edgeIndex + " " + edgeWeight;
+						edgeIndex = edges.nextSetBit(edgeIndex+1);
                         if (edgeIndex != -1)
                             edgeString += '\n';
-                    }
-
-                }
+					}
+					
+				}
                 totalEdges+=numEdges;
-                writer.write(numEdges+"\n");
+				writer.write(numEdges+"\n");
                 if (numEdges > 0)
-                    writer.write(edgeString+"\n");
+				    writer.write(edgeString+"\n");
             }
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         return totalEdges;
-    }
+	}
 
     /**
      * Creates the configuration file for AFGMiner

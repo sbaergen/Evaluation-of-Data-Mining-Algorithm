@@ -1,0 +1,3 @@
+In the data files for every test there will be a row with “ERROR” under time. This is so we can still know the attributes of tests that fail. Therefore, if a test runs there will be a line immediately underneath with the same parameters and results. If the test fails, the next line will be a different test (i.e. have different parameters).
+
+In Main.java, there are a few boolean values you can use to control aspects of how graphs are created (pattern density and out-degree limiting) In ExecutionFlowGraph and PatternGraph there are also boolean values controlling whether to store vertexSet or not.
